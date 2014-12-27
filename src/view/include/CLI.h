@@ -1,7 +1,7 @@
 #ifndef CLI_H
 #define CLI_H
 
-#include <IView.hpp>
+#include "IView.h"
 
 class CLI : public IView {
 private:

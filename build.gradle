@@ -1,0 +1,10 @@
+apply plugin: 'cpp'
+
+libraries {
+    view {}
+    model {}
+}
+
+executables {
+    main {}
+}
