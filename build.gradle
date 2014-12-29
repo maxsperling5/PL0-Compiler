@@ -3,8 +3,19 @@ apply plugin: 'cpp'
 libraries {
     view {}
     model {}
+    fread {}
+    lexer {}
+    parser {}
 }
 
 executables {
-    main {}
+    main {
+        binaries.all {
+                lib libraries.view.shared
+                lib libraries.model.shared
+                lib libraries.fread.shared
+                lib libraries.lexer.shared
+                lib libraries.parser.shared
+            }
+    }
 }

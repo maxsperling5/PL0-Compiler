@@ -1,12 +1,16 @@
-#include "../../view/headers/IView.h"
-#include "../../model/headers/IModel.h"
+#include "../../view/headers/View.h"
+#include "../../model/headers/Model.h"
+
 #include "../../view/headers/CLI.h"
 #include "../../model/headers/Compiler.h"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-	IView *view = new CLI();
-	IModel *model = new Compiler();
+	View *view = new CLI(argc, argv);
+	Model *model = new Compiler();
+
+	view->setModel(model);
+	model->setView(view);
 
 	return 0;
 }

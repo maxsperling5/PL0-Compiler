@@ -1,11 +1,14 @@
 #ifndef CLI_H
 #define CLI_H
 
-#include "IView.h"
+#include "View.h"
+#include <iostream>
 
-class CLI : public IView {
+class CLI : public View {
 private:
 public:
+	CLI(int argc, char *argv[]);
+	void outStr(string str);
 };
 
 #endif
