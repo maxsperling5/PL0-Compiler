@@ -2,7 +2,7 @@ apply plugin: 'cpp'
 
 libraries {
     view {}
-    model {}
+    comp {}
     fread {}
     lexer {}
     parser {}
@@ -11,11 +11,18 @@ libraries {
 executables {
     main {
         binaries.all {
-                lib libraries.view.shared
-                lib libraries.model.shared
-                lib libraries.fread.shared
-                lib libraries.lexer.shared
-                lib libraries.parser.shared
-            }
+            lib libraries.view.shared
+            lib libraries.comp.shared
+            lib libraries.fread
+        }
+    }
+}
+
+sources {
+    comp {
+        cpp {
+            lib libraries.fread
+            lib libraries.lexer
+        }
     }
 }

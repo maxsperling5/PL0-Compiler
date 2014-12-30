@@ -1,16 +1,16 @@
 #include "../../view/headers/View.h"
-#include "../../model/headers/Model.h"
-
+#include "../../comp/headers/Comp.h"
 #include "../../view/headers/CLI.h"
-#include "../../model/headers/Compiler.h"
+#include "../../comp/headers/CompPL0.h"
 
 int main(int argc, char *argv[])
 {
 	View *view = new CLI(argc, argv);
-	Model *model = new Compiler();
+	Comp *comp = new CompPL0();
 
-	view->setModel(model);
-	model->setView(view);
+	view->setComp(comp);
+	comp->setView(view);
 
+	view->execute();
 	return 0;
 }

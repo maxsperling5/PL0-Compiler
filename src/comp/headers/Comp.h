@@ -1,30 +1,27 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef COMP_H
+#define COMP_H
 
 class View;
 
 #include "../../view/headers/View.h"
-#include "../../fread/headers/IFRead.h"
-#include "../../lexer/headers/ILexer.h"
+#include "../../fread/headers/FRead.h"
+#include "../../lexer/headers/Lexer.h"
 #include "../../parser/headers/IParser.h"
 #include <string>
 using namespace std;
 
-class Model {
-private:
+class Comp {
 protected:
 	View *view;
 
-	IFRead *inp;
-	ILexer *lex;
+	FRead *inp;
+	Lexer *lex;
 	IParser *par;
-
-	string fpath;
 public:
-	void setView(View *view) {
-		this->view = view;
-	}
+	virtual void setView(View *view) = 0;
 
+	virtual void open(string fpath) = 0;
+	virtual bool isOpen() = 0;
 	virtual void start() = 0;
 	/*
 	virtual void pause() = 0;

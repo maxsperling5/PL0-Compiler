@@ -1,23 +1,23 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-class Model;
+class Comp;
 
-#include "../../model/headers/Model.h"
+#include "../../comp/headers/Comp.h"
 #include <string>
 using namespace std;
 
 class View {
-private:
 protected:
-	Model *model;
+	Comp *comp;
 
-	string fpath;
+	virtual void open(string fpath) = 0;
+	virtual void start() = 0;
 public:
-	void setModel(Model *model) {
-		this->model = model;
-	}
+	virtual void setComp(Comp *comp) = 0;
+	virtual void execute() = 0;
 
+	virtual void outChar(char c) = 0;
 	virtual void outStr(string str) = 0;
 };
 
