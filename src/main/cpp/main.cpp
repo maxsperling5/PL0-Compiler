@@ -3,8 +3,7 @@
 #include "../../view/headers/CLI.h"
 #include "../../comp/headers/CompPL0.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	View *view = new CLI(argc, argv);
 	Comp *comp = new CompPL0();
 

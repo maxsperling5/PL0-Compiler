@@ -2,7 +2,7 @@
 
 CompPL0::CompPL0() {
 	inp = new FReadC();
-	lex = new Lexer();
+	lex = new LexerPL0();
 	//par = new Parser();
 }
 
@@ -21,8 +21,8 @@ bool CompPL0::isOpen() {
 void CompPL0::start() {
 	if(!inp->isOpen()) return;
 
-	char c;
-	while((c = inp->getChar()) != -1) {
-		view->outChar(c);
-	}
+	string str = inp->getStr();
+	view->outStr(str);
+
+	//vector<Token> = lex.getToken();
 }

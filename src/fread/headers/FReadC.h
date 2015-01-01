@@ -3,7 +3,7 @@
 
 #include "FRead.h"
 #include <cstdio>
-#include <string>
+#include <cstdlib>
 using namespace std;
 
 class FReadC : public FRead {
@@ -13,7 +13,7 @@ public:
 	FReadC();
 	void open(string fpath);
 	bool isOpen();
-	char getChar();
+	string getStr();
 	~FReadC();
 };
 

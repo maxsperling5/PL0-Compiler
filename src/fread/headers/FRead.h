@@ -9,7 +9,7 @@ protected:
 public:
 	virtual void open(string fpath) = 0;
 	virtual bool isOpen() = 0;
-	virtual char getChar() = 0;
+	virtual string getStr() = 0;
 };
 
 #endif
