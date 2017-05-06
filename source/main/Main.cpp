@@ -1,7 +1,7 @@
-#include "../../view/headers/View.h"
-#include "../../comp/headers/Comp.h"
-#include "../../view/headers/CLI.h"
-#include "../../comp/headers/CompPL0.h"
+#include "../view/View.h"
+#include "../comp/Comp.h"
+#include "../view/CLI.h"
+#include "../comp/CompPL0.h"
 
 int main(int argc, char *argv[]) {
 	View *view = new CLI(argc, argv);

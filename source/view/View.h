@@ -3,7 +3,7 @@
 
 class Comp;
 
-#include "../../comp/headers/Comp.h"
+#include "../comp/Comp.h"
 #include <string>
 using namespace std;
 

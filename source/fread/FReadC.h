@@ -9,11 +9,12 @@ using namespace std;
 class FReadC : public FRead {
 private:
 	FILE *file;
+	string strText;
 public:
 	FReadC();
 	void open(string fpath);
 	bool isOpen();
-	string getStr();
+	string getText();
 	~FReadC();
 };
 

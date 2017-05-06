@@ -1,4 +1,4 @@
-#include "../headers/CompPL0.h"
+#include "./CompPL0.h"
 
 CompPL0::CompPL0() {
 	inp = new FReadC();
@@ -21,8 +21,11 @@ bool CompPL0::isOpen() {
 void CompPL0::start() {
 	if(!inp->isOpen()) return;
 
-	string str = inp->getStr();
-	view->outStr(str);
-
-	//vector<Token> = lex.getToken();
+	string strSourcecode = inp->getText();
+	view->outStr(strSourcecode);
+	vector<Token> vecToken = lex->getTokenVec(strSourcecode);
+	// tokenvector to parser
+	// parser generates machine or intermediate code
+	// generated code to filewriter
+	// filewriter write binary
 }

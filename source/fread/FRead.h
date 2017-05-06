@@ -5,11 +5,10 @@
 using namespace std;
 
 class FRead {
-protected:
 public:
 	virtual void open(string fpath) = 0;
 	virtual bool isOpen() = 0;
-	virtual string getStr() = 0;
+	virtual string getText() = 0;
 };
 
 #endif

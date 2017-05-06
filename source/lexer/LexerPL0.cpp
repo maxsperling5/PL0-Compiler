@@ -1,17 +1,7 @@
-#include "../headers/LexerPL0.h"
+#include "./LexerPL0.h"
 
-LexerPL0::LexerPL0() {
-	initFSM();
-}
-
-void LexerPL0::initFSM() {
-	srcPos = 0;
-	srcRow = 0;
-	srcCol = 0;
-	fsmState = 0;
-}
-
-const int LexerPL0::classVec[8*16] = {
+LexerPL0::LexerPL0() : 
+	classVec{
 	/*     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F     */
 	/*--------------------------------------------------------*/
 	/* 0*/ 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,/* 0*/
@@ -22,9 +12,8 @@ const int LexerPL0::classVec[8*16] = {
 	/*50*/ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 9, 0, 0, 0,/*50*/
 	/*60*/ 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,/*60*/
 	/*70*/ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0 /*70*/
-};
-
-const int LexerPL0::stateMat[12][10] = {
+	},
+	stateMat{
 	/*     So  Zi  Bu  ':' '=' '<' '>' ' ' '"' '\'     */
 	/*-------------------------------------------------*/
 	/* 0*/ {0,  1,  2,  3,  0,  4,  5,  0,  9,  0},/* 0*/
@@ -39,9 +28,8 @@ const int LexerPL0::stateMat[12][10] = {
 	/* 9*/ {9,  9,  9,  9,  9,  9,  9,  9, 11, 10},/* 9*/
 	/*10*/ {9,  9,  9,  9,  9,  9,  9,  9,  9,  9},/*10*/
 	/*11*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0} /*11*/
-};
-
-const func LexerPL0::functMat[12][10] = {
+	},
+	functMat{
 	/*      So   Zi    Bu   ':'  '='  '<'  '>'  ' '  ''  '\'      */
 	/*------------------------------------------------------------*/
 	/* 0*/ {wrc,  wr,  gr,  wr,  wrc,  wr,  wr,  r, wrc, wrc},/* 0*/
@@ -56,17 +44,27 @@ const func LexerPL0::functMat[12][10] = {
 	/* 9*/ { wr,  wr,  wr,  wr,   wr,  wr,  wr, wr,   c,   r},/* 9*/
 	/*10*/ { wr,  wr,  wr,  wr,   wr,  wr,  wr, wr,  wr,  wr},/*10*/
 	/*11*/ {wrc, wrc, wrc, wrc,  wrc, wrc, wrc,wrc, wrc,  wrc}/*11*/
-};
+	}
+	{}
+
+void LexerPL0::initFSM() {
+	srcPos = 0;
+	srcRow = 0;
+	srcCol = 0;
+	fsmState = 0;
+	vecToken.clear();
+}
+
 
 void LexerPL0::r() {
-	char c = fstr[srcPos];
+	// char c = strSourcecode[srcPos];
 
-	if(c == '\n') { srcRow++; srcCol=0; }
-	else srcCol++;
-	srcPos++;
+	// if(c == '\n') { srcRow++; srcCol=0; }
+	// else srcCol++;
+	// srcPos++;
 
-	int ctyp = classVec[c];
-	fsmState = stateMat[fsmState][ctyp];
+	// int cTyp = classVec[c];
+	// fsmState = stateMat[fsmState][cTyp];
 }
 
 void LexerPL0::wr() {
@@ -85,19 +83,21 @@ void LexerPL0::wrc() {
 }
 
 void LexerPL0::c() {
-	Token tok(tokRow, tokCol);
-
-	token.push_back(tok);
+	//Token tok(tokRow, tokCol);
+	//vecToken.push_back(tok);
 }
 
-vector<Token> LexerPL0::getToken(string fstr) {
-	this->fstr = fstr;
+vector<Token> LexerPL0::getTokenVec(string strSourcecode) {
+	this->strSourcecode = strSourcecode;
 	initFSM();
 
-	while(srcPos < fstr.length()) {
+	while(srcPos < strSourcecode.length()) {
 		int tokRow = srcRow;
 		int tokCol = srcCol;
 		
-		functMat[fsmState][fstr[srcPos]];
+		functMat[fsmState][strSourcecode[srcPos]];
+		//srcPos++;
 	}
+
+	return vecToken;
 }

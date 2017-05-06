@@ -1,4 +1,4 @@
-#include "../headers/CLI.h"
+#include "./CLI.h"
 
 CLI::CLI(int argc, char *argv[]) {
 	if(argc != 2) {

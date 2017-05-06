@@ -1,7 +1,8 @@
-#include "../headers/FReadC.h"
+#include "./FReadC.h"
 
 FReadC::FReadC() {
 	file = 0;
+	strText = "";
 }
 
 void FReadC::open(string fpath) {
@@ -12,17 +13,17 @@ bool FReadC::isOpen() {
 	return file != 0 ? true : false;
 }
 
-string FReadC::getStr() {
+string FReadC::getText() {
 	fseek(file, 0, SEEK_END);
 	long fsize = ftell(file);
 	fseek(file, 0, SEEK_SET);
 
 	void *cstr = malloc(fsize + 1);
 	fread(cstr, fsize, 1, file);
-	string str((char*)cstr);
+	strText = (char*)cstr;
 	free(cstr);
 
-	return str;
+	return strText;
 }
 
 FReadC::~FReadC() {

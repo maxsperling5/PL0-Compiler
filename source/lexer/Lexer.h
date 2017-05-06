@@ -7,10 +7,8 @@
 using namespace std;
 
 class Lexer {
-protected:
-	vector<Token> token;
 public:
-	virtual vector<Token> getToken(string fstr) = 0;
+	virtual vector<Token> getTokenVec(string strSourcecode) = 0;
 };
 
 #endif

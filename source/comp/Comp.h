@@ -3,10 +3,10 @@
 
 class View;
 
-#include "../../view/headers/View.h"
-#include "../../fread/headers/FRead.h"
-#include "../../lexer/headers/Lexer.h"
-#include "../../parser/headers/IParser.h"
+#include "../view/View.h"
+#include "../fread/FRead.h"
+#include "../lexer/Lexer.h"
+#include "../parser/Parser.h"
 #include <string>
 using namespace std;
 
@@ -16,7 +16,7 @@ protected:
 
 	FRead *inp;
 	Lexer *lex;
-	IParser *par;
+	Parser *par;
 public:
 	virtual void setView(View *view) = 0;
 

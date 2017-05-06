@@ -2,8 +2,8 @@
 #define COMPPL0_H
 
 #include "Comp.h"
-#include "../../fread/headers/FReadC.h"
-#include "../../lexer/headers/LexerPL0.h"
+#include "../fread/FReadC.h"
+#include "../lexer/LexerPL0.h"
 
 class CompPL0 : public Comp {
 private:
