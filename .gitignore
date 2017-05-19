@@ -1,5 +1,5 @@
-CMakeFiles
-cmake_install.cmake
-CMakeCache.txt
-Makefile
-PL0-Compiler.exe
+bin
+obj
+PL0-Compiler.cbp
+PL0-Compiler.depend
+PL0-Compiler.layout
