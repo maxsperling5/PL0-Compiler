@@ -16,10 +16,18 @@ using namespace std;
 
 class Data
 {
+private:
+    string filePath;
+
 public:
     Data(){}
 
-    string readString(string filePath)
+    void setPath(string filePath)
+    {
+        this->filePath = filePath;
+    }
+
+    string readString()
     {
         ifstream t(filePath.c_str());
         stringstream buffer;
@@ -27,11 +35,11 @@ public:
         return buffer.str();
     }
 
-    void writeBinary(vector<unsigned char> bin)
+    void writeBinary(vector<char> bin)
     {
-        string path = "./expl/sc.pl0.cl0";
-        std::ofstream outfile(path, std::ios_base::binary);
-        std::copy(bin.begin(), bin.end(), std::ostreambuf_iterator<char>(outfile));
+        string path = filePath + ".cl0";
+        ofstream outfile(path, ios_base::binary);
+        copy(bin.begin(), bin.end(), ostreambuf_iterator<char>(outfile));
         outfile.close();
     }
 };

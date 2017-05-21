@@ -7,14 +7,25 @@
 
 #include <string>
 #include <vector>
+#include <cstdio>
+#include <cstring>
 using namespace std;
 
 class SymbolTab
 {
 public:
+    enum ObjectTyp
+    {
+        Proc,
+        Var,
+        Cons
+    };
+
     struct Object
     {
         int index;
+
+        virtual ObjectTyp getType() = 0;
     };
 
     struct Symbol
@@ -42,6 +53,11 @@ public:
             this->index = index;
             numVar = 0;
         }
+
+        ObjectTyp getType()
+        {
+            return Proc;
+        }
     };
 
     struct Variable : Object
@@ -49,6 +65,11 @@ public:
         Variable(int index)
         {
             this->index = index;
+        }
+
+        ObjectTyp getType()
+        {
+            return Var;
         }
     };
 
@@ -60,6 +81,11 @@ public:
         {
             this->value = value;
             this->index = index;
+        }
+
+        ObjectTyp getType()
+        {
+            return Cons;
         }
     };
 
@@ -137,7 +163,7 @@ public:
 
         while(tmpProc != nullptr)
         {
-            for(Symbol &symb : curProc->symbolTab)
+            for(Symbol &symb : tmpProc->symbolTab)
             {
                 if(symb.name == name)
                     return &symb;

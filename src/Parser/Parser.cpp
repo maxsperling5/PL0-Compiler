@@ -32,7 +32,7 @@ private:
     int posTok;
 
 public:
-    vector<unsigned char> genBinary(vector<Token> tok)
+    vector<char> genBinary(vector<Token> tok)
     {
         posTok = 0;
         parse(&gra->program[0]);
@@ -46,8 +46,6 @@ public:
 
         while(!IsFinished)
         {
-            //cout << curTrans->typ << ", " << curTrans->idxNext << ", " << curTrans->idxAlter << endl;
-
             switch(curTrans->typ)
             {
             case Trans::Nil:

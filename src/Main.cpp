@@ -12,12 +12,13 @@ int main(int argc, char *argv[])
     View *view = new View();
     if(argc != 2)
     {
-		view->writeString("Parameter: Filepath\n");
+		view->writeString("Usage: program \"<filepath/file>\"\n");
 		return 1;
 	}
 
     Data *data = new Data();
-    string code = data->readString(argv[1]);
+    data->setPath(argv[1]);
+    string code = data->readString();
     view->writeString(code);
 
     Lexer *lex = new Lexer();
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
     view->writeToken(tok);
 
     Parser *par = new Parser(tok);
-    vector<uint8_t> bin = par->genBinary(tok);
+    vector<char> bin = par->genBinary(tok);
     view->writeBinary(bin);
     data->writeBinary(bin);
 

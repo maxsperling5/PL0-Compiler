@@ -32,7 +32,7 @@ public:
         }
     }
 
-    void writeBinary(vector<unsigned char> bin)
+    void writeBinary(vector<char> bin)
     {
         cout << "Write binary:" << endl;
         for(auto &b : bin)

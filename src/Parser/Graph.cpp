@@ -61,8 +61,8 @@ public:
     /* 2*/ Trans(Trans::GraphStart, &expression,              25,  0, Generator::AfterAssignment),  /*(C)-expression->(Q)*/
     /* 3*/ Trans(Trans::Symbol,     "IF",                      4,  7, nullptr),                     /* +------IF------(D)*/
     /* 4*/ Trans(Trans::GraphStart, &condition,                5,  0, Generator::Condition),        /*(D)--condition->(E)*/
-    /* 1*/ Trans(Trans::Symbol,     "THEN",                    6,  0, nullptr),                     /*(E)--->THEN---->(F)*/
-    /* 2*/ Trans(Trans::GraphStart, &statement,               25,  0, Generator::BranchEnd),        /*(F)--statement->(Q)*/
+    /* 5*/ Trans(Trans::Symbol,     "THEN",                    6,  0, nullptr),                     /*(E)--->THEN---->(F)*/
+    /* 6*/ Trans(Trans::GraphStart, &statement,               25,  0, Generator::BranchEnd),        /*(F)--statement->(Q)*/
     /* 7*/ Trans(Trans::Symbol,     "WHILE",                   8, 11, Generator::While),            /* +-----WHILE----(G)*/
     /* 8*/ Trans(Trans::GraphStart, &condition,                9,  0, Generator::Condition),        /*(G)--condition->(H)*/
     /* 9*/ Trans(Trans::Symbol,     "DO",                     10,  0, nullptr),                     /*(H)---->DO----->(I)*/
@@ -72,7 +72,7 @@ public:
     /*13*/ Trans(Trans::Symbol,     ";",                      12, 14, nullptr),                     /*(K)-----';'---->(J)*/
     /*14*/ Trans(Trans::Symbol,     "END",                    25,  0, nullptr),                     /*(K)-----END---->(Q)*/
     /*15*/ Trans(Trans::Symbol,     "CALL",                   16, 17, nullptr),                     /* +-----CALL-----(L)*/
-    /*16*/ Trans(Trans::Token,      (void*)Token::Identifier, 25,  0, Generator::CallPrecedure),    /*(L)----ident--->(Q)*/
+    /*16*/ Trans(Trans::Token,      (void*)Token::Identifier, 25,  0, Generator::CallProcedure),    /*(L)----ident--->(Q)*/
     /*17*/ Trans(Trans::Symbol,     "?",                      18, 19, nullptr),                     /* +------'?'-----(M)*/
     /*18*/ Trans(Trans::Token,      (void*)Token::Identifier, 25,  0, Generator::InputNumber),      /*(M)----ident--->(Q)*/
     /*19*/ Trans(Trans::Symbol,     "!",                      20, 24, nullptr),                     /* +------'!'-----(N)*/

@@ -18,16 +18,16 @@ using namespace std;
 class Generator
 {
 private:
-    vector<unsigned char> binary;
+    vector<char> binary;
     SymbolTab symbolTab;
-    stack<unsigned int> procStartAddr;
-    unsigned char cmpOp;
-    stack<unsigned int> jumpStartAddr;
+    stack<int> procStartAddr;
+    char cmpOp;
+    stack<int> jumpStartAddr;
 
 public:
     Generator(){}
 
-    vector<unsigned char> getBinary()
+    vector<char> getBinary()
     {
         return binary;
     }
@@ -104,8 +104,8 @@ public:
 
     void ProcedureStart(void *tok)
     {
-        procStartAddr.push(binary.size()+sizeof(unsigned char));
-        vector<unsigned short> param;
+        procStartAddr.push(binary.size()+sizeof(char));
+        vector<short> param;
         param.push_back(0);
         param.push_back(symbolTab.getCurProcIdx());
         param.push_back(symbolTab.getCurProcNumVar()*sizeof(int));
@@ -114,10 +114,10 @@ public:
 
     void ProcedureEnd(void *tok)
     {
-        unsigned short distProc = binary.size()-procStartAddr.top();
+        writeCode(Bytecode::RetProc);
+        short distProc = binary.size()+sizeof(char)-procStartAddr.top();
         writeShortToAddr(procStartAddr.top(), distProc);
         procStartAddr.pop();
-        writeCode(Bytecode::RetProc);
     }
 
     void BeforeAssignment(void *tok)
@@ -173,8 +173,8 @@ public:
 
     void IdentByName(void *tok)
     {
-        pushVarByName((Token*)tok, Val);
-        pushConstByName((Token*)tok);
+        if(pushVarByName((Token*)tok, Val)) return;
+        if(pushConstByName((Token*)tok)) return;
     }
 
     void Odd(void *tok)
@@ -219,7 +219,7 @@ public:
 
     void Condition(void *tok)
     {
-        vector<unsigned short> param;
+        vector<short> param;
         param.push_back(0);
         writeCode(Bytecode::Jnot, param);
         jumpStartAddr.push(binary.size());
@@ -227,9 +227,11 @@ public:
 
     void BranchEnd(void *tok)
     {
-        unsigned short distCond = binary.size()-jumpStartAddr.top();
-        writeShortToAddr(jumpStartAddr.top(), distCond);
+        short jmpAddr = jumpStartAddr.top();
         jumpStartAddr.pop();
+
+        short distFromCond = binary.size()-jmpAddr;
+        writeShortToAddr(jmpAddr-sizeof(short), distFromCond);
     }
 
     void While(void *tok)
@@ -239,25 +241,28 @@ public:
 
     void LoopEnd(void *tok)
     {
-        unsigned short distCond = binary.size()-jumpStartAddr.top()+sizeof(unsigned char)+sizeof(short);
-        writeShortToAddr(jumpStartAddr.top()-sizeof(short), distCond);
+        short jmpAddrIf = jumpStartAddr.top();
+        jumpStartAddr.pop();
+        short jmpAddrWhile = jumpStartAddr.top();
         jumpStartAddr.pop();
 
-        unsigned short distWhile = jumpStartAddr.top()-binary.size()-sizeof(short);
-        vector<unsigned short> param;
-        param.push_back(distWhile);
+        vector<short> param;
+        param.push_back(0);
         writeCode(Bytecode::Jmp, param);
-        jumpStartAddr.pop();
+        short distToWhile = -(binary.size()-jmpAddrWhile);
+        writeShortToAddr(binary.size()-sizeof(short), distToWhile);
+
+        short distFromCond = binary.size()-jmpAddrIf;
+        writeShortToAddr(jmpAddrIf-sizeof(short), distFromCond);
     }
 
-    void CallPrecedure(void *tok)
+    void CallProcedure(void *tok)
     {
         SymbolTab::Symbol *symb = symbolTab.searchSymb(((Token*)tok)->getVal());
-        if(symb == nullptr)
-            return;
-        // check type
+        if(symb == nullptr) return;
+        if(symb->object->getType() != SymbolTab::Proc) return;
 
-        vector<unsigned short> param;
+        vector<short> param;
         param.push_back(symb->object->index);
         writeCode(Bytecode::Call, param);
     }
@@ -278,11 +283,11 @@ public:
     }
 
 private:
-    void writeCode(Bytecode code, vector<unsigned short> param = vector<unsigned short>())
+    void writeCode(Bytecode code, vector<short> param = vector<short>())
     {
         binary.push_back(code);
 
-        for(unsigned short par : param)
+        for(short par : param)
         {
             binary.push_back(par & 0xff);
             binary.push_back((par >> 8) & 0xff);
@@ -291,7 +296,7 @@ private:
 
     void writeString(string value)
     {
-        vector<unsigned char> vecVal(value.begin(), value.end());
+        vector<char> vecVal(value.begin(), value.end());
         for(auto &val : vecVal)
         {
             binary.push_back(val);
@@ -307,13 +312,13 @@ private:
         binary.push_back((value >> 24) & 0xff);
     }
 
-    void writeShortToAddr(unsigned int startAddr, unsigned short value)
+    void writeShortToAddr(int startAddr, short value)
     {
         binary.at(startAddr) = (value & 0xff);
         binary.at(startAddr+1) = ((value >> 8) & 0xff);
     }
 
-    void writeIntToAddr(unsigned int startAddr, unsigned int value)
+    void writeIntToAddr(int startAddr, int value)
     {
         binary.at(startAddr) = (value & 0xff);
         binary.at(startAddr+1) = ((value >> 8) & 0xff);
@@ -329,12 +334,11 @@ private:
 
     bool pushVarByName(Token *tok, AddrOrVal addrOrVal)
     {
-        SymbolTab::Symbol *symb = symbolTab.searchSymb(tok->getVal());
-        if(symb == nullptr)
-            return false;
-        // check type
+        SymbolTab::Symbol *symb = symbolTab.searchSymb(((Token*)tok)->getVal());
+        if(symb == nullptr) return false;
+        if(symb->object->getType() != SymbolTab::Var) return false;
 
-        vector<unsigned short> param;
+        vector<short> param;
         param.push_back((symb->object->index)*sizeof(int));
 
         if(symb->procIdx == symbolTab.getCurProcIdx())
@@ -381,11 +385,10 @@ private:
     bool pushConstByName(Token *tok)
     {
         SymbolTab::Symbol *symb = symbolTab.searchSymb(tok->getVal());
-        if(symb == nullptr)
-            return false;
-        // check type
+        if(symb == nullptr) return false;
+        if(symb->object->getType() != SymbolTab::Cons) return false;
 
-        vector<unsigned short> param;
+        vector<short> param;
         param.push_back(((SymbolTab::Constant*)symb->object)->value);
         writeCode(Bytecode::PuConst, param);
         return true;
@@ -393,7 +396,7 @@ private:
 
     bool pushConstByVal(Token *tok)
     {
-        vector<unsigned short> param;
+        vector<short> param;
 
         for(unsigned int i=0; i<symbolTab.vecConst.size(); i++)
         {
