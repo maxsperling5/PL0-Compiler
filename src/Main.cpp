@@ -2,37 +2,20 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "./Data/Data.cpp"
-#include "./View/View.cpp"
-#include "./Lexer/Lexer.cpp"
-#include "./Parser/Parser.cpp"
+#include "./View/IView.hh"
+#include "./Data/IData.hh"
+#include "./Comp/IComp.hh"
+
+using namespace std;
 
 int main(int argc, char *argv[])
 {
-    View *view = new View();
-    if(argc != 2)
-    {
-		view->writeString("Usage: program \"<filepath/file>\"\n");
-		return 1;
-	}
+    IViewPtr viewPtr = IView::create();
+    IDataPtr dataPtr = IData::create();
+    ICompPtr compPtr = IComp::create();
 
-    Data *data = new Data();
-    data->setPath(argv[1]);
-    string code = data->readString();
-    view->writeString(code);
-
-    Lexer *lex = new Lexer();
-    vector<Token> tok = lex->genToken(code);
-    view->writeToken(tok);
-
-    Parser *par = new Parser(tok);
-    vector<char> bin = par->genBinary(tok);
-    view->writeBinary(bin);
-    data->writeBinary(bin);
-
-    //cleanup
-    delete lex;
-    delete par;
+    if(!compPtr->init(viewPtr, dataPtr)) return 1;
+    if(!compPtr->exec(argc, argv)) return 2;
 
     return 0;
 }

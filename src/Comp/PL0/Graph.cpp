@@ -5,9 +5,9 @@
 #ifndef GRAPH
 #define GRAPH
 
-#include "./Trans.cpp"
-#include "../Lexer/Token.cpp"
-#include "../Generator/Generator.cpp"
+#include "Trans.cpp"
+#include "Token.cpp"
+#include "GeneratorPL0.cpp"
 #include <vector>
 using namespace std;
 

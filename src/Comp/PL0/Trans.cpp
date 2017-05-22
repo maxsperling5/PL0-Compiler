@@ -5,7 +5,7 @@
 #ifndef TRANS
 #define TRANS
 
-#include "../Generator/Generator.cpp"
+#include "GeneratorPL0.cpp"
 #include <functional>
 using namespace std;
 

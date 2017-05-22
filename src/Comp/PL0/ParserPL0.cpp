@@ -5,9 +5,9 @@
 #ifndef PARSER
 #define PARSER
 
-#include "./Graph.cpp"
-#include "./Trans.cpp"
-#include "../Lexer/Token.cpp"
+#include "Graph.cpp"
+#include "Trans.cpp"
+#include "Token.cpp"
 #include <cstdint>
 #include <vector>
 #include <iostream>

@@ -5,8 +5,8 @@
 #ifndef GENERATOR
 #define GENERATOR
 
-#include "../Lexer/Token.cpp"
-#include "./SymbolTab.cpp"
+#include "Token.cpp"
+#include "SymbolTab.cpp"
 #include <vector>
 #include <stack>
 #include <cstdint>

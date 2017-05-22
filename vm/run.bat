@@ -1,2 +1,2 @@
-.\r.exe "..\expl\sc.pl0.cl0"
+.\r.exe "..\expl\sc0.pl0.cl0"
 pause
