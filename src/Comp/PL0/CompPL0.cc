@@ -4,6 +4,10 @@
 
 #include "CompPL0.hh"
 
+#include "Tokenizer.hh"
+#include "Generator.hh"
+#include "Token.hh"
+
 using namespace std;
 
 ICompPtr IComp::create()
@@ -15,10 +19,6 @@ bool CompPL0::init(IViewPtr viewPtr, IDataPtr dataPtr)
 {
     this->viewPtr = viewPtr;
     this->dataPtr = dataPtr;
-
-    lexPtr = new LexerPL0;
-    parPtr = new ParserPL0;
-    genPtr = new GeneratorPL0;
 
     return true;
 }
@@ -32,13 +32,20 @@ bool CompPL0::exec(int argc, char *argv[])
         return false;
     }
 
-    string strCode = "";
-    if(!dataPtr->read(strCode)) return false;
+    tokPtr = new Tokenizer;
+    genPtr = new Generator;
 
-//    lexPtr->init();
-//    parPtr->init(lexPtr);
-//    genPtr->init(parPtr);
-//    genPtr->exec();
+    string srcCode = "";
+    if(!dataPtr->read(srcCode)) return false;
+
+    vector<Token> token = tokPtr->exec(srcCode);
+    vector<char> binary = genPtr->exec(token);
+
+    viewPtr->write(binary);
+    dataPtr->write(binary);
+
+    delete tokPtr;
+    delete genPtr;
 
     return true;
 }

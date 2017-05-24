@@ -30,7 +30,7 @@ bool DataFile::read(string &str)
 
 bool DataFile::write(std::vector<char> bin)
 {
-    ofstream ofs(filePath, ios_base::binary);
+    ofstream ofs(filePath + ".cl0", ios_base::binary);
     copy(bin.begin(), bin.end(), ostreambuf_iterator<char>(ofs));
     ofs.close();
     return true;
