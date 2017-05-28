@@ -18,16 +18,17 @@ Generator::Generator()
 
 Generator::~Generator()
 {
-    delete ilgen;
     delete graph;
+    delete ilgen;
 }
 
-std::vector<char> Generator::exec(std::vector<Token> token)
+bool Generator::exec(vector<Token> &token, vector<char> &binary)
 {
-    this->token = token;
+    this->token = &token;
     posTok = 0;
-    generate(&graph->program[0]);
-    return ilgen->getBinary();
+    if(!generate(&graph->program[0])) return false;
+    binary = ilgen->getBinary();
+    return true;
 }
 
 bool Generator::generate(Trans *curSect)
@@ -44,7 +45,7 @@ bool Generator::generate(Trans *curSect)
             curTrans = &curSect[curTrans->idxNext];
             break;
         case Trans::Symbol:
-            if(string((char*)curTrans->value) == token[posTok].getVal())
+            if(string((char*)curTrans->value) == (*token).at(posTok).getVal())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->idxNext];
@@ -57,7 +58,7 @@ bool Generator::generate(Trans *curSect)
             }
             break;
         case Trans::Token:
-            if(Token::TokenTyp((int)curTrans->value) == token[posTok].getTyp())
+            if(Token::TokenTyp((int)curTrans->value) == (*token).at(posTok).getTyp())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->idxNext];
@@ -95,6 +96,6 @@ bool Generator::execFunc(Trans *curTrans)
     if(curTrans->funct == nullptr)
         return false;
     else
-        (ilgen->*curTrans->funct)((void*)&token[posTok]);
+        (ilgen->*curTrans->funct)((void*)&((*token)[posTok]));
     return true;
 }

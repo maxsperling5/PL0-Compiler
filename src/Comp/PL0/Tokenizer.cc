@@ -67,22 +67,24 @@ keywords
     fsmState = 0;
 }
 
-vector<Token> Tokenizer::exec(string srcCode)
+bool Tokenizer::exec(string srcCode, vector<Token> &token)
 {
     this->srcCode = srcCode;
+    this->token = &token;
     curToken.init(srcRow, srcCol);
-    lex();
-    return tok;
+    if(!tokenize()) return false;
+    return true;
 }
 
-void Tokenizer::lex()
+bool Tokenizer::tokenize()
 {
     while(srcPos < srcCode.length())
     {
-        int cTyp = classVec[srcCode[srcPos]];
+        int cTyp = classVec[static_cast<int>(srcCode[srcPos])];
         (this->*functMat[fsmState][cTyp])();
         fsmState = stateMat[fsmState][cTyp];
     }
+    return true;
 }
 
 void Tokenizer::r()
@@ -139,7 +141,7 @@ void Tokenizer::c()
             curToken.setTyp(Token::Symbol);
             break;
     }
-    tok.push_back(curToken);
+    token->push_back(curToken);
     curToken.reset();
     curToken.init(srcRow, srcCol);
 }

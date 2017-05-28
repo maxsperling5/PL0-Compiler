@@ -61,7 +61,6 @@ private:
     char cmpOp;
     std::stack<int> jumpStartAddr;
 
-private:
     enum Bytecode
     {
         /*--- Stack instructions ---*/

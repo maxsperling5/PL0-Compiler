@@ -32,14 +32,16 @@ bool CompPL0::exec(int argc, char *argv[])
         return false;
     }
 
-    tokPtr = new Tokenizer;
-    genPtr = new Generator;
-
     string srcCode = "";
     if(!dataPtr->read(srcCode)) return false;
 
-    vector<Token> token = tokPtr->exec(srcCode);
-    vector<char> binary = genPtr->exec(token);
+    tokPtr = new Tokenizer;
+    genPtr = new Generator;
+
+    vector<Token> token;
+    if(!tokPtr->exec(srcCode, token)) return false;
+    vector<char> binary;
+    if(!genPtr->exec(token, binary)) return false;
 
     viewPtr->write(binary);
     dataPtr->write(binary);

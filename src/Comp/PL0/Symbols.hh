@@ -20,6 +20,7 @@ public:
     {
         int index;
 
+        virtual ~Object(){};
         virtual ObjectTyp getType() = 0;
     };
 
@@ -48,6 +49,7 @@ public:
             this->index = index;
             numVar = 0;
         }
+        ~Procedure(){};
 
         ObjectTyp getType()
         {
@@ -61,6 +63,7 @@ public:
         {
             this->index = index;
         }
+        ~Variable(){};
 
         ObjectTyp getType()
         {
@@ -77,6 +80,7 @@ public:
             this->value = value;
             this->index = index;
         }
+        ~Constant(){}
 
         ObjectTyp getType()
         {
@@ -84,17 +88,18 @@ public:
         }
     };
 
-    int numProc;
+    unsigned int numProc;
     Procedure *curProc;
     std::vector<long> vecConst;
 
 public:
     Symbols();
-    ~Symbols(){}
+    ~Symbols();
 
     void addSymbol(std::string name);
     void addProcedure();
     void retProcedure();
+    void delProcedure(Procedure *proc);
     void addVariable();
     void addConstant(long value);
     void addConstNum(long value);

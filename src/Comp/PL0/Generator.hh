@@ -15,14 +15,14 @@ public:
     Generator();
     ~Generator();
 
-    std::vector<char> exec(std::vector<Token> token);
+    bool exec(std::vector<Token> &token, std::vector<char> &binary);
 
 private:
     bool generate(Trans *curSect);
     bool execFunc(Trans *curTrans);
 
-    std::vector<Token> token;
     Graph *graph;
     ILGen *ilgen;
-    int posTok;
+    std::vector<Token> *token;
+    unsigned int posTok;
 };

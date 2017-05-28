@@ -16,6 +16,17 @@ Symbols::Symbols()
     addProcedure();
 }
 
+Symbols::~Symbols()
+{
+    while(curProc->parent != nullptr)
+    {
+        curProc = curProc->parent;
+    }
+
+    delProcedure(curProc);
+    delete curProc;
+}
+
 void Symbols::addSymbol(string name)
 {
     Symbol symb(name, curProc->index);
@@ -36,6 +47,16 @@ void Symbols::addProcedure()
 void Symbols::retProcedure()
 {
     curProc = curProc->parent;
+}
+
+void Symbols::delProcedure(Procedure *proc)
+{
+    for(Symbol &symb : proc->symbolTab)
+    {
+        if(symb.object->getType() == Symbols::Proc)
+            delProcedure((Procedure*)symb.object);
+        delete symb.object;
+    }
 }
 
 void Symbols::addVariable()
