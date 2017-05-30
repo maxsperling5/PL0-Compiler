@@ -1,5 +1,2 @@
 bin
-obj
-PL0-Compiler.cbp
-PL0-Compiler.depend
-PL0-Compiler.layout
+build.bat
