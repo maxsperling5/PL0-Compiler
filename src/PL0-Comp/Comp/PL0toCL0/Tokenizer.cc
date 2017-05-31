@@ -62,21 +62,20 @@ keywords
 {
     string srcCode = "";
     srcPos = 0;
-    srcRow = 0;
-    srcCol = 0;
+    srcRow = 1;
+    srcCol = 1;
     fsmState = 0;
 }
 
-bool Tokenizer::exec(string srcCode, vector<Token> &token)
+void Tokenizer::exec(string srcCode, deque<Token> &token)
 {
     this->srcCode = srcCode;
     this->token = &token;
     curToken.init(srcRow, srcCol);
-    if(!tokenize()) return false;
-    return true;
+    tokenize();
 }
 
-bool Tokenizer::tokenize()
+void Tokenizer::tokenize()
 {
     while(srcPos < srcCode.length())
     {
@@ -84,13 +83,12 @@ bool Tokenizer::tokenize()
         (this->*functMat[fsmState][cTyp])();
         fsmState = stateMat[fsmState][cTyp];
     }
-    return true;
 }
 
 void Tokenizer::r()
 {
     char c = srcCode[srcPos];
-    if(c == '\n') { srcRow++; srcCol=0; }
+    if(c == '\n') { srcRow++; srcCol=1; }
     else srcCol++;
     srcPos++;
 }

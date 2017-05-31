@@ -4,7 +4,7 @@
 /************************/
 
 #include <string>
-#include <vector>
+#include <deque>
 #include "Token.hh"
 
 class Tokenizer
@@ -13,12 +13,12 @@ public:
     Tokenizer();
     ~Tokenizer(){}
 
-    bool exec(std::string srcCode, std::vector<Token> &token);
+    void exec(std::string srcCode, std::deque<Token> &token);
 
 private:
     typedef void (Tokenizer::*func)();
 
-    bool tokenize();
+    void tokenize();
     void r();
     void wr();
     void gr();
@@ -31,7 +31,7 @@ private:
 	std::string keywords[14];
 
     std::string srcCode;
-    std::vector<Token> *token;
+    std::deque<Token> *token;
     Token curToken;
     unsigned int fsmState;
 

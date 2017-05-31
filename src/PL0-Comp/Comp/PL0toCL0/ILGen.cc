@@ -4,9 +4,11 @@
 
 #include "ILGen.hh"
 
+#include "CompExcp.hh"
+
 using namespace std;
 
-vector<char> ILGen::getBinary()
+deque<char> ILGen::getBinary()
 {
     return binary;
 }
@@ -61,7 +63,8 @@ void ILGen::ProcedureEnd(void *tok)
 
 void ILGen::BeforeAssignment(void *tok)
 {
-    pushVarByName((Token*)tok, Addr);
+    if(!pushVarByName((Token*)tok, Addr))
+        throw CompExcp((Token*)tok);
 }
 
 void ILGen::AfterAssignment(void *tok)
@@ -71,7 +74,8 @@ void ILGen::AfterAssignment(void *tok)
 
 void ILGen::InputNumber(void *tok)
 {
-    pushVarByName((Token*)tok, Addr);
+    if(!pushVarByName((Token*)tok, Addr))
+        throw CompExcp((Token*)tok);
     writeCode(Bytecode::GetVal);
 }
 
@@ -114,6 +118,7 @@ void ILGen::IdentByName(void *tok)
 {
     if(pushVarByName((Token*)tok, Val)) return;
     if(pushConstByName((Token*)tok)) return;
+    throw CompExcp((Token*)tok);
 }
 
 void ILGen::Odd(void *tok)
@@ -197,13 +202,8 @@ void ILGen::LoopEnd(void *tok)
 
 void ILGen::CallProcedure(void *tok)
 {
-    Symbols::Symbol *symb = symbols.searchSymb(((Token*)tok)->getVal());
-    if(symb == nullptr) return;
-    if(symb->object->getType() != Symbols::Proc) return;
-
-    vector<short> param;
-    param.push_back(symb->object->index);
-    writeCode(Bytecode::Call, param);
+    if(!pushProcByName((Token*)tok))
+        throw CompExcp((Token*)tok);
 }
 
 void ILGen::OutputString(void *tok)
@@ -266,7 +266,7 @@ void ILGen::writeIntToAddr(int startAddr, int value)
 
 bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
 {
-    Symbols::Symbol *symb = symbols.searchSymb(((Token*)tok)->getVal());
+    Symbols::Symbol *symb = symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
     if(symb->object->getType() != Symbols::Var) return false;
 
@@ -345,3 +345,15 @@ bool ILGen::pushConstByVal(Token *tok)
     symbols.addConstNum(stol(tok->getVal()));
     return true;
 }
+
+ bool ILGen::pushProcByName(Token *tok)
+ {
+    Symbols::Symbol *symb = symbols.searchSymb(tok->getVal());
+    if(symb == nullptr) return false;
+    if(symb->object->getType() != Symbols::Proc) return false;
+
+    vector<short> param;
+    param.push_back(symb->object->index);
+    writeCode(Bytecode::Call, param);
+    return true;
+ }

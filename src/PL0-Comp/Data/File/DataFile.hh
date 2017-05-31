@@ -14,7 +14,7 @@ public:
     // --- IData -----------------------------
     virtual bool init(int argc, char *argv[]);
     virtual bool read(std::string &str);
-    virtual bool write(std::vector<char> bin);
+    virtual bool write(std::deque<char> bin);
     // ---------------------------------------
 
 private:

@@ -21,7 +21,7 @@ void ViewCLI::write(string str)
     cout << endl;
 }
 
-void ViewCLI::write(vector<char> bin)
+void ViewCLI::write(deque<char> bin)
 {
     cout << endl;
     for(auto &b : bin)

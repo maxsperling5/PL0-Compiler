@@ -8,10 +8,18 @@
 
 using namespace std;
 
-void Token::init(int srcRow, int srcCol)
+void Token::init(int row, int col)
 {
-    this->srcRow = srcRow;
-    this->srcCol = srcCol;
+    this->row = row;
+    this->col = col;
+}
+
+void Token::reset()
+{
+    val = "";
+    typ = Undefined;
+    row = 1;
+    col = 1;
 }
 
 void Token::addChar(char c)
@@ -34,10 +42,12 @@ Token::TokenTyp Token::getTyp()
     return typ;
 }
 
-void Token::reset()
+unsigned int Token::getRow()
 {
-    val = "";
-    typ = Undefined;
-    srcRow = 0;
-    srcCol = 0;
+    return row;
+}
+
+unsigned int Token::getCol()
+{
+    return col;
 }

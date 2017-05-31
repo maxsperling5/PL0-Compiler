@@ -23,14 +23,16 @@ bool DataFile::init(int argc, char *argv[])
 bool DataFile::read(string &str)
 {
     ifstream ifs(filePath);
+    if(ifs.fail()) return false;
     str = {istreambuf_iterator<char>(ifs), istreambuf_iterator<char>()};
     ifs.close();
     return true;
 }
 
-bool DataFile::write(std::vector<char> bin)
+bool DataFile::write(std::deque<char> bin)
 {
     ofstream ofs(filePath + ".cl0", ios_base::binary);
+    if(ofs.fail()) return false;
     copy(bin.begin(), bin.end(), ostreambuf_iterator<char>(ofs));
     ofs.close();
     return true;

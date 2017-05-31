@@ -7,6 +7,7 @@
 #include "Tokenizer.hh"
 #include "Generator.hh"
 #include "Token.hh"
+#include "CompExcp.hh"
 
 using namespace std;
 
@@ -33,18 +34,40 @@ bool CompPL0::exec(int argc, char *argv[])
     }
 
     string srcCode = "";
-    if(!dataPtr->read(srcCode)) return false;
+    if(!dataPtr->read(srcCode))
+    {
+        viewPtr->write("Error while reading File");
+        return false;
+    }
 
     tokPtr = new Tokenizer;
     genPtr = new Generator;
 
-    vector<Token> token;
-    if(!tokPtr->exec(srcCode, token)) return false;
-    vector<char> binary;
-    if(!genPtr->exec(token, binary)) return false;
+    deque<Token> token;
+    try{
+        tokPtr->exec(srcCode, token);
+    }
+    catch(...){
+        viewPtr->write("Error while Tokenization");
+        return false;
+    }
+
+    deque<char> binary;
+    try{
+        genPtr->exec(token, binary);
+    }catch(CompExcp &compExcp){
+        viewPtr->write("Error while Generating");
+        viewPtr->write(compExcp.getError());
+        return false;
+    }
 
     viewPtr->write(binary);
-    dataPtr->write(binary);
+
+    if(!dataPtr->write(binary))
+    {
+        viewPtr->write("Error while writing File");
+        return false;
+    }
 
     delete tokPtr;
     delete genPtr;

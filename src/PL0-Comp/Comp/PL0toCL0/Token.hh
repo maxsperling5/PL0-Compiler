@@ -20,16 +20,20 @@ public:
         String
     };
 
-    void init(int srcRow, int srcCol);
+    void init(int row, int col);
+    void reset();
+
     void addChar(char c);
     void setTyp(TokenTyp typ);
+
     std::string getVal();
     TokenTyp getTyp();
-    void reset();
+    unsigned int getRow();
+    unsigned int getCol();
 
 private:
     std::string val;
-	TokenTyp typ;
-	int srcRow;
-	int srcCol;
+    TokenTyp typ;
+    unsigned int row;
+    unsigned int col;
 };

@@ -13,6 +13,6 @@ public:
 
     // --- IView -----------------------------------
     virtual void write(std::string str);
-    virtual void write(std::vector<char> bin);
+    virtual void write(std::deque<char> bin);
     // ---------------------------------------------
 };

@@ -3,7 +3,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include <vector>
+#include <deque>
 class ILGen;
 class Trans;
 class Graph;
@@ -15,14 +15,13 @@ public:
     Generator();
     ~Generator();
 
-    bool exec(std::vector<Token> &token, std::vector<char> &binary);
+    void exec(std::deque<Token> &token, std::deque<char> &binary);
 
 private:
-    bool generate(Trans *curSect);
-    bool execFunc(Trans *curTrans);
+    void generate(Trans *curSect);
+    void execFunc(Trans *curTrans);
 
     Graph *graph;
     ILGen *ilgen;
-    std::vector<Token> *token;
-    unsigned int posTok;
+    std::deque<Token> *token;
 };

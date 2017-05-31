@@ -5,7 +5,7 @@
 
 #include <string>
 #include <stack>
-#include <vector>
+#include <deque>
 #include "Symbols.hh"
 #include "Token.hh"
 
@@ -15,7 +15,7 @@ public:
     ILGen(){}
     ~ILGen(){}
 
-    std::vector<char> getBinary();
+    std::deque<char> getBinary();
 
     void AddSymbol(void *tok);
     void AddProcedure(void *tok);
@@ -54,7 +54,7 @@ public:
     void CodeEnd(void *tok);
 
 private:
-    std::vector<char> binary;
+    std::deque<char> binary;
     Symbols symbols;
 
     std::stack<int> procStartAddr;
@@ -113,4 +113,5 @@ private:
     bool pushVarByName(Token *tok, AddrOrVal addrOrVal);
     bool pushConstByName(Token *tok);
     bool pushConstByVal(Token *tok);
+    bool pushProcByName(Token *tok);
 };

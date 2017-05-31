@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <string>
-#include <vector>
+#include <deque>
 
 class IView;
 typedef std::shared_ptr<IView> IViewPtr;
@@ -17,5 +17,5 @@ public:
     virtual ~IView(){}
 
     virtual void write(std::string str) = 0;
-    virtual void write(std::vector<char> bin) = 0;
+    virtual void write(std::deque<char> bin) = 0;
 };
