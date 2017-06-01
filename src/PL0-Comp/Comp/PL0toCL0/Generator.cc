@@ -30,7 +30,7 @@ void Generator::exec(deque<Token> &token, deque<char> &binary)
 void Generator::generate(Graph::Trans *curSect)
 {
     bool IsFinished = false;
-    Graph::Trans *curTrans = &curSect[0];
+    Graph::Trans *curTrans = curSect;
 
     while(!IsFinished)
     {

@@ -6,6 +6,45 @@
 
 using namespace std;
 
+Symbols::Symbol::Symbol(string name, int procIdx)
+{
+    this->name = name;
+    this->procIdx = procIdx;
+}
+
+Symbols::Procedure::Procedure(Procedure *parent, int index)
+{
+    this->parent = parent;
+    this->index = index;
+    numVar = 0;
+}
+
+Symbols::Object::Typ Symbols::Procedure::getType()
+{
+    return Proc;
+}
+
+Symbols::Variable::Variable(int index)
+{
+    this->index = index;
+}
+
+Symbols::Object::Typ Symbols::Variable::getType()
+{
+    return Var;
+}
+
+Symbols::Constant::Constant(long value, int index)
+{
+    this->value = value;
+    this->index = index;
+}
+
+Symbols::Object::Typ Symbols::Constant::getType()
+{
+    return Cons;
+}
+
 Symbols::Symbols()
 {
     numProc = 0;

@@ -15,11 +15,7 @@ public:
     {
         enum Typ
         {
-            Nil,
-            Symbol,
-            Token,
-            GraphStart,
-            GraphEnd
+            Nil, Symbol, Token, GraphStart, GraphEnd
         };
 
         Trans(){}

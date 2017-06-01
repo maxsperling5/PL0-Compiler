@@ -13,9 +13,7 @@ public:
     {
         enum Typ
         {
-            Proc,
-            Var,
-            Cons
+            Proc, Var, Cons
         };
 
         int index;
@@ -30,11 +28,7 @@ public:
         int procIdx;
         Object *object;
 
-        Symbol(std::string name, int procIdx)
-        {
-            this->name = name;
-            this->procIdx = procIdx;
-        }
+        Symbol(std::string name, int procIdx);
     };
 
     struct Procedure : Object
@@ -43,49 +37,25 @@ public:
         std::vector<Symbol> symbolTab;
         int numVar;
 
-        Procedure(Procedure *parent, int index)
-        {
-            this->parent = parent;
-            this->index = index;
-            numVar = 0;
-        }
-        ~Procedure(){};
-
-        Typ getType()
-        {
-            return Proc;
-        }
+        Procedure(Procedure *parent, int index);
+        ~Procedure(){}
+        Typ getType();
     };
 
     struct Variable : Object
     {
-        Variable(int index)
-        {
-            this->index = index;
-        }
-        ~Variable(){};
-
-        Typ getType()
-        {
-            return Var;
-        }
+        Variable(int index);
+        ~Variable(){}
+        Typ getType();
     };
 
     struct Constant : Object
     {
         long value;
 
-        Constant(long value, int index)
-        {
-            this->value = value;
-            this->index = index;
-        }
+        Constant(long value, int index);
         ~Constant(){}
-
-        Typ getType()
-        {
-            return Cons;
-        }
+        Typ getType();
     };
 
     unsigned int numProc;
