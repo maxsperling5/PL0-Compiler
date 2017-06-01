@@ -4,7 +4,6 @@
 /************************/
 
 #include <string>
-
 #include "Token.hh"
 
 class CompEx : public std::exception

@@ -9,19 +9,19 @@
 class Symbols
 {
 public:
-    enum ObjectTyp
-    {
-        Proc,
-        Var,
-        Cons
-    };
-
     struct Object
     {
+        enum Typ
+        {
+            Proc,
+            Var,
+            Cons
+        };
+
         int index;
 
         virtual ~Object(){};
-        virtual ObjectTyp getType() = 0;
+        virtual Typ getType() = 0;
     };
 
     struct Symbol
@@ -51,7 +51,7 @@ public:
         }
         ~Procedure(){};
 
-        ObjectTyp getType()
+        Typ getType()
         {
             return Proc;
         }
@@ -65,7 +65,7 @@ public:
         }
         ~Variable(){};
 
-        ObjectTyp getType()
+        Typ getType()
         {
             return Var;
         }
@@ -82,7 +82,7 @@ public:
         }
         ~Constant(){}
 
-        ObjectTyp getType()
+        Typ getType()
         {
             return Cons;
         }

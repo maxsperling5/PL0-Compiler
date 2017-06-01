@@ -3,10 +3,7 @@
 /************************/
 
 #include "Generator.hh"
-
 #include "ILGen.hh"
-#include "Graph.hh"
-#include "Trans.hh"
 #include "CompEx.hh"
 
 using namespace std;
@@ -26,24 +23,24 @@ Generator::~Generator()
 void Generator::exec(deque<Token> &token, deque<char> &binary)
 {
     this->token = &token;
-    generate(&graph->program[0]);
+    generate(&graph->program.at(0));
     binary = ilgen->getBinary();
 }
 
-void Generator::generate(Trans *curSect)
+void Generator::generate(Graph::Trans *curSect)
 {
     bool IsFinished = false;
-    Trans *curTrans = &curSect[0];
+    Graph::Trans *curTrans = &curSect[0];
 
     while(!IsFinished)
     {
         switch(curTrans->typ)
         {
-        case Trans::Nil:
+        case Graph::Trans::Nil:
             execFunc(curTrans);
             curTrans = &curSect[curTrans->idxNext];
             break;
-        case Trans::Symbol:
+        case Graph::Trans::Symbol:
             if(string((char*)curTrans->value) == (*token).front().getVal())
             {
                 execFunc(curTrans);
@@ -56,7 +53,7 @@ void Generator::generate(Trans *curSect)
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;
-        case Trans::Token:
+        case Graph::Trans::Token:
             if(Token::TokenTyp((int)curTrans->value) == (*token).front().getTyp())
             {
                 execFunc(curTrans);
@@ -69,9 +66,9 @@ void Generator::generate(Trans *curSect)
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;
-        case Trans::GraphStart:
+        case Graph::Trans::GraphStart:
             try{
-                generate((Trans*)curTrans->value);
+                generate((Graph::Trans*)curTrans->value);
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->idxNext];
             }catch(...)
@@ -80,7 +77,7 @@ void Generator::generate(Trans *curSect)
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;
-        case Trans::GraphEnd:
+        case Graph::Trans::GraphEnd:
             execFunc(curTrans);
             IsFinished = true;
             break;
@@ -88,7 +85,7 @@ void Generator::generate(Trans *curSect)
     }
 }
 
-void Generator::execFunc(Trans *curTrans)
+void Generator::execFunc(Graph::Trans *curTrans)
 {
     if(curTrans->funct == nullptr) return;
     (ilgen->*curTrans->funct)((void*)&((*token).front()));

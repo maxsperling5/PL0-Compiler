@@ -9,7 +9,7 @@ using namespace std;
 Tokenizer::Tokenizer()
 {
     classVec =
-    {{
+    {
     /*     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F     */
     /*--------------------------------------------------------*/
     /* 0*/ 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,/* 0*/
@@ -20,7 +20,7 @@ Tokenizer::Tokenizer()
     /*50*/ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 9, 0, 0, 0,/*50*/
     /*60*/ 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,/*60*/
     /*70*/ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0 /*70*/
-    }};
+    };
 
     stateMat =
     {{
@@ -59,10 +59,10 @@ Tokenizer::Tokenizer()
     }};
 
     keywords =
-    {{
+    {
         "CALL","DO","WHILE","IF","THEN","ELSE","BEGIN","END",
         "ODD","PUT","GET","VAR","CONST","PROCEDURE"
-    }};
+    };
 
     srcPos = 0;
     srcRow = 1;

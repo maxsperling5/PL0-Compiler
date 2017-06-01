@@ -4,9 +4,6 @@
 
 #include "Symbols.hh"
 
-#include <string>
-#include <vector>
-
 using namespace std;
 
 Symbols::Symbols()
@@ -53,7 +50,7 @@ void Symbols::delProcedure(Procedure *proc)
 {
     for(Symbol &symb : proc->symbolTab)
     {
-        if(symb.object->getType() == Symbols::Proc)
+        if(symb.object->getType() == Symbols::Object::Proc)
             delProcedure((Procedure*)symb.object);
         delete symb.object;
     }

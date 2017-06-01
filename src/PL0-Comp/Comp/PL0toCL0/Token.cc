@@ -4,8 +4,6 @@
 
 #include "Token.hh"
 
-#include <string>
-
 using namespace std;
 
 void Token::init(int row, int col)

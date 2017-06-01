@@ -5,8 +5,7 @@
 
 #include <deque>
 class ILGen;
-class Trans;
-class Graph;
+#include "Graph.hh"
 #include "Token.hh"
 
 class Generator
@@ -18,8 +17,8 @@ public:
     void exec(std::deque<Token> &token, std::deque<char> &binary);
 
 private:
-    void generate(Trans *curSect);
-    void execFunc(Trans *curTrans);
+    void generate(Graph::Trans *curSect);
+    void execFunc(Graph::Trans *curTrans);
 
     Graph *graph;
     ILGen *ilgen;

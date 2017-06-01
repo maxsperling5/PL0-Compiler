@@ -268,7 +268,7 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
 {
     Symbols::Symbol *symb = symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
-    if(symb->object->getType() != Symbols::Var) return false;
+    if(symb->object->getType() != Symbols::Object::Var) return false;
 
     vector<short> param;
     param.push_back((symb->object->index)*sizeof(int));
@@ -318,7 +318,7 @@ bool ILGen::pushConstByName(Token *tok)
 {
     Symbols::Symbol *symb = symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
-    if(symb->object->getType() != Symbols::Cons) return false;
+    if(symb->object->getType() != Symbols::Object::Cons) return false;
 
     vector<short> param;
     param.push_back(((Symbols::Constant*)symb->object)->value);
@@ -350,7 +350,7 @@ bool ILGen::pushConstByVal(Token *tok)
  {
     Symbols::Symbol *symb = symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
-    if(symb->object->getType() != Symbols::Proc) return false;
+    if(symb->object->getType() != Symbols::Object::Proc) return false;
 
     vector<short> param;
     param.push_back(symb->object->index);

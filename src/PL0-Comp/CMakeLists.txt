@@ -14,8 +14,6 @@ set (COMP_SRC
 	Comp/PL0toCL0/ILGen.cc
 	Comp/PL0toCL0/Graph.hh
 	Comp/PL0toCL0/Graph.cc
-	Comp/PL0toCL0/Trans.hh
-	Comp/PL0toCL0/Trans.cc
 	Comp/PL0toCL0/Symbols.hh
 	Comp/PL0toCL0/Symbols.cc
 	Comp/PL0toCL0/CompEx.hh
