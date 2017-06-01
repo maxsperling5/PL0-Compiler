@@ -41,7 +41,7 @@ void Generator::generate(Graph::Trans *curSect)
             curTrans = &curSect[curTrans->idxNext];
             break;
         case Graph::Trans::Symbol:
-            if(string((char*)curTrans->value) == (*token).front().getVal())
+            if(string((char*)curTrans->value) == token->front().getVal())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->idxNext];
@@ -49,12 +49,12 @@ void Generator::generate(Graph::Trans *curSect)
             }
             else
             {
-                if(curTrans->idxAlter == 0) throw CompEx(&(*token).front());
+                if(curTrans->idxAlter == 0) throw CompEx(&token->front());
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;
         case Graph::Trans::Token:
-            if(Token::TokenTyp((int)curTrans->value) == (*token).front().getTyp())
+            if(Token::TokenTyp((int)curTrans->value) == token->front().getTyp())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->idxNext];
@@ -62,7 +62,7 @@ void Generator::generate(Graph::Trans *curSect)
             }
             else
             {
-                if(curTrans->idxAlter == 0) throw CompEx(&(*token).front());
+                if(curTrans->idxAlter == 0) throw CompEx(&token->front());
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;
@@ -73,7 +73,7 @@ void Generator::generate(Graph::Trans *curSect)
                 curTrans = &curSect[curTrans->idxNext];
             }catch(...)
             {
-                if(curTrans->idxAlter == 0) throw CompEx(&(*token).front());
+                if(curTrans->idxAlter == 0) throw CompEx(&token->front());
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;
@@ -88,5 +88,5 @@ void Generator::generate(Graph::Trans *curSect)
 void Generator::execFunc(Graph::Trans *curTrans)
 {
     if(curTrans->funct == nullptr) return;
-    (ilgen->*curTrans->funct)((void*)&((*token).front()));
+    (ilgen->*curTrans->funct)((void*)&(token->front()));
 }

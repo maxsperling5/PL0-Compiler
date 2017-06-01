@@ -82,7 +82,7 @@ void Tokenizer::tokenize()
 {
     while(srcPos < srcCode.length())
     {
-        int cTyp = classVec.at(static_cast<int>(srcCode.at(srcPos)));
+        int cTyp = classVec.at((int)srcCode.at(srcPos));
         (this->*functMat.at(fsmState).at(cTyp))();
         fsmState = stateMat.at(fsmState).at(cTyp);
     }
