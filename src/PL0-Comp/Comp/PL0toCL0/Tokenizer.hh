@@ -4,6 +4,7 @@
 /************************/
 
 #include <string>
+#include <array>
 #include <deque>
 #include "Token.hh"
 
@@ -25,17 +26,17 @@ private:
     void wrc();
     void c();
 
-    int classVec[8*16];
-	int stateMat[12][10];
-	func functMat[12][10];
-	std::string keywords[14];
+    std::array<int,8*16> classVec;
+    std::array<std::array<int,10>,12> stateMat;
+    std::array<std::array<func,10>,12> functMat;
+	std::array<std::string,14> keywords;
 
     std::string srcCode;
     std::deque<Token> *token;
     Token curToken;
-    unsigned int fsmState;
 
 	unsigned int srcPos;
 	unsigned int srcRow;
 	unsigned int srcCol;
+    unsigned int fsmState;
 };
