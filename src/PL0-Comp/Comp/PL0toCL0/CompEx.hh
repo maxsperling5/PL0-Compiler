@@ -7,12 +7,12 @@
 
 #include "Token.hh"
 
-class CompExcp : public std::exception
+class CompEx : public std::exception
 {
 private:
     Token *token;
 
 public:
-    CompExcp(Token *token);
+    CompEx(Token *token);
     std::string getError();
 };

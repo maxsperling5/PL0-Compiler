@@ -4,7 +4,7 @@
 
 #include "ILGen.hh"
 
-#include "CompExcp.hh"
+#include "CompEx.hh"
 
 using namespace std;
 
@@ -64,7 +64,7 @@ void ILGen::ProcedureEnd(void *tok)
 void ILGen::BeforeAssignment(void *tok)
 {
     if(!pushVarByName((Token*)tok, Addr))
-        throw CompExcp((Token*)tok);
+        throw CompEx((Token*)tok);
 }
 
 void ILGen::AfterAssignment(void *tok)
@@ -75,7 +75,7 @@ void ILGen::AfterAssignment(void *tok)
 void ILGen::InputNumber(void *tok)
 {
     if(!pushVarByName((Token*)tok, Addr))
-        throw CompExcp((Token*)tok);
+        throw CompEx((Token*)tok);
     writeCode(Bytecode::GetVal);
 }
 
@@ -118,7 +118,7 @@ void ILGen::IdentByName(void *tok)
 {
     if(pushVarByName((Token*)tok, Val)) return;
     if(pushConstByName((Token*)tok)) return;
-    throw CompExcp((Token*)tok);
+    throw CompEx((Token*)tok);
 }
 
 void ILGen::Odd(void *tok)
@@ -203,7 +203,7 @@ void ILGen::LoopEnd(void *tok)
 void ILGen::CallProcedure(void *tok)
 {
     if(!pushProcByName((Token*)tok))
-        throw CompExcp((Token*)tok);
+        throw CompEx((Token*)tok);
 }
 
 void ILGen::OutputString(void *tok)

@@ -18,8 +18,8 @@ set (COMP_SRC
 	Comp/PL0toCL0/Trans.cc
 	Comp/PL0toCL0/Symbols.hh
 	Comp/PL0toCL0/Symbols.cc
-	Comp/PL0toCL0/CompExcp.hh
-	Comp/PL0toCL0/CompExcp.cc)
+	Comp/PL0toCL0/CompEx.hh
+	Comp/PL0toCL0/CompEx.cc)
 
 set (VIEW_SRC
 	View/CLI/ViewCLI.hh

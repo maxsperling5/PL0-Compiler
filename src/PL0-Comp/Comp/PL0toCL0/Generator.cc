@@ -7,7 +7,7 @@
 #include "ILGen.hh"
 #include "Graph.hh"
 #include "Trans.hh"
-#include "CompExcp.hh"
+#include "CompEx.hh"
 
 using namespace std;
 
@@ -52,7 +52,7 @@ void Generator::generate(Trans *curSect)
             }
             else
             {
-                if(curTrans->idxAlter == 0) throw CompExcp(&(*token).front());
+                if(curTrans->idxAlter == 0) throw CompEx(&(*token).front());
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;
@@ -65,7 +65,7 @@ void Generator::generate(Trans *curSect)
             }
             else
             {
-                if(curTrans->idxAlter == 0) throw CompExcp(&(*token).front());
+                if(curTrans->idxAlter == 0) throw CompEx(&(*token).front());
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;
@@ -76,7 +76,7 @@ void Generator::generate(Trans *curSect)
                 curTrans = &curSect[curTrans->idxNext];
             }catch(...)
             {
-                if(curTrans->idxAlter == 0) throw CompExcp(&(*token).front());
+                if(curTrans->idxAlter == 0) throw CompEx(&(*token).front());
                 curTrans = &curSect[curTrans->idxAlter];
             }
             break;

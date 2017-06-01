@@ -7,7 +7,7 @@
 #include "Tokenizer.hh"
 #include "Generator.hh"
 #include "Token.hh"
-#include "CompExcp.hh"
+#include "CompEx.hh"
 
 using namespace std;
 
@@ -55,9 +55,9 @@ bool CompPL0::exec(int argc, char *argv[])
     deque<char> binary;
     try{
         genPtr->exec(token, binary);
-    }catch(CompExcp &compExcp){
+    }catch(CompEx &cex){
         viewPtr->write("Error while Generating");
-        viewPtr->write(compExcp.getError());
+        viewPtr->write(cex.getError());
         return false;
     }
 

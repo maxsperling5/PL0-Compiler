@@ -2,16 +2,16 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "CompExcp.hh"
+#include "CompEx.hh"
 
 using namespace std;
 
-CompExcp::CompExcp(Token *token)
+CompEx::CompEx(Token *token)
 {
 	this->token = token;
 }
 
-string CompExcp::getError()
+string CompEx::getError()
 {
 	string strErr = "Error: Value -> " + token->getVal()
                     + ", Row -> " + to_string(token->getRow())
