@@ -6,4 +6,4 @@ set (VM_SRC
     Code/code.h
     Code/debug.h)
 
-add_executable (PL0-VM ${VM_SRC})
+add_executable (${PROJECT_NAME} ${VM_SRC})

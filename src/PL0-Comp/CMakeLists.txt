@@ -22,5 +22,5 @@ set (MAIN_SRC
 add_library (Comp SHARED ${COMP_SRC})
 add_library (View SHARED ${VIEW_SRC})
 add_library (Data SHARED ${DATA_SRC})
-add_executable (PL0-Compiler ${MAIN_SRC})
-target_link_libraries (PL0-Compiler Comp View Data)
+add_executable (${PROJECT_NAME} ${MAIN_SRC})
+target_link_libraries (${PROJECT_NAME} Comp View Data)
