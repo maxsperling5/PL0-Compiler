@@ -18,5 +18,6 @@ public:
     // ---------------------------------------
 
 private:
-    std::string filePath;
+    std::string pl0File;
+    std::string cl0File;
 };

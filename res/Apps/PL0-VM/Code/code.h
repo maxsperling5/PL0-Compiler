@@ -1,3 +1,7 @@
+/**************************************/
+/* Author: Prof. Dr.-Ing. Arnold Beck */
+/**************************************/
+
 typedef enum TCODE
 {
   /*--- Kellerbefehle ---*/

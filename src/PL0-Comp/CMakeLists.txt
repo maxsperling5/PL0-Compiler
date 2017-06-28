@@ -2,8 +2,8 @@ cmake_minimum_required (VERSION 3.5)
 project (PL0-Compiler)
 
 file (GLOB COMP_SRC
-    Code/Comp/PL0toCL0/*.hh
-    Code/Comp/PL0toCL0/*.cc)
+    Code/Comp/CompPL0/*.hh
+    Code/Comp/CompPL0/*.cc)
 
 set (VIEW_SRC
     Code/View/ViewCLI/ViewCLI.hh

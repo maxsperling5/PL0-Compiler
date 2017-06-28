@@ -28,7 +28,7 @@ bool CompPL0::exec(int argc, char *argv[])
 {
     if(!dataPtr->init(argc, argv))
     {
-        string strErr = "Usage: program \"<filepath/file>\"\n";
+        string strErr = "Usage: program <pl0-File> <cl0-File>\n";
         viewPtr->write(strErr);
         return false;
     }

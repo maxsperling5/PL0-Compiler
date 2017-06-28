@@ -1,3 +1,7 @@
+/**************************************/
+/* Author: Prof. Dr.-Ing. Arnold Beck */
+/**************************************/
+
 #if defined DEBUG
 
 #include <stdio.h>

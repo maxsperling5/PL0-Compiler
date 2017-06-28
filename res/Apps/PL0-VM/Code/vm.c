@@ -1,3 +1,7 @@
+/**************************************/
+/* Author: Prof. Dr.-Ing. Arnold Beck */
+/**************************************/
+
 #include <stdio.h>
 #define int4_t int
 #include <stdlib.h>

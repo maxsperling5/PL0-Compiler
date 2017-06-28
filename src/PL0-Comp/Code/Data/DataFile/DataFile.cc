@@ -15,14 +15,15 @@ IDataPtr IData::create()
 
 bool DataFile::init(int argc, char *argv[])
 {
-    if(argc != 2) return false;
-    this->filePath = argv[1];
+    if(argc != 3) return false;
+    this->pl0File = argv[1];
+    this->cl0File = argv[2];
     return true;
 }
 
 bool DataFile::read(string &str)
 {
-    ifstream ifs(filePath);
+    ifstream ifs(pl0File);
     if(ifs.fail()) return false;
     str = {istreambuf_iterator<char>(ifs), istreambuf_iterator<char>()};
     ifs.close();
@@ -31,7 +32,7 @@ bool DataFile::read(string &str)
 
 bool DataFile::write(std::deque<char> bin)
 {
-    ofstream ofs(filePath + ".cl0", ios_base::binary);
+    ofstream ofs(cl0File, ios_base::binary);
     if(ofs.fail()) return false;
     copy(bin.begin(), bin.end(), ostreambuf_iterator<char>(ofs));
     ofs.close();
