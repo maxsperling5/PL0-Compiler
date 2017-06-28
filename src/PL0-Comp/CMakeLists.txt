@@ -6,12 +6,12 @@ file (GLOB COMP_SRC
     Code/Comp/PL0toCL0/*.cc)
 
 set (VIEW_SRC
-    Code/View/CLI/ViewCLI.hh
-    Code/View/CLI/ViewCLI.cc)
+    Code/View/ViewCLI/ViewCLI.hh
+    Code/View/ViewCLI/ViewCLI.cc)
 
 set (DATA_SRC
-    Code/Data/File/DataFile.hh
-    Code/Data/File/DataFile.cc)
+    Code/Data/DataFile/DataFile.hh
+    Code/Data/DataFile/DataFile.cc)
 
 set (MAIN_SRC
     Code/Main.cc
