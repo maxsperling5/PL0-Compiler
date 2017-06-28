@@ -16,14 +16,11 @@ IViewPtr IView::create()
 
 void ViewCLI::write(string str)
 {
-    cout << endl;
-    cout << str;
-    cout << endl;
+    cout << str << endl;
 }
 
 void ViewCLI::write(deque<char> bin)
 {
-    cout << endl;
     for(auto &b : bin)
     {
         cout << setfill('0') << setw(2) << hex << +b;
