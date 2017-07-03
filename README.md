@@ -12,5 +12,5 @@ CMake <br>
 **VM:** cmake -Hres/Apps/PL0-VM -Bbin/PL0-VM -G \<Generator\> <br>
 
 ## Executing
-**Compiler:** program <PL0-File> <CL0-File> <br>
-**VM:** program <CL0-File> <br>
+**Compiler:** program \<PL0-File\> \<CL0-File\> <br>
+**VM:** program \<CL0-File\> <br>
