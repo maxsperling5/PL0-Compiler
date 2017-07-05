@@ -8,26 +8,26 @@
 
 using namespace std;
 
-Graph::Trans::Trans(Typ typ, const void *value, int idxNext, int idxAlter, func funct)
+Graph::Trans::Trans(Type type, const void *value, int idxNext, int idxAlter, func funct)
 {
-    this->typ = typ;
-    this->value = value;
-    this->idxNext = idxNext;
-    this->idxAlter = idxAlter;
-    this->funct = funct;
+    m_type = type;
+    m_value = value;
+    m_idxNext = idxNext;
+    m_idxAlter = idxAlter;
+    m_funct = funct;
 }
 
 Graph::Graph()
 {
-    program =
+    m_program =
     {
-    /* 0*/ Trans(Trans::Nil,        nullptr, 1, 0, ILGen::CodeStart),    /*(A)----------->(B)*/
-    /* 1*/ Trans(Trans::GraphStart, &block,  2, 0, nullptr),             /*(B)---BLOCK--->(C)*/
-    /* 2*/ Trans(Trans::Symbol,     ".",     3, 0, ILGen::ProcedureEnd), /*(C)----'.'---->(D)*/
-    /* 3*/ Trans(Trans::GraphEnd,   nullptr, 0, 0, ILGen::CodeEnd)       /*(D)----------(END)*/
+    /* 0*/ Trans(Trans::Nil,        nullptr,  1, 0, ILGen::CodeStart),    /*(A)----------->(B)*/
+    /* 1*/ Trans(Trans::GraphStart, &m_block, 2, 0, nullptr),             /*(B)---BLOCK--->(C)*/
+    /* 2*/ Trans(Trans::Symbol,     ".",      3, 0, ILGen::ProcedureEnd), /*(C)----'.'---->(D)*/
+    /* 3*/ Trans(Trans::GraphEnd,   nullptr,  0, 0, ILGen::CodeEnd)       /*(D)----------(END)*/
     };
 
-    block =
+    m_block =
     {
     /* 0*/ Trans(Trans::Symbol,     "CONST",                   2,  1, nullptr),               /*(A)--->CONST--->(B)*/
     /* 1*/ Trans(Trans::Nil,        nullptr,                   7,  0, nullptr),               /* +------------->(F)*/
@@ -45,28 +45,28 @@ Graph::Graph()
     /*13*/ Trans(Trans::Nil,        nullptr,                  19,  0, ILGen::ProcedureStart), /* +--------------(O)*/
     /*14*/ Trans(Trans::Token,      (void*)Token::Identifier, 15,  0, ILGen::AddSymbol),      /*(J)----ident--->(K)*/
     /*15*/ Trans(Trans::Symbol,     ";",                      16,  0, ILGen::AddProcedure),   /*(K)-----';'-----(L)*/
-    /*16*/ Trans(Trans::GraphStart, &block,                   17,  0, nullptr),               /*(L)----block----(M)*/
+    /*16*/ Trans(Trans::GraphStart, &m_block,                 17,  0, nullptr),               /*(L)----block----(M)*/
     /*17*/ Trans(Trans::Symbol,     ";",                      18,  0, ILGen::ProcedureEnd),   /*(M)-----';'-----(N)*/
     /*18*/ Trans(Trans::Nil,        nullptr,                  12,  0, ILGen::RetProcedure),   /*(N)------------>(I)*/
-    /*19*/ Trans(Trans::GraphStart, &statement,               20,  0, nullptr),               /*(O)--statement->(P)*/
+    /*19*/ Trans(Trans::GraphStart, &m_statement,             20,  0, nullptr),               /*(O)--statement->(P)*/
     /*20*/ Trans(Trans::GraphEnd,   nullptr,                   0,  0, nullptr)                /*(P)-----------(END)*/
     };
 
-    statement =
+    m_statement =
     {
     /* 0*/ Trans(Trans::Token,      (void*)Token::Identifier,  1,  3, ILGen::BeforeAssignment), /*(A)----ident--->(B)*/
     /* 1*/ Trans(Trans::Symbol,     ":=",                      2,  0, nullptr),                 /*(B)-----':='----(C)*/
-    /* 2*/ Trans(Trans::GraphStart, &expression,              25,  0, ILGen::AfterAssignment),  /*(C)-expression->(Q)*/
+    /* 2*/ Trans(Trans::GraphStart, &m_expression,            25,  0, ILGen::AfterAssignment),  /*(C)-expression->(Q)*/
     /* 3*/ Trans(Trans::Symbol,     "IF",                      4,  7, nullptr),                 /* +------IF------(D)*/
-    /* 4*/ Trans(Trans::GraphStart, &condition,                5,  0, ILGen::Condition),        /*(D)--condition->(E)*/
+    /* 4*/ Trans(Trans::GraphStart, &m_condition,              5,  0, ILGen::Condition),        /*(D)--condition->(E)*/
     /* 5*/ Trans(Trans::Symbol,     "THEN",                    6,  0, nullptr),                 /*(E)--->THEN---->(F)*/
-    /* 6*/ Trans(Trans::GraphStart, &statement,               25,  0, ILGen::BranchEnd),        /*(F)--statement->(Q)*/
+    /* 6*/ Trans(Trans::GraphStart, &m_statement,             25,  0, ILGen::BranchEnd),        /*(F)--statement->(Q)*/
     /* 7*/ Trans(Trans::Symbol,     "WHILE",                   8, 11, ILGen::While),            /* +-----WHILE----(G)*/
-    /* 8*/ Trans(Trans::GraphStart, &condition,                9,  0, ILGen::Condition),        /*(G)--condition->(H)*/
+    /* 8*/ Trans(Trans::GraphStart, &m_condition,              9,  0, ILGen::Condition),        /*(G)--condition->(H)*/
     /* 9*/ Trans(Trans::Symbol,     "DO",                     10,  0, nullptr),                 /*(H)---->DO----->(I)*/
-    /*10*/ Trans(Trans::GraphStart, &statement,               25,  0, ILGen::LoopEnd),          /*(I)--statement->(Q)*/
+    /*10*/ Trans(Trans::GraphStart, &m_statement,             25,  0, ILGen::LoopEnd),          /*(I)--statement->(Q)*/
     /*11*/ Trans(Trans::Symbol,     "BEGIN",                  12, 15, nullptr),                 /* +-----BEGIN----(J)*/
-    /*12*/ Trans(Trans::GraphStart, &statement,               13,  0, nullptr),                 /*(J)--statement->(K)*/
+    /*12*/ Trans(Trans::GraphStart, &m_statement,             13,  0, nullptr),                 /*(J)--statement->(K)*/
     /*13*/ Trans(Trans::Symbol,     ";",                      12, 14, nullptr),                 /*(K)-----';'---->(J)*/
     /*14*/ Trans(Trans::Symbol,     "END",                    25,  0, nullptr),                 /*(K)-----END---->(Q)*/
     /*15*/ Trans(Trans::Symbol,     "CALL",                   16, 17, nullptr),                 /* +-----CALL-----(L)*/
@@ -77,54 +77,54 @@ Graph::Graph()
     /*20*/ Trans(Trans::Symbol,     "\"",                     21, 23, nullptr),                 /*(N)-----'"'---->(O)*/
     /*21*/ Trans(Trans::Token,      (void*)Token::String,     22,  0, ILGen::OutputString),     /*(O)---string--->(P)*/
     /*22*/ Trans(Trans::Symbol,     "\"",                     25,  0, nullptr),                 /*(P)-----'"'---->(Q)*/
-    /*23*/ Trans(Trans::GraphStart, &expression,              25,  0, ILGen::OutputNumber),     /* +--expression->(Q)*/
+    /*23*/ Trans(Trans::GraphStart, &m_expression,            25,  0, ILGen::OutputNumber),     /* +--expression->(Q)*/
     /*24*/ Trans(Trans::Nil,        nullptr,                  25,  0, nullptr),                 /* +--------------(Q)*/
     /*25*/ Trans(Trans::GraphEnd,   nullptr,                   0,  0, nullptr)                  /*(Q)-----------(END)*/
     };
 
-    condition =
+    m_condition =
     {
-    /* 0*/ Trans(Trans::Symbol,     "ODD",        1, 2, nullptr),               /*(A)----ODD----->(D)*/
-    /* 1*/ Trans(Trans::GraphStart, &expression, 10, 0, ILGen::NotEqual),       /*(B)---express-->(E)*/
-    /* 2*/ Trans(Trans::GraphStart, &expression,  3, 0, nullptr),               /* +----express-->(C)*/
-    /* 3*/ Trans(Trans::Symbol,     "=",          9, 4, ILGen::Equal),          /*(C)----'='----->(D)*/
-    /* 4*/ Trans(Trans::Symbol,     "#",          9, 5, ILGen::NotEqual),       /* +-----'#'----->(D)*/
-    /* 5*/ Trans(Trans::Symbol,     "<",          9, 6, ILGen::Smaller),        /* +-----'<'----->(D)*/
-    /* 6*/ Trans(Trans::Symbol,     "<=",         9, 7, ILGen::LessOrEqual),    /* +-----'<='---->(D)*/
-    /* 7*/ Trans(Trans::Symbol,     ">",          9, 8, ILGen::Larger),         /* +-----'>'----->(D)*/
-    /* 8*/ Trans(Trans::Symbol,     ">=",         9, 0, ILGen::GreaterOrEqual), /* +-----'>='---->(D)*/
-    /* 9*/ Trans(Trans::GraphStart, &expression, 10, 0, ILGen::Comparison),     /*(D)---express-->(E)*/
-    /*10*/ Trans(Trans::GraphEnd,   nullptr,      0, 0, nullptr)                /*(E)-----------(END)*/
+    /* 0*/ Trans(Trans::Symbol,     "ODD",          1, 2, nullptr),               /*(A)----ODD----->(D)*/
+    /* 1*/ Trans(Trans::GraphStart, &m_expression, 10, 0, ILGen::NotEqual),       /*(B)---express-->(E)*/
+    /* 2*/ Trans(Trans::GraphStart, &m_expression,  3, 0, nullptr),               /* +----express-->(C)*/
+    /* 3*/ Trans(Trans::Symbol,     "=",            9, 4, ILGen::Equal),          /*(C)----'='----->(D)*/
+    /* 4*/ Trans(Trans::Symbol,     "#",            9, 5, ILGen::NotEqual),       /* +-----'#'----->(D)*/
+    /* 5*/ Trans(Trans::Symbol,     "<",            9, 6, ILGen::Smaller),        /* +-----'<'----->(D)*/
+    /* 6*/ Trans(Trans::Symbol,     "<=",           9, 7, ILGen::LessOrEqual),    /* +-----'<='---->(D)*/
+    /* 7*/ Trans(Trans::Symbol,     ">",            9, 8, ILGen::Larger),         /* +-----'>'----->(D)*/
+    /* 8*/ Trans(Trans::Symbol,     ">=",           9, 0, ILGen::GreaterOrEqual), /* +-----'>='---->(D)*/
+    /* 9*/ Trans(Trans::GraphStart, &m_expression, 10, 0, ILGen::Comparison),     /*(D)---express-->(E)*/
+    /*10*/ Trans(Trans::GraphEnd,   nullptr,        0, 0, nullptr)                /*(E)-----------(END)*/
     };
 
-    expression =
+    m_expression =
     {
     /* 0*/ Trans(Trans::Symbol,     "-",     2,  1, ILGen::Negation),    /*(A)----'-'----->(B)*/
     /* 1*/ Trans(Trans::Nil,        nullptr, 2,  0, nullptr),            /* +------------->(B)*/
-    /* 2*/ Trans(Trans::GraphStart, &term,   3,  0, nullptr),            /*(B)----term---->(C)*/
+    /* 2*/ Trans(Trans::GraphStart, &m_term, 3,  0, nullptr),            /*(B)----term---->(C)*/
     /* 3*/ Trans(Trans::Symbol,     "+",     4,  5, nullptr),            /*(C)-----'+'---->(D)*/
-    /* 4*/ Trans(Trans::GraphStart, &term,   3,  0, ILGen::Addition),    /*(D)----term---->(C)*/
+    /* 4*/ Trans(Trans::GraphStart, &m_term, 3,  0, ILGen::Addition),    /*(D)----term---->(C)*/
     /* 5*/ Trans(Trans::Symbol,     "-",     6,  7, nullptr),            /* +------'-'---->(E)*/
-    /* 6*/ Trans(Trans::GraphStart, &term,   3,  0, ILGen::Subtraction), /*(E)----term---->(C)*/
+    /* 6*/ Trans(Trans::GraphStart, &m_term, 3,  0, ILGen::Subtraction), /*(E)----term---->(C)*/
     /* 7*/ Trans(Trans::GraphEnd,   nullptr, 0,  0, nullptr)             /* +------------(END)*/
     };
 
-    term =
+    m_term =
     {
-    /* 0*/ Trans(Trans::GraphStart, &factor, 1, 0, nullptr),               /*(A)---faktor--->(B)*/
-    /* 1*/ Trans(Trans::Nil,        nullptr, 2, 0, nullptr),               /*(B)------------>(C)*/
-    /* 2*/ Trans(Trans::Symbol,     "*",     3, 4, nullptr),               /*(C)----'*'----->(D)*/
-    /* 3*/ Trans(Trans::GraphStart, &factor, 1, 0, ILGen::Multiplication), /*(D)---faktor--->(B)*/
-    /* 4*/ Trans(Trans::Symbol,     "/",     5, 6, nullptr),               /* +-----'/'----->(E)*/
-    /* 5*/ Trans(Trans::GraphStart, &factor, 1, 0, ILGen::Division),       /*(E)---faktor--->(B)*/
-    /* 6*/ Trans(Trans::GraphEnd,   nullptr, 0, 0, nullptr)                /* +------------(END)*/
+    /* 0*/ Trans(Trans::GraphStart, &m_factor, 1, 0, nullptr),               /*(A)---faktor--->(B)*/
+    /* 1*/ Trans(Trans::Nil,        nullptr,   2, 0, nullptr),               /*(B)------------>(C)*/
+    /* 2*/ Trans(Trans::Symbol,     "*",       3, 4, nullptr),               /*(C)----'*'----->(D)*/
+    /* 3*/ Trans(Trans::GraphStart, &m_factor, 1, 0, ILGen::Multiplication), /*(D)---faktor--->(B)*/
+    /* 4*/ Trans(Trans::Symbol,     "/",       5, 6, nullptr),               /* +-----'/'----->(E)*/
+    /* 5*/ Trans(Trans::GraphStart, &m_factor, 1, 0, ILGen::Division),       /*(E)---faktor--->(B)*/
+    /* 6*/ Trans(Trans::GraphEnd,   nullptr,   0, 0, nullptr)                /* +------------(END)*/
     };
 
-    factor =
+    m_factor =
     {
     /* 0*/ Trans(Trans::Token,      (void*)Token::Number,     5, 1, ILGen::ConstByVal),  /*(A)---number--->(D)*/
     /* 1*/ Trans(Trans::Symbol,     "(",                      2, 4, nullptr),            /* +-----'('----->(B)*/
-    /* 2*/ Trans(Trans::GraphStart, &expression,              3, 0, nullptr),            /*(B)---express-->(C)*/
+    /* 2*/ Trans(Trans::GraphStart, &m_expression,            3, 0, nullptr),            /*(B)---express-->(C)*/
     /* 3*/ Trans(Trans::Symbol,     ")",                      5, 0, nullptr),            /*(C)----')'----->(D)*/
     /* 4*/ Trans(Trans::Token,      (void*)Token::Identifier, 5, 0, ILGen::IdentByName), /* +----ident---->(D)*/
     /* 5*/ Trans(Trans::GraphEnd,   nullptr,                  0, 0, nullptr)             /*(D)-----------(END)*/

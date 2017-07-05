@@ -11,56 +11,56 @@ class Symbols
 public:
     struct Object
     {
-        enum Typ
+        enum Type
         {
             Proc, Var, Cons
         };
 
-        int index;
+        int m_index;
 
         virtual ~Object(){};
-        virtual Typ getType() = 0;
+        virtual Type getType() = 0;
     };
 
     struct Symbol
     {
-        std::string name;
-        int procIdx;
-        Object *object;
+        std::string m_name;
+        int m_procIdx;
+        Object *m_object;
 
         Symbol(std::string name, int procIdx);
     };
 
     struct Procedure : Object
     {
-        Procedure *parent;
-        std::vector<Symbol> symbolTab;
-        int numVar;
+        Procedure *m_parent;
+        std::vector<Symbol> m_symbolTab;
+        int m_numVar;
 
         Procedure(Procedure *parent, int index);
         ~Procedure(){}
-        Typ getType();
+        Type getType();
     };
 
     struct Variable : Object
     {
         Variable(int index);
         ~Variable(){}
-        Typ getType();
+        Type getType();
     };
 
     struct Constant : Object
     {
-        long value;
+        long m_value;
 
         Constant(long value, int index);
         ~Constant(){}
-        Typ getType();
+        Type getType();
     };
 
-    unsigned int numProc;
-    Procedure *curProc;
-    std::vector<long> vecConst;
+    unsigned int m_numProc;
+    Procedure *m_curProc;
+    std::vector<long> m_vecConst;
 
 public:
     Symbols();

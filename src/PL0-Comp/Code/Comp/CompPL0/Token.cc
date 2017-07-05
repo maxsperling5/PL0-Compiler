@@ -8,44 +8,44 @@ using namespace std;
 
 void Token::init(int row, int col)
 {
-    this->row = row;
-    this->col = col;
+    m_row = row;
+    m_col = col;
 }
 
 void Token::reset()
 {
-    val = "";
-    typ = Undefined;
-    row = 1;
-    col = 1;
+    m_val = "";
+    m_typ = Undefined;
+    m_row = 1;
+    m_col = 1;
 }
 
 void Token::addChar(char c)
 {
-    val += c;
+    m_val += c;
 }
 
 void Token::setTyp(TokenTyp typ)
 {
-    this->typ = typ;
+    m_typ = typ;
 }
 
 string Token::getVal()
 {
-    return val;
+    return m_val;
 }
 
 Token::TokenTyp Token::getTyp()
 {
-    return typ;
+    return m_typ;
 }
 
 unsigned int Token::getRow()
 {
-    return row;
+    return m_row;
 }
 
 unsigned int Token::getCol()
 {
-    return col;
+    return m_col;
 }

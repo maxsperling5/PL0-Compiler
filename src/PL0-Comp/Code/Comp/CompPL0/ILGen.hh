@@ -54,12 +54,12 @@ public:
     void CodeEnd(void *tok);
 
 private:
-    std::deque<char> binary;
-    Symbols symbols;
+    std::deque<char> m_binary;
+    Symbols m_symbols;
 
-    std::stack<int> procStartAddr;
-    char cmpOp;
-    std::stack<int> jumpStartAddr;
+    std::stack<int> m_procStartAddr;
+    char m_cmpOp;
+    std::stack<int> m_jumpStartAddr;
 
     enum Bytecode
     {

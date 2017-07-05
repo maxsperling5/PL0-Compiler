@@ -10,21 +10,21 @@ using namespace std;
 
 Generator::Generator()
 {
-    graph = new Graph();
-    ilgen = new ILGen();
+    m_graph = new Graph();
+    m_ilgen = new ILGen();
 }
 
 Generator::~Generator()
 {
-    delete graph;
-    delete ilgen;
+    delete m_graph;
+    delete m_ilgen;
 }
 
 void Generator::exec(deque<Token> &token, deque<char> &binary)
 {
-    this->token = &token;
-    generate(&graph->program.at(0));
-    binary = ilgen->getBinary();
+    m_token = &token;
+    generate(&m_graph->m_program.at(0));
+    binary = m_ilgen->getBinary();
 }
 
 void Generator::generate(Graph::Trans *curSect)
@@ -34,47 +34,47 @@ void Generator::generate(Graph::Trans *curSect)
 
     while(!IsFinished)
     {
-        switch(curTrans->typ)
+        switch(curTrans->m_type)
         {
         case Graph::Trans::Nil:
             execFunc(curTrans);
-            curTrans = &curSect[curTrans->idxNext];
+            curTrans = &curSect[curTrans->m_idxNext];
             break;
         case Graph::Trans::Symbol:
-            if(string((char*)curTrans->value) == token->front().getVal())
+            if(string((char*)curTrans->m_value) == m_token->front().getVal())
             {
                 execFunc(curTrans);
-                curTrans = &curSect[curTrans->idxNext];
-                token->pop_front();
+                curTrans = &curSect[curTrans->m_idxNext];
+                m_token->pop_front();
             }
             else
             {
-                if(curTrans->idxAlter == 0) throw CompEx(&token->front());
-                curTrans = &curSect[curTrans->idxAlter];
+                if(curTrans->m_idxAlter == 0) throw CompEx(&m_token->front());
+                curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
         case Graph::Trans::Token:
-            if(Token::TokenTyp((int)curTrans->value) == token->front().getTyp())
+            if(Token::TokenTyp((int)curTrans->m_value) == m_token->front().getTyp())
             {
                 execFunc(curTrans);
-                curTrans = &curSect[curTrans->idxNext];
-                token->pop_front();
+                curTrans = &curSect[curTrans->m_idxNext];
+                m_token->pop_front();
             }
             else
             {
-                if(curTrans->idxAlter == 0) throw CompEx(&token->front());
-                curTrans = &curSect[curTrans->idxAlter];
+                if(curTrans->m_idxAlter == 0) throw CompEx(&m_token->front());
+                curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
         case Graph::Trans::GraphStart:
             try{
-                generate((Graph::Trans*)curTrans->value);
+                generate((Graph::Trans*)curTrans->m_value);
                 execFunc(curTrans);
-                curTrans = &curSect[curTrans->idxNext];
+                curTrans = &curSect[curTrans->m_idxNext];
             }catch(...)
             {
-                if(curTrans->idxAlter == 0) throw CompEx(&token->front());
-                curTrans = &curSect[curTrans->idxAlter];
+                if(curTrans->m_idxAlter == 0) throw CompEx(&m_token->front());
+                curTrans = &curSect[curTrans->m_idxAlter];
             }
             break;
         case Graph::Trans::GraphEnd:
@@ -87,6 +87,6 @@ void Generator::generate(Graph::Trans *curSect)
 
 void Generator::execFunc(Graph::Trans *curTrans)
 {
-    if(curTrans->funct == nullptr) return;
-    (ilgen->*curTrans->funct)((void*)&(token->front()));
+    if(curTrans->m_funct == nullptr) return;
+    (m_ilgen->*curTrans->m_funct)((void*)&(m_token->front()));
 }

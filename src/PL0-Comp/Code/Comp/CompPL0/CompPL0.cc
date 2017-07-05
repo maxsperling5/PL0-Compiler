@@ -18,59 +18,58 @@ ICompPtr IComp::create()
 
 bool CompPL0::init(IViewPtr viewPtr, IDataPtr dataPtr)
 {
-    this->viewPtr = viewPtr;
-    this->dataPtr = dataPtr;
+    m_viewPtr = viewPtr;
+    m_dataPtr = dataPtr;
 
     return true;
 }
 
 bool CompPL0::exec(int argc, char *argv[])
 {
-    if(!dataPtr->init(argc, argv))
+    if(!m_dataPtr->init(argc, argv))
     {
-        string strErr = "Usage: program <pl0-File> <cl0-File>\n";
-        viewPtr->write(strErr);
+        m_viewPtr->write("Usage: program <pl0-File> <cl0-File>\n");
         return false;
     }
 
     string srcCode = "";
-    if(!dataPtr->read(srcCode))
+    if(!m_dataPtr->read(srcCode))
     {
-        viewPtr->write("Error while reading File");
+        m_viewPtr->write("Error while reading File");
         return false;
     }
 
-    tokPtr = new Tokenizer;
-    genPtr = new Generator;
+    m_tokPtr = new Tokenizer;
+    m_genPtr = new Generator;
 
     deque<Token> token;
     try{
-        tokPtr->exec(srcCode, token);
+        m_tokPtr->exec(srcCode, token);
     }
     catch(...){
-        viewPtr->write("Error while Tokenization");
+        m_viewPtr->write("Error while Tokenization");
         return false;
     }
 
     deque<char> binary;
     try{
-        genPtr->exec(token, binary);
+        m_genPtr->exec(token, binary);
     }catch(CompEx &cex){
-        viewPtr->write("Error while Generating");
-        viewPtr->write(cex.getError());
+        m_viewPtr->write("Error while Generating");
+        m_viewPtr->write(cex.getError());
         return false;
     }
 
-    viewPtr->write(binary);
+    m_viewPtr->write(binary);
 
-    if(!dataPtr->write(binary))
+    if(!m_dataPtr->write(binary))
     {
-        viewPtr->write("Error while writing File");
+        m_viewPtr->write("Error while writing File");
         return false;
     }
 
-    delete tokPtr;
-    delete genPtr;
+    delete m_tokPtr;
+    delete m_genPtr;
 
     return true;
 }

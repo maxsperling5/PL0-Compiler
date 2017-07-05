@@ -9,7 +9,7 @@
 class CompEx : public std::exception
 {
 private:
-    Token *token;
+    Token *m_token;
 
 public:
     CompEx(Token *token);

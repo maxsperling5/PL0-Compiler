@@ -20,7 +20,7 @@ private:
     void generate(Graph::Trans *curSect);
     void execFunc(Graph::Trans *curTrans);
 
-    Graph *graph;
-    ILGen *ilgen;
-    std::deque<Token> *token;
+    Graph *m_graph;
+    ILGen *m_ilgen;
+    std::deque<Token> *m_token;
 };

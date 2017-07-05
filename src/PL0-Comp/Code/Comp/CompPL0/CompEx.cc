@@ -8,14 +8,14 @@ using namespace std;
 
 CompEx::CompEx(Token *token)
 {
-	this->token = token;
+    m_token = token;
 }
 
 string CompEx::getError()
 {
-	string strErr = "Error: Value -> " + token->getVal()
-                    + ", Row -> " + to_string(token->getRow())
-                    + ", Col -> " + to_string(token->getCol())
+    string strErr = "Error: Value -> " + m_token->getVal()
+                    + ", Row -> " + to_string(m_token->getRow())
+                    + ", Col -> " + to_string(m_token->getCol())
                     + "\n";
     return strErr;
 }

@@ -32,8 +32,8 @@ public:
     unsigned int getCol();
 
 private:
-    std::string val;
-    TokenTyp typ;
-    unsigned int row;
-    unsigned int col;
+    std::string m_val;
+    TokenTyp m_typ;
+    unsigned int m_row;
+    unsigned int m_col;
 };

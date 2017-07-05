@@ -8,134 +8,134 @@ using namespace std;
 
 Symbols::Symbol::Symbol(string name, int procIdx)
 {
-    this->name = name;
-    this->procIdx = procIdx;
+    m_name = name;
+    m_procIdx = procIdx;
 }
 
 Symbols::Procedure::Procedure(Procedure *parent, int index)
 {
-    this->parent = parent;
-    this->index = index;
-    numVar = 0;
+    m_parent = parent;
+    m_index = index;
+    m_numVar = 0;
 }
 
-Symbols::Object::Typ Symbols::Procedure::getType()
+Symbols::Object::Type Symbols::Procedure::getType()
 {
     return Proc;
 }
 
 Symbols::Variable::Variable(int index)
 {
-    this->index = index;
+    m_index = index;
 }
 
-Symbols::Object::Typ Symbols::Variable::getType()
+Symbols::Object::Type Symbols::Variable::getType()
 {
     return Var;
 }
 
 Symbols::Constant::Constant(long value, int index)
 {
-    this->value = value;
-    this->index = index;
+    m_value = value;
+    m_index = index;
 }
 
-Symbols::Object::Typ Symbols::Constant::getType()
+Symbols::Object::Type Symbols::Constant::getType()
 {
     return Cons;
 }
 
 Symbols::Symbols()
 {
-    numProc = 0;
-    curProc = nullptr;
+    m_numProc = 0;
+    m_curProc = nullptr;
     addProcedure();
 }
 
 Symbols::~Symbols()
 {
-    while(curProc->parent != nullptr)
+    while(m_curProc->m_parent != nullptr)
     {
-        curProc = curProc->parent;
+        m_curProc = m_curProc->m_parent;
     }
 
-    delProcedure(curProc);
-    delete curProc;
+    delProcedure(m_curProc);
+    delete m_curProc;
 }
 
 void Symbols::addSymbol(string name)
 {
-    Symbol symb(name, curProc->index);
-    curProc->symbolTab.push_back(symb);
+    Symbol symb(name, m_curProc->m_index);
+    m_curProc->m_symbolTab.push_back(symb);
 }
 
 void Symbols::addProcedure()
 {
-    Procedure *proc = new Procedure(curProc, numProc);
-    if(curProc != nullptr)
+    Procedure *proc = new Procedure(m_curProc, m_numProc);
+    if(m_curProc != nullptr)
     {
-        curProc->symbolTab.back().object = proc;
+        m_curProc->m_symbolTab.back().m_object = proc;
     }
-    curProc = proc;
-    numProc++;
+    m_curProc = proc;
+    m_numProc++;
 }
 
 void Symbols::retProcedure()
 {
-    curProc = curProc->parent;
+    m_curProc = m_curProc->m_parent;
 }
 
 void Symbols::delProcedure(Procedure *proc)
 {
-    for(Symbol &symb : proc->symbolTab)
+    for(Symbol &symb : proc->m_symbolTab)
     {
-        if(symb.object->getType() == Symbols::Object::Proc)
-            delProcedure((Procedure*)symb.object);
-        delete symb.object;
+        if(symb.m_object->getType() == Symbols::Object::Proc)
+            delProcedure((Procedure*)symb.m_object);
+        delete symb.m_object;
     }
 }
 
 void Symbols::addVariable()
 {
-    Variable *var = new Variable(curProc->numVar);
-    curProc->symbolTab.back().object = var;
-    curProc->numVar++;
+    Variable *var = new Variable(m_curProc->m_numVar);
+    m_curProc->m_symbolTab.back().m_object = var;
+    m_curProc->m_numVar++;
 }
 
 void Symbols::addConstant(long value)
 {
-    Constant *cons = new Constant(value, vecConst.size());
-    curProc->symbolTab.back().object = cons;
-    vecConst.push_back(value);
+    Constant *cons = new Constant(value, m_vecConst.size());
+    m_curProc->m_symbolTab.back().m_object = cons;
+    m_vecConst.push_back(value);
 }
 
 void Symbols::addConstNum(long value)
 {
-    vecConst.push_back(value);
+    m_vecConst.push_back(value);
 }
 
 int Symbols::getCurProcIdx()
 {
-    return curProc->index;
+    return m_curProc->m_index;
 }
 
 int Symbols::getCurProcNumVar()
 {
-    return curProc->numVar;
+    return m_curProc->m_numVar;
 }
 
 Symbols::Symbol *Symbols::searchSymb(string name)
 {
-    Procedure *tmpProc = curProc;
+    Procedure *tmpProc = m_curProc;
 
     while(tmpProc != nullptr)
     {
-        for(Symbol &symb : tmpProc->symbolTab)
+        for(Symbol &symb : tmpProc->m_symbolTab)
         {
-            if(symb.name == name)
+            if(symb.m_name == name)
                 return &symb;
         }
-        tmpProc = tmpProc->parent;
+        tmpProc = tmpProc->m_parent;
     }
 
     return nullptr;

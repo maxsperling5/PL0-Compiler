@@ -18,6 +18,6 @@ public:
     // ---------------------------------------
 
 private:
-    std::string pl0File;
-    std::string cl0File;
+    std::string m_pl0File;
+    std::string m_cl0File;
 };

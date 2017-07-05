@@ -8,7 +8,7 @@ using namespace std;
 
 Tokenizer::Tokenizer()
 {
-    classVec =
+    m_classVec =
     {
     /*     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F     */
     /*--------------------------------------------------------*/
@@ -22,7 +22,7 @@ Tokenizer::Tokenizer()
     /*70*/ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0 /*70*/
     };
 
-    stateMat =
+    m_stateMat =
     {{
     /*      So  Zi  Bu  ':' '=' '<' '>' ' ' '"' '\'      */
     /*---------------------------------------------------*/
@@ -40,7 +40,7 @@ Tokenizer::Tokenizer()
     /*11*/ {{0,  0,  0,  0,  0,  0,  0,  0,  0,  0}} /*11*/
     }};
 
-    functMat =
+    m_functMat =
     {{
     /*       So   Zi    Bu   ':'  '='  '<'  '>'  ' '  ''  '\'       */
     /*--------------------------------------------------------------*/
@@ -58,53 +58,53 @@ Tokenizer::Tokenizer()
     /*11*/ {{wrc, wrc, wrc, wrc,  wrc, wrc, wrc,wrc, wrc,  wrc}}/*11*/
     }};
 
-    keywords =
+    m_keywords =
     {
         "CALL","DO","WHILE","IF","THEN","ELSE","BEGIN","END",
         "ODD","PUT","GET","VAR","CONST","PROCEDURE"
     };
 
-    srcPos = 0;
-    srcRow = 1;
-    srcCol = 1;
-    fsmState = 0;
+    m_srcPos = 0;
+    m_srcRow = 1;
+    m_srcCol = 1;
+    m_fsmState = 0;
 }
 
 void Tokenizer::exec(string srcCode, deque<Token> &token)
 {
-    this->srcCode = srcCode;
-    this->token = &token;
-    curToken.init(srcRow, srcCol);
+    m_srcCode = srcCode;
+    m_token = &token;
+    m_curToken.init(m_srcRow, m_srcCol);
     tokenize();
 }
 
 void Tokenizer::tokenize()
 {
-    while(srcPos < srcCode.length())
+    while(m_srcPos < m_srcCode.length())
     {
-        int cTyp = classVec.at((int)srcCode.at(srcPos));
-        (this->*functMat.at(fsmState).at(cTyp))();
-        fsmState = stateMat.at(fsmState).at(cTyp);
+        int cTyp = m_classVec.at((int)m_srcCode.at(m_srcPos));
+        (this->*m_functMat.at(m_fsmState).at(cTyp))();
+        m_fsmState = m_stateMat.at(m_fsmState).at(cTyp);
     }
 }
 
 void Tokenizer::r()
 {
-    char c = srcCode.at(srcPos);
-    if(c == '\n') { srcRow++; srcCol=1; }
-    else srcCol++;
-    srcPos++;
+    char c = m_srcCode.at(m_srcPos);
+    if(c == '\n') { m_srcRow++; m_srcCol=1; }
+    else m_srcCol++;
+    m_srcPos++;
 }
 
 void Tokenizer::wr()
 {
-    curToken.addChar(srcCode.at(srcPos));
+    m_curToken.addChar(m_srcCode.at(m_srcPos));
     r();
 }
 
 void Tokenizer::gr()
 {
-    curToken.addChar(toupper(srcCode.at(srcPos)));
+    m_curToken.addChar(toupper(m_srcCode.at(m_srcPos)));
     r();
 }
 
@@ -116,34 +116,34 @@ void Tokenizer::wrc()
 
 void Tokenizer::c()
 {
-    switch(fsmState)
+    switch(m_fsmState)
     {
         // Number
         case 1:
-            curToken.setTyp(Token::Number);
+            m_curToken.setTyp(Token::Number);
             break;
         // Keyword or Identifier
         case 2:
-            curToken.setTyp(Token::Identifier);
-            for(auto &keyword : keywords)
+            m_curToken.setTyp(Token::Identifier);
+            for(auto &keyword : m_keywords)
             {
-                if(curToken.getVal() == keyword) {
-                    curToken.setTyp(Token::Keyword);
+                if(m_curToken.getVal() == keyword) {
+                    m_curToken.setTyp(Token::Keyword);
                     break;
                 }
             }
             break;
         // String
         case 9:
-            curToken.setTyp(Token::String);
+            m_curToken.setTyp(Token::String);
             break;
         // Symbol
         default:
-            curToken.setTyp(Token::Symbol);
+            m_curToken.setTyp(Token::Symbol);
             break;
     }
-    token->push_back(curToken);
-    curToken.reset();
-    curToken.init(srcRow, srcCol);
+    m_token->push_back(m_curToken);
+    m_curToken.reset();
+    m_curToken.init(m_srcRow, m_srcCol);
 }
 

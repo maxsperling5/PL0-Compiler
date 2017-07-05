@@ -20,9 +20,9 @@ public:
     // ---------------------------------------
 
 private:
-    IViewPtr viewPtr;
-    IDataPtr dataPtr;
+    IViewPtr m_viewPtr;
+    IDataPtr m_dataPtr;
 
-    Tokenizer *tokPtr;
-    Generator *genPtr;
+    Tokenizer *m_tokPtr;
+    Generator *m_genPtr;
 };

@@ -10,32 +10,32 @@ using namespace std;
 
 deque<char> ILGen::getBinary()
 {
-    return binary;
+    return m_binary;
 }
 
 void ILGen::AddSymbol(void *tok)
 {
-    symbols.addSymbol(((Token*)tok)->getVal());
+    m_symbols.addSymbol(((Token*)tok)->getVal());
 }
 
 void ILGen::AddProcedure(void *tok)
 {
-    symbols.addProcedure();
+    m_symbols.addProcedure();
 }
 
 void ILGen::RetProcedure(void *tok)
 {
-    symbols.retProcedure();
+    m_symbols.retProcedure();
 }
 
 void ILGen::AddVariable(void *tok)
 {
-    symbols.addVariable();
+    m_symbols.addVariable();
 }
 
 void ILGen::AddConstant(void *tok)
 {
-    symbols.addConstant(stol(((Token*)tok)->getVal()));
+    m_symbols.addConstant(stol(((Token*)tok)->getVal()));
 }
 
 void ILGen::CodeStart(void *tok)
@@ -45,20 +45,20 @@ void ILGen::CodeStart(void *tok)
 
 void ILGen::ProcedureStart(void *tok)
 {
-    procStartAddr.push(binary.size()+sizeof(char));
+    m_procStartAddr.push(m_binary.size()+sizeof(char));
     vector<short> param;
     param.push_back(0);
-    param.push_back(symbols.getCurProcIdx());
-    param.push_back(symbols.getCurProcNumVar()*sizeof(int));
+    param.push_back(m_symbols.getCurProcIdx());
+    param.push_back(m_symbols.getCurProcNumVar()*sizeof(int));
     writeCode(Bytecode::EntryProc, param);
 }
 
 void ILGen::ProcedureEnd(void *tok)
 {
     writeCode(Bytecode::RetProc);
-    short distProc = binary.size()+sizeof(char)-procStartAddr.top();
-    writeShortToAddr(procStartAddr.top(), distProc);
-    procStartAddr.pop();
+    short distProc = m_binary.size()+sizeof(char)-m_procStartAddr.top();
+    writeShortToAddr(m_procStartAddr.top(), distProc);
+    m_procStartAddr.pop();
 }
 
 void ILGen::BeforeAssignment(void *tok)
@@ -128,37 +128,37 @@ void ILGen::Odd(void *tok)
 
 void ILGen::Equal(void *tok)
 {
-    cmpOp = Bytecode::CmpEq;
+    m_cmpOp = Bytecode::CmpEq;
 }
 
 void ILGen::NotEqual(void *tok)
 {
-    cmpOp = Bytecode::CmpNe;
+    m_cmpOp = Bytecode::CmpNe;
 }
 
 void ILGen::Smaller(void *tok)
 {
-    cmpOp = Bytecode::CmpLt;
+    m_cmpOp = Bytecode::CmpLt;
 }
 
 void ILGen::Larger(void *tok)
 {
-    cmpOp = Bytecode::CmpGt;
+    m_cmpOp = Bytecode::CmpGt;
 }
 
 void ILGen::LessOrEqual(void *tok)
 {
-    cmpOp = Bytecode::CmpLe;
+    m_cmpOp = Bytecode::CmpLe;
 }
 
 void ILGen::GreaterOrEqual(void *tok)
 {
-    cmpOp = Bytecode::CmpGe;
+    m_cmpOp = Bytecode::CmpGe;
 }
 
 void ILGen::Comparison(void *tok)
 {
-    writeCode((Bytecode)cmpOp);
+    writeCode((Bytecode)m_cmpOp);
 }
 
 void ILGen::Condition(void *tok)
@@ -166,37 +166,37 @@ void ILGen::Condition(void *tok)
     vector<short> param;
     param.push_back(0);
     writeCode(Bytecode::Jnot, param);
-    jumpStartAddr.push(binary.size());
+    m_jumpStartAddr.push(m_binary.size());
 }
 
 void ILGen::BranchEnd(void *tok)
 {
-    short jmpAddr = jumpStartAddr.top();
-    jumpStartAddr.pop();
+    short jmpAddr = m_jumpStartAddr.top();
+    m_jumpStartAddr.pop();
 
-    short distFromCond = binary.size()-jmpAddr;
+    short distFromCond = m_binary.size()-jmpAddr;
     writeShortToAddr(jmpAddr-sizeof(short), distFromCond);
 }
 
 void ILGen::While(void *tok)
 {
-    jumpStartAddr.push(binary.size());
+    m_jumpStartAddr.push(m_binary.size());
 }
 
 void ILGen::LoopEnd(void *tok)
 {
-    short jmpAddrIf = jumpStartAddr.top();
-    jumpStartAddr.pop();
-    short jmpAddrWhile = jumpStartAddr.top();
-    jumpStartAddr.pop();
+    short jmpAddrIf = m_jumpStartAddr.top();
+    m_jumpStartAddr.pop();
+    short jmpAddrWhile = m_jumpStartAddr.top();
+    m_jumpStartAddr.pop();
 
     vector<short> param;
     param.push_back(0);
     writeCode(Bytecode::Jmp, param);
-    short distToWhile = -(binary.size()-jmpAddrWhile);
-    writeShortToAddr(binary.size()-sizeof(short), distToWhile);
+    short distToWhile = -(m_binary.size()-jmpAddrWhile);
+    writeShortToAddr(m_binary.size()-sizeof(short), distToWhile);
 
-    short distFromCond = binary.size()-jmpAddrIf;
+    short distFromCond = m_binary.size()-jmpAddrIf;
     writeShortToAddr(jmpAddrIf-sizeof(short), distFromCond);
 }
 
@@ -214,21 +214,21 @@ void ILGen::OutputString(void *tok)
 
 void ILGen::CodeEnd(void *tok)
 {
-    for(auto &cons : symbols.vecConst)
+    for(auto &cons : m_symbols.m_vecConst)
     {
         writeInt(cons);
     }
-    writeIntToAddr(0, symbols.numProc);
+    writeIntToAddr(0, m_symbols.m_numProc);
 }
 
 void ILGen::writeCode(Bytecode code, vector<short> param)
 {
-    binary.push_back(code);
+    m_binary.push_back(code);
 
     for(short par : param)
     {
-        binary.push_back(par & 0xff);
-        binary.push_back((par >> 8) & 0xff);
+        m_binary.push_back(par & 0xff);
+        m_binary.push_back((par >> 8) & 0xff);
     }
 }
 
@@ -237,43 +237,43 @@ void ILGen::writeString(string value)
     vector<char> vecVal(value.begin(), value.end());
     for(auto &val : vecVal)
     {
-        binary.push_back(val);
+        m_binary.push_back(val);
     }
-    binary.push_back(0);
+    m_binary.push_back(0);
 }
 
 void ILGen::writeInt(int value)
 {
-    binary.push_back(value & 0xff);
-    binary.push_back((value >> 8) & 0xff);
-    binary.push_back((value >> 16) & 0xff);
-    binary.push_back((value >> 24) & 0xff);
+    m_binary.push_back(value & 0xff);
+    m_binary.push_back((value >> 8) & 0xff);
+    m_binary.push_back((value >> 16) & 0xff);
+    m_binary.push_back((value >> 24) & 0xff);
 }
 
 void ILGen::writeShortToAddr(int startAddr, short value)
 {
-    binary.at(startAddr) = (value & 0xff);
-    binary.at(startAddr+1) = ((value >> 8) & 0xff);
+    m_binary.at(startAddr) = (value & 0xff);
+    m_binary.at(startAddr+1) = ((value >> 8) & 0xff);
 }
 
 void ILGen::writeIntToAddr(int startAddr, int value)
 {
-    binary.at(startAddr) = (value & 0xff);
-    binary.at(startAddr+1) = ((value >> 8) & 0xff);
-    binary.at(startAddr+2) = ((value >> 16) & 0xff);
-    binary.at(startAddr+3) = ((value >> 24) & 0xff);
+    m_binary.at(startAddr) = (value & 0xff);
+    m_binary.at(startAddr+1) = ((value >> 8) & 0xff);
+    m_binary.at(startAddr+2) = ((value >> 16) & 0xff);
+    m_binary.at(startAddr+3) = ((value >> 24) & 0xff);
 }
 
 bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
 {
-    Symbols::Symbol *symb = symbols.searchSymb(tok->getVal());
+    Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
-    if(symb->object->getType() != Symbols::Object::Var) return false;
+    if(symb->m_object->getType() != Symbols::Object::Var) return false;
 
     vector<short> param;
-    param.push_back((symb->object->index)*sizeof(int));
+    param.push_back((symb->m_object->m_index)*sizeof(int));
 
-    if(symb->procIdx == symbols.getCurProcIdx())
+    if(symb->m_procIdx == m_symbols.getCurProcIdx())
     {
         switch(addrOrVal)
         {
@@ -286,7 +286,7 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
         }
 
     }
-    else if(symb->procIdx == 0)
+    else if(symb->m_procIdx == 0)
     {
         switch(addrOrVal)
         {
@@ -300,7 +300,7 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
     }
     else
     {
-        param.push_back(symb->procIdx);
+        param.push_back(symb->m_procIdx);
         switch(addrOrVal)
         {
         case Addr:
@@ -316,12 +316,12 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
 
 bool ILGen::pushConstByName(Token *tok)
 {
-    Symbols::Symbol *symb = symbols.searchSymb(tok->getVal());
+    Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
-    if(symb->object->getType() != Symbols::Object::Cons) return false;
+    if(symb->m_object->getType() != Symbols::Object::Cons) return false;
 
     vector<short> param;
-    param.push_back(((Symbols::Constant*)symb->object)->value);
+    param.push_back(((Symbols::Constant*)symb->m_object)->m_value);
     writeCode(Bytecode::PuConst, param);
     return true;
 }
@@ -330,9 +330,9 @@ bool ILGen::pushConstByVal(Token *tok)
 {
     vector<short> param;
 
-    for(unsigned int i=0; i<symbols.vecConst.size(); i++)
+    for(unsigned int i=0; i<m_symbols.m_vecConst.size(); i++)
     {
-        if(symbols.vecConst.at(i) == stol(tok->getVal()))
+        if(m_symbols.m_vecConst.at(i) == stol(tok->getVal()))
         {
             param.push_back(i);
             writeCode(Bytecode::PuConst, param);
@@ -340,20 +340,20 @@ bool ILGen::pushConstByVal(Token *tok)
         }
     }
 
-    param.push_back(symbols.vecConst.size());
+    param.push_back(m_symbols.m_vecConst.size());
     writeCode(Bytecode::PuConst, param);
-    symbols.addConstNum(stol(tok->getVal()));
+    m_symbols.addConstNum(stol(tok->getVal()));
     return true;
 }
 
  bool ILGen::pushProcByName(Token *tok)
  {
-    Symbols::Symbol *symb = symbols.searchSymb(tok->getVal());
+    Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
-    if(symb->object->getType() != Symbols::Object::Proc) return false;
+    if(symb->m_object->getType() != Symbols::Object::Proc) return false;
 
     vector<short> param;
-    param.push_back(symb->object->index);
+    param.push_back(symb->m_object->m_index);
     writeCode(Bytecode::Call, param);
     return true;
  }
