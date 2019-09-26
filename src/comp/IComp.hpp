@@ -4,8 +4,8 @@
 /************************/
 
 #include <memory>
-#include "../View/IView.hh"
-#include "../Data/IData.hh"
+#include "../view/IView.hpp"
+#include "../data/IData.hpp"
 
 class IComp;
 typedef std::shared_ptr<IComp> ICompPtr;

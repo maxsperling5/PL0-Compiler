@@ -5,8 +5,8 @@
 
 #include <deque>
 class ILGen;
-#include "Graph.hh"
-#include "Token.hh"
+#include "Graph.hpp"
+#include "Token.hpp"
 
 class Generator
 {

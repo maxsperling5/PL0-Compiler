@@ -3,7 +3,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "../IData.hh"
+#include "../IData.hpp"
 
 class DataFile : public IData
 {

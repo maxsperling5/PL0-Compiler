@@ -2,12 +2,12 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "CompPL0.hh"
+#include "CompPL0.hpp"
 
-#include "Tokenizer.hh"
-#include "Generator.hh"
-#include "Token.hh"
-#include "CompEx.hh"
+#include "Tokenizer.hpp"
+#include "Generator.hpp"
+#include "Token.hpp"
+#include "CompEx.hpp"
 
 using namespace std;
 

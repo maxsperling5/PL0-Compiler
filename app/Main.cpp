@@ -2,9 +2,9 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "./View/IView.hh"
-#include "./Data/IData.hh"
-#include "./Comp/IComp.hh"
+#include "../src/view/IView.hpp"
+#include "../src/data/IData.hpp"
+#include "../src/comp/IComp.hpp"
 
 using namespace std;
 

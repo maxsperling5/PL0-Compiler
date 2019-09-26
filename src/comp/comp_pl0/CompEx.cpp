@@ -2,7 +2,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "CompEx.hh"
+#include "CompEx.hpp"
 
 using namespace std;
 

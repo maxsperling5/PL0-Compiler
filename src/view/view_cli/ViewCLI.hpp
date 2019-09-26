@@ -3,7 +3,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "../IView.hh"
+#include "../IView.hpp"
 
 class ViewCLI : public IView
 {

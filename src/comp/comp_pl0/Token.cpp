@@ -2,7 +2,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "Token.hh"
+#include "Token.hpp"
 
 using namespace std;
 

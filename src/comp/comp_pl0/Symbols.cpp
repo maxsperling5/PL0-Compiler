@@ -2,7 +2,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "Symbols.hh"
+#include "Symbols.hpp"
 
 using namespace std;
 

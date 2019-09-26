@@ -3,7 +3,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "../IComp.hh"
+#include "../IComp.hpp"
 
 class Tokenizer;
 class Generator;

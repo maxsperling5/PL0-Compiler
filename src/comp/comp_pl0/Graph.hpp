@@ -4,7 +4,8 @@
 /************************/
 
 #include <array>
-class ILGen;
+
+#include "ILGen.hpp"
 
 class Graph
 {
@@ -28,7 +29,6 @@ public:
         func m_funct;
     };
 
-public:
     Graph();
 
     std::array<Trans,4> m_program;

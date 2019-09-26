@@ -2,9 +2,9 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "ILGen.hh"
+#include "ILGen.hpp"
 
-#include "CompEx.hh"
+#include "CompEx.hpp"
 
 using namespace std;
 

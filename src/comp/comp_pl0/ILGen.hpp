@@ -6,8 +6,8 @@
 #include <string>
 #include <stack>
 #include <deque>
-#include "Symbols.hh"
-#include "Token.hh"
+#include "Symbols.hpp"
+#include "Token.hpp"
 
 class ILGen
 {

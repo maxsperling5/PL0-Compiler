@@ -2,7 +2,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "ViewCLI.hh"
+#include "ViewCLI.hpp"
 
 #include <iostream>
 #include <iomanip>

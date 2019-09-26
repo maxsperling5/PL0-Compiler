@@ -2,7 +2,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "DataFile.hh"
+#include "DataFile.hpp"
 
 #include <fstream>
 

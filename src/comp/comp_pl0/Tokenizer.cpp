@@ -2,7 +2,7 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "Tokenizer.hh"
+#include "Tokenizer.hpp"
 
 using namespace std;
 
@@ -42,20 +42,20 @@ Tokenizer::Tokenizer()
 
     m_functMat =
     {{
-    /*       So   Zi    Bu   ':'  '='  '<'  '>'  ' '  ''  '\'       */
-    /*--------------------------------------------------------------*/
-    /* 0*/ {{wrc,  wr,  gr,  wr,  wrc,  wr,  wr,  r, wrc, wrc}},/* 0*/
-    /* 1*/ {{  c,  wr,   c,   c,    c,   c,   c,  c,   c,   c}},/* 1*/
-    /* 2*/ {{  c,  wr,  gr,   c,    c,   c,   c,  c,   c,   c}},/* 2*/
-    /* 3*/ {{  c,   c,   c,   c,   wr,   c,   c,  c,   c,   c}},/* 3*/
-    /* 4*/ {{  c,   c,   c,   c,   wr,   c,   c,  c,   c,   c}},/* 4*/
-    /* 5*/ {{  c,   c,   c,   c,   wr,   c,   c,  c,   c,   c}},/* 5*/
-    /* 6*/ {{  c,   c,   c,   c,    c,   c,   c,  c,   c,   c}},/* 6*/
-    /* 7*/ {{  c,   c,   c,   c,    c,   c,   c,  c,   c,   c}},/* 7*/
-    /* 8*/ {{  c,   c,   c,   c,    c,   c,   c,  c,   c,   c}},/* 8*/
-    /* 9*/ {{ wr,  wr,  wr,  wr,   wr,  wr,  wr, wr,   c,   r}},/* 9*/
-    /*10*/ {{ wr,  wr,  wr,  wr,   wr,  wr,  wr, wr,  wr,  wr}},/*10*/
-    /*11*/ {{wrc, wrc, wrc, wrc,  wrc, wrc, wrc,wrc, wrc,  wrc}}/*11*/
+    /*       So   Zi    Bu   ':'  '='  '<'  '>'   ' '  ''  '\'       */
+    /*---------------------------------------------------------------*/
+    /* 0*/ {{&Tokenizer::wrc,  &Tokenizer::wr,  &Tokenizer::gr,  &Tokenizer::wr,  &Tokenizer::wrc,  &Tokenizer::wr,  &Tokenizer::wr,   &Tokenizer::r, &Tokenizer::wrc, &Tokenizer::wrc}},/* 0*/
+    /* 1*/ {{&Tokenizer::c,  &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 1*/
+    /* 2*/ {{&Tokenizer::c,  &Tokenizer::wr,  &Tokenizer::gr,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 2*/
+    /* 3*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 3*/
+    /* 4*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 4*/
+    /* 5*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 5*/
+    /* 6*/ {{&Tokenizer::c,  &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 6*/
+    /* 7*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 7*/
+    /* 8*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 8*/
+    /* 9*/ {{&Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,   &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::r}},/* 9*/
+    /*10*/ {{&Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,   &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr}},/*10*/
+    /*11*/ {{&Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc,  &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc}} /*11*/
     }};
 
     m_keywords =

@@ -2,9 +2,10 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "Generator.hh"
-#include "ILGen.hh"
-#include "CompEx.hh"
+#include "Generator.hpp"
+
+#include "ILGen.hpp"
+#include "CompEx.hpp"
 
 using namespace std;
 
@@ -54,7 +55,7 @@ void Generator::generate(Graph::Trans *curSect)
             }
             break;
         case Graph::Trans::Token:
-            if(Token::TokenTyp((int)curTrans->m_value) == m_token->front().getTyp())
+            if(Token::TokenTyp(*(int*)curTrans->m_value) == m_token->front().getTyp())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
