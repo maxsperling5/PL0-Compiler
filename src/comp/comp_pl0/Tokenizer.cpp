@@ -8,6 +8,8 @@ using namespace std;
 
 Tokenizer::Tokenizer()
 {
+    using Tnz = Tokenizer;
+
     m_classVec =
     {
     /*     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F     */
@@ -42,20 +44,20 @@ Tokenizer::Tokenizer()
 
     m_functMat =
     {{
-    /*       So   Zi    Bu   ':'  '='  '<'  '>'   ' '  ''  '\'       */
-    /*---------------------------------------------------------------*/
-    /* 0*/ {{&Tokenizer::wrc,  &Tokenizer::wr,  &Tokenizer::gr,  &Tokenizer::wr,  &Tokenizer::wrc,  &Tokenizer::wr,  &Tokenizer::wr,   &Tokenizer::r, &Tokenizer::wrc, &Tokenizer::wrc}},/* 0*/
-    /* 1*/ {{&Tokenizer::c,  &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 1*/
-    /* 2*/ {{&Tokenizer::c,  &Tokenizer::wr,  &Tokenizer::gr,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 2*/
-    /* 3*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 3*/
-    /* 4*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 4*/
-    /* 5*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 5*/
-    /* 6*/ {{&Tokenizer::c,  &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 6*/
-    /* 7*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 7*/
-    /* 8*/ {{&Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,    &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c,   &Tokenizer::c}},/* 8*/
-    /* 9*/ {{&Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,   &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,   &Tokenizer::c,   &Tokenizer::r}},/* 9*/
-    /*10*/ {{&Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,   &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr,  &Tokenizer::wr}},/*10*/
-    /*11*/ {{&Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc,  &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc, &Tokenizer::wrc}} /*11*/
+    /*          So         Zi         Bu         ':'       '='        '<'         '>'       ' '         ''         '\'          */
+    /*--------------------------------------------------------------------------------------------------------------------------*/
+    /* 0*/ {{&Tnz::wrc, &Tnz::wr,  &Tnz::gr,  &Tnz::wr,  &Tnz::wrc, &Tnz::wr,  &Tnz::wr,  &Tnz::r,   &Tnz::wrc, &Tnz::wrc}},/* 0*/
+    /* 1*/ {{&Tnz::c,   &Tnz::wr,  &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c}},  /* 1*/
+    /* 2*/ {{&Tnz::c,   &Tnz::wr,  &Tnz::gr,  &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c}},  /* 2*/
+    /* 3*/ {{&Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::wr,  &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c}},  /* 3*/
+    /* 4*/ {{&Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::wr,  &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c}},  /* 4*/
+    /* 5*/ {{&Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::wr,  &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c}},  /* 5*/
+    /* 6*/ {{&Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c}},  /* 6*/
+    /* 7*/ {{&Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c}},  /* 7*/
+    /* 8*/ {{&Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c,   &Tnz::c}},  /* 8*/
+    /* 9*/ {{&Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::c,   &Tnz::r}},  /* 9*/
+    /*10*/ {{&Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr,  &Tnz::wr}}, /*10*/
+    /*11*/ {{&Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc}} /*11*/
     }};
 
     m_keywords =
