@@ -13,7 +13,6 @@ typedef std::shared_ptr<IComp> ICompPtr;
 class IComp
 {
 public:
-    static ICompPtr create();
     virtual ~IComp(){}
 
     virtual bool init(IViewPtr viewPtr, IDataPtr dataPtr) = 0;

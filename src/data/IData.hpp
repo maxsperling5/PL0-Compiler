@@ -13,7 +13,6 @@ typedef std::shared_ptr<IData> IDataPtr;
 class IData
 {
 public:
-    static IDataPtr create();
     virtual ~IData(){}
 
     virtual bool init(int argc, char *argv[]) = 0;

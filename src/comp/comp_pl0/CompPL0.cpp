@@ -9,13 +9,6 @@
 #include "Token.hpp"
 #include "CompEx.hpp"
 
-using namespace std;
-
-ICompPtr IComp::create()
-{
-    return ICompPtr(new CompPL0());
-}
-
 bool CompPL0::init(IViewPtr viewPtr, IDataPtr dataPtr)
 {
     m_viewPtr = viewPtr;
@@ -32,7 +25,7 @@ bool CompPL0::exec(int argc, char *argv[])
         return false;
     }
 
-    string srcCode = "";
+    std::string srcCode = "";
     if(!m_dataPtr->read(srcCode))
     {
         m_viewPtr->write("Error while reading File");
@@ -42,7 +35,7 @@ bool CompPL0::exec(int argc, char *argv[])
     m_tokPtr = new Tokenizer;
     m_genPtr = new Generator;
 
-    deque<Token> token;
+    std::deque<Token> token;
     try{
         m_tokPtr->exec(srcCode, token);
     }
@@ -51,7 +44,7 @@ bool CompPL0::exec(int argc, char *argv[])
         return false;
     }
 
-    deque<char> binary;
+    std::deque<char> binary;
     try{
         m_genPtr->exec(token, binary);
     }catch(CompEx &cex){

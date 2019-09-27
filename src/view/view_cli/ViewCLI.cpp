@@ -7,23 +7,16 @@
 #include <iostream>
 #include <iomanip>
 
-using namespace std;
-
-IViewPtr IView::create()
+void ViewCLI::write(std::string str)
 {
-    return IViewPtr(new ViewCLI());
+    std::cout << str << std::endl;
 }
 
-void ViewCLI::write(string str)
-{
-    cout << str << endl;
-}
-
-void ViewCLI::write(deque<char> bin)
+void ViewCLI::write(std::deque<char> bin)
 {
     for(auto &b : bin)
     {
-        cout << setfill('0') << setw(2) << hex << +b;
+        std::cout << std::setfill('0') << std::setw(2) << std::hex << +b;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
