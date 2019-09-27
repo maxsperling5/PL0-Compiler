@@ -6,8 +6,6 @@
 #include "../src/data/data_file/DataFile.hpp"
 #include "../src/comp/comp_pl0/CompPL0.hpp"
 
-using namespace std;
-
 int main(int argc, char *argv[])
 {
     IViewPtr viewPtr(new ViewCLI());
