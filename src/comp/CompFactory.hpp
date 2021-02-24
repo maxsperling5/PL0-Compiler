@@ -5,6 +5,8 @@
 
 #include "IComp.hpp"
 
+namespace pl0compiler { namespace comp {
+
 enum CompType
 {
     PL0
@@ -15,3 +17,5 @@ class CompFactory
 public:
     static ICompPtr create(CompType type);
 };
+
+} }

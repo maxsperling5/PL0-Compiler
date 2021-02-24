@@ -6,6 +6,8 @@
 #include <string>
 #include "Token.hpp"
 
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
 class CompEx : public std::exception
 {
 private:
@@ -15,3 +17,5 @@ public:
     CompEx(Token *token);
     std::string getError();
 };
+
+} } }

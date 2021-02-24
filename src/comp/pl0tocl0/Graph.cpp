@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Graph::Trans::Trans(Type type, const void *value, int idxNext, int idxAlter, func funct)
+pl0compiler::comp::pl0tocl0::Graph::Trans::Trans(Type type, const void *value, int idxNext, int idxAlter, func funct)
 {
     m_type = type;
     m_value = value;
@@ -17,7 +17,7 @@ Graph::Trans::Trans(Type type, const void *value, int idxNext, int idxAlter, fun
     m_funct = funct;
 }
 
-Graph::Graph()
+pl0compiler::comp::pl0tocl0::Graph::Graph()
 {
     using TokTyp = Token::TokenTyp;
 

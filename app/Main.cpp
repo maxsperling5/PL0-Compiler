@@ -8,9 +8,9 @@
 
 int main(int argc, char *argv[])
 {
-    IViewPtr viewPtr = ViewFactory::create(ViewType::CLI);
-    IDataPtr dataPtr = DataFactory::create(DataType::File);
-    ICompPtr compPtr = CompFactory::create(CompType::PL0);
+    pl0compiler::view::IViewPtr viewPtr = pl0compiler::view::ViewFactory::create(pl0compiler::view::ViewType::CLI);
+    pl0compiler::data::IDataPtr dataPtr = pl0compiler::data::DataFactory::create(pl0compiler::data::DataType::File);
+    pl0compiler::comp::ICompPtr compPtr = pl0compiler::comp::CompFactory::create(pl0compiler::comp::CompType::PL0);
 
     if(!compPtr->init(viewPtr, dataPtr)) return 1;
     if(!compPtr->exec(argc, argv)) return 2;

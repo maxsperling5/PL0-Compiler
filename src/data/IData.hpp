@@ -7,6 +7,8 @@
 #include <string>
 #include <deque>
 
+namespace pl0compiler { namespace data {
+
 class IData;
 typedef std::shared_ptr<IData> IDataPtr;
 
@@ -19,3 +21,5 @@ public:
     virtual bool read(std::string &str) = 0;
     virtual bool write(std::deque<char> bin) = 0;
 };
+
+} }

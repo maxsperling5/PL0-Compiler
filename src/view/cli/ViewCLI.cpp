@@ -9,12 +9,14 @@
 
 using namespace std;
 
-void ViewCLI::write(string str)
+void
+pl0compiler::view::cli::ViewCLI::write(string str)
 {
     cout << str << endl;
 }
 
-void ViewCLI::write(deque<char> bin)
+void
+pl0compiler::view::cli::ViewCLI::write(deque<char> bin)
 {
     for(auto &b : bin)
     {

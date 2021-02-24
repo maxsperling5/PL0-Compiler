@@ -8,6 +8,8 @@
 #include <deque>
 #include "Token.hpp"
 
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
 class Tokenizer
 {
 public:
@@ -40,3 +42,5 @@ private:
     unsigned int m_srcCol;
     unsigned int m_fsmState;
 };
+
+} } }

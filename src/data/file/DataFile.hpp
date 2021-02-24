@@ -5,6 +5,8 @@
 
 #include "../IData.hpp"
 
+namespace pl0compiler { namespace data { namespace file {
+
 class DataFile : public IData
 {
 public:
@@ -21,3 +23,5 @@ private:
     std::string m_pl0File;
     std::string m_cl0File;
 };
+
+} } }

@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
 class Symbols
 {
 public:
@@ -77,3 +79,5 @@ public:
     int getCurProcNumVar();
     Symbol *searchSymb(std::string name);
 };
+
+} } }

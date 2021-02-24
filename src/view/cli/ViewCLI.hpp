@@ -5,6 +5,8 @@
 
 #include "../IView.hpp"
 
+namespace pl0compiler { namespace view { namespace cli {
+
 class ViewCLI : public IView
 {
 public:
@@ -16,3 +18,5 @@ public:
     virtual void write(std::deque<char> bin);
     // ---------------------------------------------
 };
+
+} } }

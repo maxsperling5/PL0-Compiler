@@ -7,6 +7,8 @@
 #include <string>
 #include <deque>
 
+namespace pl0compiler { namespace view {
+
 class IView;
 typedef std::shared_ptr<IView> IViewPtr;
 
@@ -18,3 +20,5 @@ public:
     virtual void write(std::string str) = 0;
     virtual void write(std::deque<char> bin) = 0;
 };
+
+} }

@@ -8,7 +8,8 @@
 
 using namespace std;
 
-bool DataFile::init(int argc, char *argv[])
+bool
+pl0compiler::data::file::DataFile::init(int argc, char *argv[])
 {
     if(argc != 3) return false;
     m_pl0File = argv[1];
@@ -16,7 +17,8 @@ bool DataFile::init(int argc, char *argv[])
     return true;
 }
 
-bool DataFile::read(string &str)
+bool
+pl0compiler::data::file::DataFile::read(string &str)
 {
     ifstream ifs(m_pl0File);
     if(ifs.fail()) return false;
@@ -25,7 +27,8 @@ bool DataFile::read(string &str)
     return true;
 }
 
-bool DataFile::write(std::deque<char> bin)
+bool
+pl0compiler::data::file::DataFile::write(std::deque<char> bin)
 {
     ofstream ofs(m_cl0File, ios_base::binary);
     if(ofs.fail()) return false;

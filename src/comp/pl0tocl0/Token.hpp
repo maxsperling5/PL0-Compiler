@@ -5,6 +5,8 @@
 
 #include <string>
 
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
 class Token
 {
 public:
@@ -37,3 +39,5 @@ private:
     unsigned int m_row;
     unsigned int m_col;
 };
+
+} } }

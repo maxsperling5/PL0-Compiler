@@ -3,18 +3,18 @@ project (PL0-Compiler)
 
 file (GLOB COMP_SRC
     src/comp/CompFactory.cpp
-    src/comp/comp_pl0/*.hpp
-    src/comp/comp_pl0/*.cpp)
+    src/comp/pl0tocl0/*.hpp
+    src/comp/pl0tocl0/*.cpp)
 
 set (VIEW_SRC
     src/view/ViewFactory.cpp
-    src/view/view_cli/ViewCLI.hpp
-    src/view/view_cli/ViewCLI.cpp)
+    src/view/cli/ViewCLI.hpp
+    src/view/cli/ViewCLI.cpp)
 
 set (DATA_SRC
     src/data/DataFactory.cpp
-    src/data/data_file/DataFile.hpp
-    src/data/data_file/DataFile.cpp)
+    src/data/file/DataFile.hpp
+    src/data/file/DataFile.cpp)
 
 set (MAIN_SRC
     app/Main.cpp

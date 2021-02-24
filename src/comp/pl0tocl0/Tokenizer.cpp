@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Tokenizer::Tokenizer()
+pl0compiler::comp::pl0tocl0::Tokenizer::Tokenizer()
 {
     using Tnz = Tokenizer;
 
@@ -72,7 +72,8 @@ Tokenizer::Tokenizer()
     m_fsmState = 0;
 }
 
-void Tokenizer::exec(string srcCode, deque<Token> &token)
+void
+pl0compiler::comp::pl0tocl0::Tokenizer::exec(string srcCode, deque<Token> &token)
 {
     m_srcCode = srcCode;
     m_token = &token;
@@ -80,7 +81,8 @@ void Tokenizer::exec(string srcCode, deque<Token> &token)
     tokenize();
 }
 
-void Tokenizer::tokenize()
+void
+pl0compiler::comp::pl0tocl0::Tokenizer::tokenize()
 {
     while(m_srcPos < m_srcCode.length())
     {
@@ -90,7 +92,8 @@ void Tokenizer::tokenize()
     }
 }
 
-void Tokenizer::r()
+void
+pl0compiler::comp::pl0tocl0::Tokenizer::r()
 {
     char c = m_srcCode.at(m_srcPos);
     if(c == '\n') { m_srcRow++; m_srcCol=1; }
@@ -98,25 +101,29 @@ void Tokenizer::r()
     m_srcPos++;
 }
 
-void Tokenizer::wr()
+void
+pl0compiler::comp::pl0tocl0::Tokenizer::wr()
 {
     m_curToken.addChar(m_srcCode.at(m_srcPos));
     r();
 }
 
-void Tokenizer::gr()
+void
+pl0compiler::comp::pl0tocl0::Tokenizer::gr()
 {
     m_curToken.addChar(toupper(m_srcCode.at(m_srcPos)));
     r();
 }
 
-void Tokenizer::wrc()
+void
+pl0compiler::comp::pl0tocl0::Tokenizer::wrc()
 {
     wr();
     c();
 }
 
-void Tokenizer::c()
+void
+pl0compiler::comp::pl0tocl0::Tokenizer::c()
 {
     switch(m_fsmState)
     {
@@ -148,4 +155,3 @@ void Tokenizer::c()
     m_curToken.reset();
     m_curToken.init(m_srcRow, m_srcCol);
 }
-

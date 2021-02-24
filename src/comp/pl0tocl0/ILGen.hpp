@@ -9,6 +9,8 @@
 #include "Symbols.hpp"
 #include "Token.hpp"
 
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
 class ILGen
 {
 public:
@@ -115,3 +117,5 @@ private:
     bool pushConstByVal(Token *tok);
     bool pushProcByName(Token *tok);
 };
+
+} } }

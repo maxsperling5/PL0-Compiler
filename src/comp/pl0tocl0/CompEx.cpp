@@ -6,12 +6,13 @@
 
 using namespace std;
 
-CompEx::CompEx(Token *token)
+pl0compiler::comp::pl0tocl0::CompEx::CompEx(Token *token)
 {
     m_token = token;
 }
 
-string CompEx::getError()
+string
+pl0compiler::comp::pl0tocl0::CompEx::getError()
 {
     string strErr = "Error: Value -> " + m_token->getVal()
                     + ", Row -> " + to_string(m_token->getRow())

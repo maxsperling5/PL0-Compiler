@@ -11,7 +11,8 @@
 
 using namespace std;
 
-bool CompPL0::init(IViewPtr viewPtr, IDataPtr dataPtr)
+bool
+pl0compiler::comp::pl0tocl0::CompPL0::init(pl0compiler::view::IViewPtr viewPtr, pl0compiler::data::IDataPtr dataPtr)
 {
     m_viewPtr = viewPtr;
     m_dataPtr = dataPtr;
@@ -19,7 +20,8 @@ bool CompPL0::init(IViewPtr viewPtr, IDataPtr dataPtr)
     return true;
 }
 
-bool CompPL0::exec(int argc, char *argv[])
+bool
+pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
 {
     if(!m_dataPtr->init(argc, argv))
     {

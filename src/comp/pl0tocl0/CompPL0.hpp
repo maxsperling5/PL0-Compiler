@@ -5,6 +5,8 @@
 
 #include "../IComp.hpp"
 
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
 class Tokenizer;
 class Generator;
 
@@ -14,15 +16,17 @@ public:
     CompPL0(){}
     ~CompPL0(){}
 
-    // --- IComp -----------------------------
-    virtual bool init(IViewPtr viewPtr, IDataPtr dataPtr);
+    // --- IComp -----
+    virtual bool init(pl0compiler::view::IViewPtr viewPtr, pl0compiler::data::IDataPtr dataPtr);
     virtual bool exec(int argc, char *argv[]);
-    // ---------------------------------------
+    // ---------------
 
 private:
-    IViewPtr m_viewPtr;
-    IDataPtr m_dataPtr;
+    pl0compiler::view::IViewPtr m_viewPtr;
+    pl0compiler::data::IDataPtr m_dataPtr;
 
     Tokenizer *m_tokPtr;
     Generator *m_genPtr;
 };
+
+} } }

@@ -8,6 +8,8 @@ class ILGen;
 #include "Graph.hpp"
 #include "Token.hpp"
 
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
 class Generator
 {
 public:
@@ -24,3 +26,5 @@ private:
     ILGen *m_ilgen;
     std::deque<Token> *m_token;
 };
+
+} } }
