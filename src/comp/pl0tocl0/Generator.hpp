@@ -15,9 +15,6 @@ class ILGen;
 class Generator
 {
 public:
-    Generator();
-    ~Generator();
-
     /**
      * @param[in]  token  ... token list
      * @param[out] binary ... binary list
@@ -28,7 +25,7 @@ private:
     void generate(const Graph::Trans *curSect);
     void execFunc(const Graph::Trans *curTrans);
 
-    ILGen *m_ilgen;
+    ILGen m_ilgen;
     std::deque<Token> *m_token;
 };
 

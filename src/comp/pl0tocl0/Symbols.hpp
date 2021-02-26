@@ -11,6 +11,9 @@ namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 class Symbols
 {
 public:
+    Symbols();
+    ~Symbols();
+
     struct Object
     {
         enum Type
@@ -40,14 +43,12 @@ public:
         int m_numVar;
 
         Procedure(Procedure *parent, int index);
-        ~Procedure(){}
         Type getType();
     };
 
     struct Variable : Object
     {
         Variable(int index);
-        ~Variable(){}
         Type getType();
     };
 
@@ -56,17 +57,8 @@ public:
         long m_value;
 
         Constant(long value, int index);
-        ~Constant(){}
         Type getType();
     };
-
-    unsigned int m_numProc;
-    Procedure *m_curProc;
-    std::vector<long> m_vecConst;
-
-public:
-    Symbols();
-    ~Symbols();
 
     void addSymbol(std::string name);
     void addProcedure();
@@ -78,6 +70,10 @@ public:
     int getCurProcIdx();
     int getCurProcNumVar();
     Symbol *searchSymb(std::string name);
+
+    unsigned int m_numProc;
+    Procedure *m_curProc;
+    std::vector<long> m_vecConst;
 };
 
 } } }

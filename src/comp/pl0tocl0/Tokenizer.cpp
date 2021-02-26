@@ -10,13 +10,7 @@ namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
 using Tnz = pl0compiler::comp::pl0tocl0::Tokenizer;
 
-Tokenizer::Tokenizer()
-{
-    m_srcPos = 0;
-    m_srcRow = 1;
-    m_srcCol = 1;
-    m_fsmState = 0;
-}
+Tokenizer::Tokenizer() : m_srcPos(0), m_srcRow(1), m_srcCol(1), m_fsmState(0) {}
 
 void Tokenizer::exec(std::string &srcCode, std::deque<Token> &token)
 {

@@ -15,7 +15,6 @@ class Tokenizer
 {
 public:
     Tokenizer();
-    ~Tokenizer(){}
 
     /**
      * @param[in]  srcCode ... source code

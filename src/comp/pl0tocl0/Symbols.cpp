@@ -6,6 +6,22 @@
 
 namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
+Symbols::Symbols() : m_numProc(0), m_curProc(nullptr)
+{
+    addProcedure();
+}
+
+Symbols::~Symbols()
+{
+    while (m_curProc->m_parent != nullptr)
+    {
+        m_curProc = m_curProc->m_parent;
+    }
+
+    delProcedure(m_curProc);
+    delete m_curProc;
+}
+
 Symbols::Symbol::Symbol(std::string name, int procIdx)
 {
     m_name = name;
@@ -45,24 +61,6 @@ Symbols::Object::Type Symbols::Constant::getType()
     return Cons;
 }
 
-Symbols::Symbols()
-{
-    m_numProc = 0;
-    m_curProc = nullptr;
-    addProcedure();
-}
-
-Symbols::~Symbols()
-{
-    while(m_curProc->m_parent != nullptr)
-    {
-        m_curProc = m_curProc->m_parent;
-    }
-
-    delProcedure(m_curProc);
-    delete m_curProc;
-}
-
 void Symbols::addSymbol(std::string name)
 {
     Symbol symb(name, m_curProc->m_index);
@@ -72,7 +70,7 @@ void Symbols::addSymbol(std::string name)
 void Symbols::addProcedure()
 {
     Procedure *proc = new Procedure(m_curProc, m_numProc);
-    if(m_curProc != nullptr)
+    if (m_curProc != nullptr)
     {
         m_curProc->m_symbolTab.back().m_object = proc;
     }
@@ -87,10 +85,12 @@ void Symbols::retProcedure()
 
 void Symbols::delProcedure(Procedure *proc)
 {
-    for(Symbol &symb : proc->m_symbolTab)
+    for (Symbol &symb : proc->m_symbolTab)
     {
-        if(symb.m_object->getType() == Symbols::Object::Proc)
+        if (symb.m_object->getType() == Symbols::Object::Proc)
+        {
             delProcedure((Procedure*)symb.m_object);
+        }
         delete symb.m_object;
     }
 }
@@ -128,12 +128,11 @@ Symbols::Symbol *Symbols::searchSymb(std::string name)
 {
     Procedure *tmpProc = m_curProc;
 
-    while(tmpProc != nullptr)
+    while (tmpProc != nullptr)
     {
-        for(Symbol &symb : tmpProc->m_symbolTab)
+        for (Symbol &symb : tmpProc->m_symbolTab)
         {
-            if(symb.m_name == name)
-                return &symb;
+            if (symb.m_name == name) return &symb;
         }
         tmpProc = tmpProc->m_parent;
     }

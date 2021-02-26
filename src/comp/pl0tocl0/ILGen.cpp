@@ -63,8 +63,10 @@ void ILGen::ProcedureEnd(void *tok)
 
 void ILGen::BeforeAssignment(void *tok)
 {
-    if(!pushVarByName((Token*)tok, Addr))
+    if (!pushVarByName((Token*)tok, Addr))
+    {
         throw CompEx((Token*)tok);
+    }
 }
 
 void ILGen::AfterAssignment(void *tok)
@@ -74,8 +76,10 @@ void ILGen::AfterAssignment(void *tok)
 
 void ILGen::InputNumber(void *tok)
 {
-    if(!pushVarByName((Token*)tok, Addr))
+    if (!pushVarByName((Token*)tok, Addr))
+    {
         throw CompEx((Token*)tok);
+    }
     writeCode(Bytecode::GetVal);
 }
 
@@ -116,8 +120,8 @@ void ILGen::ConstByVal(void *tok)
 
 void ILGen::IdentByName(void *tok)
 {
-    if(pushVarByName((Token*)tok, Val)) return;
-    if(pushConstByName((Token*)tok)) return;
+    if (pushVarByName((Token*)tok, Val)) return;
+    if (pushConstByName((Token*)tok)) return;
     throw CompEx((Token*)tok);
 }
 
@@ -202,8 +206,10 @@ void ILGen::LoopEnd(void *tok)
 
 void ILGen::CallProcedure(void *tok)
 {
-    if(!pushProcByName((Token*)tok))
+    if (!pushProcByName((Token*)tok))
+    {
         throw CompEx((Token*)tok);
+    }
 }
 
 void ILGen::OutputString(void *tok)
@@ -214,7 +220,7 @@ void ILGen::OutputString(void *tok)
 
 void ILGen::CodeEnd(void *tok)
 {
-    for(auto &cons : m_symbols.m_vecConst)
+    for (auto &cons : m_symbols.m_vecConst)
     {
         writeInt(cons);
     }
@@ -225,7 +231,7 @@ void ILGen::writeCode(Bytecode code, std::vector<short> param)
 {
     m_binary.push_back(code);
 
-    for(short par : param)
+    for (short par : param)
     {
         m_binary.push_back(par & 0xff);
         m_binary.push_back((par >> 8) & 0xff);
@@ -235,7 +241,7 @@ void ILGen::writeCode(Bytecode code, std::vector<short> param)
 void ILGen::writeString(std::string value)
 {
     std::vector<char> vecVal(value.begin(), value.end());
-    for(auto &val : vecVal)
+    for (auto &val : vecVal)
     {
         m_binary.push_back(val);
     }
@@ -267,15 +273,15 @@ void ILGen::writeIntToAddr(int startAddr, int value)
 bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
 {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
-    if(symb == nullptr) return false;
-    if(symb->m_object->getType() != Symbols::Object::Var) return false;
+    if (symb == nullptr) return false;
+    if (symb->m_object->getType() != Symbols::Object::Var) return false;
 
     std::vector<short> param;
     param.push_back((symb->m_object->m_index)*sizeof(int));
 
-    if(symb->m_procIdx == m_symbols.getCurProcIdx())
+    if (symb->m_procIdx == m_symbols.getCurProcIdx())
     {
-        switch(addrOrVal)
+        switch (addrOrVal)
         {
         case Addr:
             writeCode(Bytecode::PuAdrVrLocl, param);
@@ -286,9 +292,9 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
         }
 
     }
-    else if(symb->m_procIdx == 0)
+    else if (symb->m_procIdx == 0)
     {
-        switch(addrOrVal)
+        switch (addrOrVal)
         {
         case Addr:
             writeCode(Bytecode::PuAdrVrMain, param);
@@ -301,7 +307,7 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
     else
     {
         param.push_back(symb->m_procIdx);
-        switch(addrOrVal)
+        switch (addrOrVal)
         {
         case Addr:
             writeCode(Bytecode::PuAdrVrGlob, param);
@@ -317,8 +323,8 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
 bool ILGen::pushConstByName(Token *tok)
 {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
-    if(symb == nullptr) return false;
-    if(symb->m_object->getType() != Symbols::Object::Cons) return false;
+    if (symb == nullptr) return false;
+    if (symb->m_object->getType() != Symbols::Object::Cons) return false;
 
     std::vector<short> param;
     param.push_back(((Symbols::Constant*)symb->m_object)->m_value);
@@ -330,9 +336,9 @@ bool ILGen::pushConstByVal(Token *tok)
 {
     std::vector<short> param;
 
-    for(unsigned int i=0; i<m_symbols.m_vecConst.size(); i++)
+    for (unsigned int i=0; i<m_symbols.m_vecConst.size(); i++)
     {
-        if(m_symbols.m_vecConst.at(i) == stol(tok->getVal()))
+        if (m_symbols.m_vecConst.at(i) == stol(tok->getVal()))
         {
             param.push_back(i);
             writeCode(Bytecode::PuConst, param);
@@ -349,8 +355,8 @@ bool ILGen::pushConstByVal(Token *tok)
  bool ILGen::pushProcByName(Token *tok)
  {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
-    if(symb == nullptr) return false;
-    if(symb->m_object->getType() != Symbols::Object::Proc) return false;
+    if (symb == nullptr) return false;
+    if (symb->m_object->getType() != Symbols::Object::Proc) return false;
 
     std::vector<short> param;
     param.push_back(symb->m_object->m_index);

@@ -9,21 +9,11 @@
 
 namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
-Generator::Generator()
-{
-    m_ilgen = new ILGen();
-}
-
-Generator::~Generator()
-{
-    delete m_ilgen;
-}
-
 void Generator::exec(std::deque<Token> &token, std::deque<char> &binary)
 {
     m_token = &token;
     generate(Graph::getEntrance());
-    binary = m_ilgen->getBinary();
+    binary = m_ilgen.getBinary();
 }
 
 void Generator::generate(const Graph::Trans *curSect)
@@ -89,7 +79,7 @@ void Generator::generate(const Graph::Trans *curSect)
 void Generator::execFunc(const Graph::Trans *curTrans)
 {
     if (curTrans->m_funct == nullptr) return;
-    (m_ilgen->*curTrans->m_funct)((void*)&(m_token->front()));
+    (m_ilgen.*curTrans->m_funct)((void*)&(m_token->front()));
 }
 
 } } }
