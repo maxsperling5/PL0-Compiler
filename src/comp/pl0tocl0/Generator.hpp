@@ -18,6 +18,10 @@ public:
     Generator();
     ~Generator();
 
+    /**
+     * @param[in]  token  ... token list
+     * @param[out] binary ... binary list
+     */
     void exec(std::deque<Token> &token, std::deque<char> &binary);
 
 private:

@@ -39,8 +39,8 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
     deque<Token> token;
     try
     {
-        auto tokPtr = std::unique_ptr<Tokenizer>(new Tokenizer());
-        tokPtr->exec(srcCode, token);
+        Tokenizer tokenizer;
+        tokenizer.exec(srcCode, token);
     }
     catch (...)
     {
@@ -51,8 +51,8 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
     deque<char> binary;
     try
     {
-        auto genPtr = std::unique_ptr<Generator>(new Generator());
-        genPtr->exec(token, binary);
+        Generator generator;
+        generator.exec(token, binary);
     }
     catch (CompEx &cex)
     {

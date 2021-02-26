@@ -17,9 +17,9 @@ pl0compiler::comp::pl0tocl0::Tokenizer::Tokenizer()
 }
 
 void
-pl0compiler::comp::pl0tocl0::Tokenizer::exec(string srcCode, deque<Token> &token)
+pl0compiler::comp::pl0tocl0::Tokenizer::exec(string &srcCode, deque<Token> &token)
 {
-    m_srcCode = srcCode;
+    m_srcCode = &srcCode;
     m_token = &token;
     m_curToken.init(m_srcRow, m_srcCol);
     tokenize();
@@ -88,9 +88,9 @@ pl0compiler::comp::pl0tocl0::Tokenizer::s_keywords =
 void
 pl0compiler::comp::pl0tocl0::Tokenizer::tokenize()
 {
-    while (m_srcPos < m_srcCode.length())
+    while (m_srcPos < m_srcCode->length())
     {
-        int cTyp = s_classVec.at((int)m_srcCode.at(m_srcPos));
+        int cTyp = s_classVec.at((int)m_srcCode->at(m_srcPos));
         (this->*s_functMat.at(m_fsmState).at(cTyp))();
         m_fsmState = s_stateMat.at(m_fsmState).at(cTyp);
     }
@@ -99,7 +99,7 @@ pl0compiler::comp::pl0tocl0::Tokenizer::tokenize()
 void
 pl0compiler::comp::pl0tocl0::Tokenizer::r()
 {
-    char c = m_srcCode.at(m_srcPos);
+    char c = m_srcCode->at(m_srcPos);
     if (c == '\n') { m_srcRow++; m_srcCol=1; }
     else m_srcCol++;
     m_srcPos++;
@@ -108,14 +108,14 @@ pl0compiler::comp::pl0tocl0::Tokenizer::r()
 void
 pl0compiler::comp::pl0tocl0::Tokenizer::wr()
 {
-    m_curToken.addChar(m_srcCode.at(m_srcPos));
+    m_curToken.addChar(m_srcCode->at(m_srcPos));
     r();
 }
 
 void
 pl0compiler::comp::pl0tocl0::Tokenizer::gr()
 {
-    m_curToken.addChar(toupper(m_srcCode.at(m_srcPos)));
+    m_curToken.addChar(toupper(m_srcCode->at(m_srcPos)));
     r();
 }
 

@@ -17,7 +17,11 @@ public:
     Tokenizer();
     ~Tokenizer(){}
 
-    void exec(std::string srcCode, std::deque<Token> &token);
+    /**
+     * @param[in]  srcCode ... source code
+     * @param[out] token   ... token list
+     */
+    void exec(std::string &srcCode, std::deque<Token> &token);
 
 private:
     typedef void (Tokenizer::*func)();
@@ -34,7 +38,7 @@ private:
     void wrc();
     void c();
 
-    std::string m_srcCode;
+    std::string *m_srcCode;
     std::deque<Token> *m_token;
     Token m_curToken;
 
