@@ -8,50 +8,44 @@
 
 using namespace std;
 
-deque<char>
-pl0compiler::comp::pl0tocl0::ILGen::getBinary()
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
+deque<char> ILGen::getBinary()
 {
     return m_binary;
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::AddSymbol(void *tok)
+void ILGen::AddSymbol(void *tok)
 {
     m_symbols.addSymbol(((Token*)tok)->getVal());
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::AddProcedure(void *tok)
+void ILGen::AddProcedure(void *tok)
 {
     m_symbols.addProcedure();
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::RetProcedure(void *tok)
+void ILGen::RetProcedure(void *tok)
 {
     m_symbols.retProcedure();
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::AddVariable(void *tok)
+void ILGen::AddVariable(void *tok)
 {
     m_symbols.addVariable();
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::AddConstant(void *tok)
+void ILGen::AddConstant(void *tok)
 {
     m_symbols.addConstant(stol(((Token*)tok)->getVal()));
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::CodeStart(void *tok)
+void ILGen::CodeStart(void *tok)
 {
     writeInt(0);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::ProcedureStart(void *tok)
+void ILGen::ProcedureStart(void *tok)
 {
     m_procStartAddr.push(m_binary.size()+sizeof(char));
     vector<short> param;
@@ -61,8 +55,7 @@ pl0compiler::comp::pl0tocl0::ILGen::ProcedureStart(void *tok)
     writeCode(Bytecode::EntryProc, param);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::ProcedureEnd(void *tok)
+void ILGen::ProcedureEnd(void *tok)
 {
     writeCode(Bytecode::RetProc);
     short distProc = m_binary.size()+sizeof(char)-m_procStartAddr.top();
@@ -70,127 +63,107 @@ pl0compiler::comp::pl0tocl0::ILGen::ProcedureEnd(void *tok)
     m_procStartAddr.pop();
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::BeforeAssignment(void *tok)
+void ILGen::BeforeAssignment(void *tok)
 {
     if(!pushVarByName((Token*)tok, Addr))
         throw CompEx((Token*)tok);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::AfterAssignment(void *tok)
+void ILGen::AfterAssignment(void *tok)
 {
     writeCode(Bytecode::StoreVal);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::InputNumber(void *tok)
+void ILGen::InputNumber(void *tok)
 {
     if(!pushVarByName((Token*)tok, Addr))
         throw CompEx((Token*)tok);
     writeCode(Bytecode::GetVal);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::OutputNumber(void *tok)
+void ILGen::OutputNumber(void *tok)
 {
     writeCode(Bytecode::PutVal);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Negation(void *tok)
+void ILGen::Negation(void *tok)
 {
     writeCode(Bytecode::VzMinus);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Addition(void *tok)
+void ILGen::Addition(void *tok)
 {
     writeCode(Bytecode::OpAdd);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Subtraction(void *tok)
+void ILGen::Subtraction(void *tok)
 {
     writeCode(Bytecode::OpSub);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Multiplication(void *tok)
+void ILGen::Multiplication(void *tok)
 {
     writeCode(Bytecode::OpMult);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Division(void *tok)
+void ILGen::Division(void *tok)
 {
     writeCode(Bytecode::OpDiv);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::ConstByVal(void *tok)
+void ILGen::ConstByVal(void *tok)
 {
     pushConstByVal((Token*)tok);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::IdentByName(void *tok)
+void ILGen::IdentByName(void *tok)
 {
     if(pushVarByName((Token*)tok, Val)) return;
     if(pushConstByName((Token*)tok)) return;
     throw CompEx((Token*)tok);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Odd(void *tok)
+void ILGen::Odd(void *tok)
 {
     writeCode(Bytecode::OpOdd);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Equal(void *tok)
+void ILGen::Equal(void *tok)
 {
     m_cmpOp = Bytecode::CmpEq;
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::NotEqual(void *tok)
+void ILGen::NotEqual(void *tok)
 {
     m_cmpOp = Bytecode::CmpNe;
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Smaller(void *tok)
+void ILGen::Smaller(void *tok)
 {
     m_cmpOp = Bytecode::CmpLt;
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Larger(void *tok)
+void ILGen::Larger(void *tok)
 {
     m_cmpOp = Bytecode::CmpGt;
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::LessOrEqual(void *tok)
+void ILGen::LessOrEqual(void *tok)
 {
     m_cmpOp = Bytecode::CmpLe;
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::GreaterOrEqual(void *tok)
+void ILGen::GreaterOrEqual(void *tok)
 {
     m_cmpOp = Bytecode::CmpGe;
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Comparison(void *tok)
+void ILGen::Comparison(void *tok)
 {
     writeCode((Bytecode)m_cmpOp);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::Condition(void *tok)
+void ILGen::Condition(void *tok)
 {
     vector<short> param;
     param.push_back(0);
@@ -198,8 +171,7 @@ pl0compiler::comp::pl0tocl0::ILGen::Condition(void *tok)
     m_jumpStartAddr.push(m_binary.size());
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::BranchEnd(void *tok)
+void ILGen::BranchEnd(void *tok)
 {
     short jmpAddr = m_jumpStartAddr.top();
     m_jumpStartAddr.pop();
@@ -208,14 +180,12 @@ pl0compiler::comp::pl0tocl0::ILGen::BranchEnd(void *tok)
     writeShortToAddr(jmpAddr-sizeof(short), distFromCond);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::While(void *tok)
+void ILGen::While(void *tok)
 {
     m_jumpStartAddr.push(m_binary.size());
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::LoopEnd(void *tok)
+void ILGen::LoopEnd(void *tok)
 {
     short jmpAddrIf = m_jumpStartAddr.top();
     m_jumpStartAddr.pop();
@@ -232,22 +202,19 @@ pl0compiler::comp::pl0tocl0::ILGen::LoopEnd(void *tok)
     writeShortToAddr(jmpAddrIf-sizeof(short), distFromCond);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::CallProcedure(void *tok)
+void ILGen::CallProcedure(void *tok)
 {
     if(!pushProcByName((Token*)tok))
         throw CompEx((Token*)tok);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::OutputString(void *tok)
+void ILGen::OutputString(void *tok)
 {
     writeCode(Bytecode::PutStrg);
     writeString(((Token*)tok)->getVal());
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::CodeEnd(void *tok)
+void ILGen::CodeEnd(void *tok)
 {
     for(auto &cons : m_symbols.m_vecConst)
     {
@@ -256,8 +223,7 @@ pl0compiler::comp::pl0tocl0::ILGen::CodeEnd(void *tok)
     writeIntToAddr(0, m_symbols.m_numProc);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::writeCode(Bytecode code, vector<short> param)
+void ILGen::writeCode(Bytecode code, vector<short> param)
 {
     m_binary.push_back(code);
 
@@ -268,8 +234,7 @@ pl0compiler::comp::pl0tocl0::ILGen::writeCode(Bytecode code, vector<short> param
     }
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::writeString(string value)
+void ILGen::writeString(string value)
 {
     vector<char> vecVal(value.begin(), value.end());
     for(auto &val : vecVal)
@@ -279,8 +244,7 @@ pl0compiler::comp::pl0tocl0::ILGen::writeString(string value)
     m_binary.push_back(0);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::writeInt(int value)
+void ILGen::writeInt(int value)
 {
     m_binary.push_back(value & 0xff);
     m_binary.push_back((value >> 8) & 0xff);
@@ -288,15 +252,13 @@ pl0compiler::comp::pl0tocl0::ILGen::writeInt(int value)
     m_binary.push_back((value >> 24) & 0xff);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::writeShortToAddr(int startAddr, short value)
+void ILGen::writeShortToAddr(int startAddr, short value)
 {
     m_binary.at(startAddr) = (value & 0xff);
     m_binary.at(startAddr+1) = ((value >> 8) & 0xff);
 }
 
-void
-pl0compiler::comp::pl0tocl0::ILGen::writeIntToAddr(int startAddr, int value)
+void ILGen::writeIntToAddr(int startAddr, int value)
 {
     m_binary.at(startAddr) = (value & 0xff);
     m_binary.at(startAddr+1) = ((value >> 8) & 0xff);
@@ -304,8 +266,7 @@ pl0compiler::comp::pl0tocl0::ILGen::writeIntToAddr(int startAddr, int value)
     m_binary.at(startAddr+3) = ((value >> 24) & 0xff);
 }
 
-bool
-pl0compiler::comp::pl0tocl0::ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
+bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
 {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
@@ -355,8 +316,7 @@ pl0compiler::comp::pl0tocl0::ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVa
     return true;
 }
 
-bool
-pl0compiler::comp::pl0tocl0::ILGen::pushConstByName(Token *tok)
+bool ILGen::pushConstByName(Token *tok)
 {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
@@ -368,8 +328,7 @@ pl0compiler::comp::pl0tocl0::ILGen::pushConstByName(Token *tok)
     return true;
 }
 
-bool
-pl0compiler::comp::pl0tocl0::ILGen::pushConstByVal(Token *tok)
+bool ILGen::pushConstByVal(Token *tok)
 {
     vector<short> param;
 
@@ -390,7 +349,7 @@ pl0compiler::comp::pl0tocl0::ILGen::pushConstByVal(Token *tok)
 }
 
  bool
- pl0compiler::comp::pl0tocl0::ILGen::pushProcByName(Token *tok)
+ ILGen::pushProcByName(Token *tok)
  {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
@@ -401,3 +360,5 @@ pl0compiler::comp::pl0tocl0::ILGen::pushConstByVal(Token *tok)
     writeCode(Bytecode::Call, param);
     return true;
  }
+
+} } }

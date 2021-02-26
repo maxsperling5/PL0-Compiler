@@ -25,8 +25,8 @@ public:
     void exec(std::deque<Token> &token, std::deque<char> &binary);
 
 private:
-    void generate(Graph::Trans *curSect);
-    void execFunc(Graph::Trans *curTrans);
+    void generate(const Graph::Trans *curSect);
+    void execFunc(const Graph::Trans *curTrans);
 
     ILGen *m_ilgen;
     std::deque<Token> *m_token;

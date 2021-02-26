@@ -23,15 +23,15 @@ void
 pl0compiler::comp::pl0tocl0::Generator::exec(deque<Token> &token, deque<char> &binary)
 {
     m_token = &token;
-    generate(&Graph::m_program.at(0));
+    generate(Graph::getEntrance());
     binary = m_ilgen->getBinary();
 }
 
 void
-pl0compiler::comp::pl0tocl0::Generator::generate(Graph::Trans *curSect)
+pl0compiler::comp::pl0tocl0::Generator::generate(const Graph::Trans *curSect)
 {
     bool IsFinished = false;
-    Graph::Trans *curTrans = curSect;
+    const Graph::Trans *curTrans = curSect;
 
     while (!IsFinished)
     {
@@ -89,7 +89,7 @@ pl0compiler::comp::pl0tocl0::Generator::generate(Graph::Trans *curSect)
 }
 
 void
-pl0compiler::comp::pl0tocl0::Generator::execFunc(Graph::Trans *curTrans)
+pl0compiler::comp::pl0tocl0::Generator::execFunc(const Graph::Trans *curTrans)
 {
     if (curTrans->m_funct == nullptr) return;
     (m_ilgen->*curTrans->m_funct)((void*)&(m_token->front()));

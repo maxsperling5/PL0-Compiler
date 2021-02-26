@@ -14,9 +14,6 @@ namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 class ILGen
 {
 public:
-    ILGen(){}
-    ~ILGen(){}
-
     std::deque<char> getBinary();
 
     void AddSymbol(void *tok);
