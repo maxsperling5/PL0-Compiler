@@ -7,28 +7,26 @@
 #include "ILGen.hpp"
 #include "CompEx.hpp"
 
-using namespace std;
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
-pl0compiler::comp::pl0tocl0::Generator::Generator()
+Generator::Generator()
 {
     m_ilgen = new ILGen();
 }
 
-pl0compiler::comp::pl0tocl0::Generator::~Generator()
+Generator::~Generator()
 {
     delete m_ilgen;
 }
 
-void
-pl0compiler::comp::pl0tocl0::Generator::exec(deque<Token> &token, deque<char> &binary)
+void Generator::exec(std::deque<Token> &token, std::deque<char> &binary)
 {
     m_token = &token;
     generate(Graph::getEntrance());
     binary = m_ilgen->getBinary();
 }
 
-void
-pl0compiler::comp::pl0tocl0::Generator::generate(const Graph::Trans *curSect)
+void Generator::generate(const Graph::Trans *curSect)
 {
     bool IsFinished = false;
     const Graph::Trans *curTrans = curSect;
@@ -42,7 +40,7 @@ pl0compiler::comp::pl0tocl0::Generator::generate(const Graph::Trans *curSect)
             curTrans = &curSect[curTrans->m_idxNext];
             break;
         case Graph::Trans::Symbol:
-            if (string((char*)curTrans->m_value) == m_token->front().getVal())
+            if (std::string((char*)curTrans->m_value) == m_token->front().getVal())
             {
                 execFunc(curTrans);
                 curTrans = &curSect[curTrans->m_idxNext];
@@ -88,9 +86,10 @@ pl0compiler::comp::pl0tocl0::Generator::generate(const Graph::Trans *curSect)
     }
 }
 
-void
-pl0compiler::comp::pl0tocl0::Generator::execFunc(const Graph::Trans *curTrans)
+void Generator::execFunc(const Graph::Trans *curTrans)
 {
     if (curTrans->m_funct == nullptr) return;
     (m_ilgen->*curTrans->m_funct)((void*)&(m_token->front()));
 }
+
+} } }

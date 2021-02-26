@@ -5,10 +5,9 @@
 #include "CompFactory.hpp"
 #include "pl0tocl0/CompPL0.hpp"
 
-using namespace std;
+namespace pl0compiler { namespace comp {
 
-pl0compiler::comp::ICompUPtr
-pl0compiler::comp::CompFactory::create(CompType type)
+ICompUPtr CompFactory::create(CompType type)
 {
     ICompUPtr compUPtr;
     switch(type)
@@ -19,3 +18,5 @@ pl0compiler::comp::CompFactory::create(CompType type)
     }
     return compUPtr;
 }
+
+} }

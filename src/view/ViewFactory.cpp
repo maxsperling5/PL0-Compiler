@@ -5,12 +5,9 @@
 #include "ViewFactory.hpp"
 #include "cli/ViewCLI.hpp"
 
-using namespace std;
-
 namespace pl0compiler { namespace view {
 
-pl0compiler::view::IViewUPtr
-pl0compiler::view::ViewFactory::create(ViewType type)
+IViewUPtr ViewFactory::create(ViewType type)
 {
     IViewUPtr viewUPtr;
     switch(type)

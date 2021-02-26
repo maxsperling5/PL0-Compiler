@@ -4,19 +4,20 @@
 
 #include "CompEx.hpp"
 
-using namespace std;
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
-pl0compiler::comp::pl0tocl0::CompEx::CompEx(Token *token)
+CompEx::CompEx(Token *token)
 {
     m_token = token;
 }
 
-string
-pl0compiler::comp::pl0tocl0::CompEx::getError()
+std::string CompEx::getError()
 {
-    string strErr = "Error: Value -> " + m_token->getVal()
-                    + ", Row -> " + to_string(m_token->getRow())
-                    + ", Col -> " + to_string(m_token->getCol())
-                    + "\n";
+    std::string strErr = "Error: Value -> " + m_token->getVal()
+                       + ", Row -> " + std::to_string(m_token->getRow())
+                       + ", Col -> " + std::to_string(m_token->getCol())
+                       + "\n";
     return strErr;
 }
+
+} } }

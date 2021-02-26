@@ -9,19 +9,17 @@
 #include "Token.hpp"
 #include "CompEx.hpp"
 
-using namespace std;
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
-bool
-pl0compiler::comp::pl0tocl0::CompPL0::init(pl0compiler::view::IViewUPtr viewUPtr, pl0compiler::data::IDataUPtr dataUPtr)
+bool CompPL0::init(pl0compiler::view::IViewUPtr viewUPtr, pl0compiler::data::IDataUPtr dataUPtr)
 {
-    m_viewUPtr = move(viewUPtr);
-    m_dataUPtr = move(dataUPtr);
+    m_viewUPtr = std::move(viewUPtr);
+    m_dataUPtr = std::move(dataUPtr);
 
     return true;
 }
 
-bool
-pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
+bool CompPL0::exec(int argc, char *argv[])
 {
     if (!m_dataUPtr->init(argc, argv))
     {
@@ -29,14 +27,14 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
         return false;
     }
 
-    string srcCode = "";
+    std::string srcCode = "";
     if (!m_dataUPtr->read(srcCode))
     {
         m_viewUPtr->write("Error while reading File");
         return false;
     }
 
-    deque<Token> token;
+    std::deque<Token> token;
     try
     {
         Tokenizer tokenizer;
@@ -48,7 +46,7 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
         return false;
     }
 
-    deque<char> binary;
+    std::deque<char> binary;
     try
     {
         Generator generator;
@@ -71,3 +69,5 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
 
     return true;
 }
+
+} } }

@@ -7,20 +7,20 @@
 #include <iostream>
 #include <iomanip>
 
-using namespace std;
+namespace pl0compiler { namespace view { namespace cli {
 
-void
-pl0compiler::view::cli::ViewCLI::write(string str)
+void ViewCLI::write(std::string str)
 {
-    cout << str << endl;
+    std::cout << str << std::endl;
 }
 
-void
-pl0compiler::view::cli::ViewCLI::write(deque<char> bin)
+void ViewCLI::write(std::deque<char> bin)
 {
-    for(auto &b : bin)
+    for (auto &b : bin)
     {
-        cout << setfill('0') << setw(2) << hex << +b;
+        std::cout << std::setfill('0') << std::setw(2) << std::hex << +b;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
+
+} } }

@@ -5,10 +5,9 @@
 #include "DataFactory.hpp"
 #include "file/DataFile.hpp"
 
-using namespace std;
+namespace pl0compiler { namespace data {
 
-pl0compiler::data::IDataUPtr
-pl0compiler::data::DataFactory::create(DataType type)
+IDataUPtr DataFactory::create(DataType type)
 {
     IDataUPtr dataUPtr;
     switch(type)
@@ -19,3 +18,5 @@ pl0compiler::data::DataFactory::create(DataType type)
     }
     return dataUPtr;
 }
+
+} }

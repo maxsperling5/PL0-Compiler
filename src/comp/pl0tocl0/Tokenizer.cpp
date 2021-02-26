@@ -6,9 +6,11 @@
 
 using namespace std;
 
+namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
 using Tnz = pl0compiler::comp::pl0tocl0::Tokenizer;
 
-pl0compiler::comp::pl0tocl0::Tokenizer::Tokenizer()
+Tokenizer::Tokenizer()
 {
     m_srcPos = 0;
     m_srcRow = 1;
@@ -16,8 +18,7 @@ pl0compiler::comp::pl0tocl0::Tokenizer::Tokenizer()
     m_fsmState = 0;
 }
 
-void
-pl0compiler::comp::pl0tocl0::Tokenizer::exec(string &srcCode, deque<Token> &token)
+void Tokenizer::exec(std::string &srcCode, std::deque<Token> &token)
 {
     m_srcCode = &srcCode;
     m_token = &token;
@@ -25,8 +26,7 @@ pl0compiler::comp::pl0tocl0::Tokenizer::exec(string &srcCode, deque<Token> &toke
     tokenize();
 }
 
-const vector<int>
-pl0compiler::comp::pl0tocl0::Tokenizer::s_classVec =
+const vector<int> Tokenizer::s_classVec =
 {
 /*     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F     */
 /*--------------------------------------------------------*/
@@ -40,8 +40,7 @@ pl0compiler::comp::pl0tocl0::Tokenizer::s_classVec =
 /*70*/ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0 /*70*/
 };
 
-const vector<vector<int>>
-pl0compiler::comp::pl0tocl0::Tokenizer::s_stateMat =
+const vector<vector<int>> Tokenizer::s_stateMat =
 {{
 /*      So  Zi  Bu  ':' '=' '<' '>' ' ' '"' '\'      */
 /*---------------------------------------------------*/
@@ -59,8 +58,7 @@ pl0compiler::comp::pl0tocl0::Tokenizer::s_stateMat =
 /*11*/ {{0,  0,  0,  0,  0,  0,  0,  0,  0,  0}} /*11*/
 }};
 
-const vector<vector<pl0compiler::comp::pl0tocl0::Tokenizer::func>>
-pl0compiler::comp::pl0tocl0::Tokenizer::s_functMat =
+const vector<vector<Tokenizer::func>> Tokenizer::s_functMat =
 {{
 /*          So         Zi         Bu         ':'       '='        '<'         '>'       ' '         ''         '\'          */
 /*--------------------------------------------------------------------------------------------------------------------------*/
@@ -78,15 +76,13 @@ pl0compiler::comp::pl0tocl0::Tokenizer::s_functMat =
 /*11*/ {{&Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc}} /*11*/
 }};
 
-const vector<string>
-pl0compiler::comp::pl0tocl0::Tokenizer::s_keywords =
+const vector<std::string> Tokenizer::s_keywords =
 {
     "CALL","DO","WHILE","IF","THEN","ELSE","BEGIN","END",
     "ODD","PUT","GET","VAR","CONST","PROCEDURE"
 };
 
-void
-pl0compiler::comp::pl0tocl0::Tokenizer::tokenize()
+void Tokenizer::tokenize()
 {
     while (m_srcPos < m_srcCode->length())
     {
@@ -96,8 +92,7 @@ pl0compiler::comp::pl0tocl0::Tokenizer::tokenize()
     }
 }
 
-void
-pl0compiler::comp::pl0tocl0::Tokenizer::r()
+void Tokenizer::r()
 {
     char c = m_srcCode->at(m_srcPos);
     if (c == '\n') { m_srcRow++; m_srcCol=1; }
@@ -105,29 +100,25 @@ pl0compiler::comp::pl0tocl0::Tokenizer::r()
     m_srcPos++;
 }
 
-void
-pl0compiler::comp::pl0tocl0::Tokenizer::wr()
+void Tokenizer::wr()
 {
     m_curToken.addChar(m_srcCode->at(m_srcPos));
     r();
 }
 
-void
-pl0compiler::comp::pl0tocl0::Tokenizer::gr()
+void Tokenizer::gr()
 {
     m_curToken.addChar(toupper(m_srcCode->at(m_srcPos)));
     r();
 }
 
-void
-pl0compiler::comp::pl0tocl0::Tokenizer::wrc()
+void Tokenizer::wrc()
 {
     wr();
     c();
 }
 
-void
-pl0compiler::comp::pl0tocl0::Tokenizer::c()
+void Tokenizer::c()
 {
     switch (m_fsmState)
     {
@@ -147,7 +138,7 @@ pl0compiler::comp::pl0tocl0::Tokenizer::c()
                 }
             }
             break;
-        // String
+        // std::string
         case 9:
             m_curToken.setTyp(Token::String);
             break;
@@ -161,3 +152,5 @@ pl0compiler::comp::pl0tocl0::Tokenizer::c()
     m_curToken.reset();
     m_curToken.init(m_srcRow, m_srcCol);
 }
+
+} } }

@@ -53,13 +53,6 @@ public:
     void CodeEnd(void *tok);
 
 private:
-    std::deque<char> m_binary;
-    Symbols m_symbols;
-
-    std::stack<int> m_procStartAddr;
-    char m_cmpOp;
-    std::stack<int> m_jumpStartAddr;
-
     enum Bytecode
     {
         /*--- Stack instructions ---*/
@@ -113,6 +106,13 @@ private:
     bool pushConstByName(Token *tok);
     bool pushConstByVal(Token *tok);
     bool pushProcByName(Token *tok);
+
+    std::deque<char> m_binary;
+    Symbols m_symbols;
+
+    std::stack<int> m_procStartAddr;
+    char m_cmpOp;
+    std::stack<int> m_jumpStartAddr;
 };
 
 } } }

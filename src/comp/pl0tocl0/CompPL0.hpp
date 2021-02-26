@@ -13,9 +13,6 @@ class Generator;
 class CompPL0 : public IComp
 {
 public:
-    CompPL0(){}
-    ~CompPL0(){}
-
     // --- IComp -----
     virtual bool init(pl0compiler::view::IViewUPtr viewUPtr, pl0compiler::data::IDataUPtr dataUPtr);
     virtual bool exec(int argc, char *argv[]);

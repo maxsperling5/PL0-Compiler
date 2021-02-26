@@ -10,8 +10,6 @@ namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 class Token
 {
 public:
-    Token(){}
-
     enum TokenTyp
     {
         Undefined,

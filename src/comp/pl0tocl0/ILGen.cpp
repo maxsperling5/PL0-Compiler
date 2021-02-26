@@ -6,11 +6,9 @@
 
 #include "CompEx.hpp"
 
-using namespace std;
-
 namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
-deque<char> ILGen::getBinary()
+std::deque<char> ILGen::getBinary()
 {
     return m_binary;
 }
@@ -48,7 +46,7 @@ void ILGen::CodeStart(void *tok)
 void ILGen::ProcedureStart(void *tok)
 {
     m_procStartAddr.push(m_binary.size()+sizeof(char));
-    vector<short> param;
+    std::vector<short> param;
     param.push_back(0);
     param.push_back(m_symbols.getCurProcIdx());
     param.push_back(m_symbols.getCurProcNumVar()*sizeof(int));
@@ -165,7 +163,7 @@ void ILGen::Comparison(void *tok)
 
 void ILGen::Condition(void *tok)
 {
-    vector<short> param;
+    std::vector<short> param;
     param.push_back(0);
     writeCode(Bytecode::Jnot, param);
     m_jumpStartAddr.push(m_binary.size());
@@ -192,7 +190,7 @@ void ILGen::LoopEnd(void *tok)
     short jmpAddrWhile = m_jumpStartAddr.top();
     m_jumpStartAddr.pop();
 
-    vector<short> param;
+    std::vector<short> param;
     param.push_back(0);
     writeCode(Bytecode::Jmp, param);
     short distToWhile = -(m_binary.size()-jmpAddrWhile);
@@ -223,7 +221,7 @@ void ILGen::CodeEnd(void *tok)
     writeIntToAddr(0, m_symbols.m_numProc);
 }
 
-void ILGen::writeCode(Bytecode code, vector<short> param)
+void ILGen::writeCode(Bytecode code, std::vector<short> param)
 {
     m_binary.push_back(code);
 
@@ -234,9 +232,9 @@ void ILGen::writeCode(Bytecode code, vector<short> param)
     }
 }
 
-void ILGen::writeString(string value)
+void ILGen::writeString(std::string value)
 {
-    vector<char> vecVal(value.begin(), value.end());
+    std::vector<char> vecVal(value.begin(), value.end());
     for(auto &val : vecVal)
     {
         m_binary.push_back(val);
@@ -272,7 +270,7 @@ bool ILGen::pushVarByName(Token *tok, AddrOrVal addrOrVal)
     if(symb == nullptr) return false;
     if(symb->m_object->getType() != Symbols::Object::Var) return false;
 
-    vector<short> param;
+    std::vector<short> param;
     param.push_back((symb->m_object->m_index)*sizeof(int));
 
     if(symb->m_procIdx == m_symbols.getCurProcIdx())
@@ -322,7 +320,7 @@ bool ILGen::pushConstByName(Token *tok)
     if(symb == nullptr) return false;
     if(symb->m_object->getType() != Symbols::Object::Cons) return false;
 
-    vector<short> param;
+    std::vector<short> param;
     param.push_back(((Symbols::Constant*)symb->m_object)->m_value);
     writeCode(Bytecode::PuConst, param);
     return true;
@@ -330,7 +328,7 @@ bool ILGen::pushConstByName(Token *tok)
 
 bool ILGen::pushConstByVal(Token *tok)
 {
-    vector<short> param;
+    std::vector<short> param;
 
     for(unsigned int i=0; i<m_symbols.m_vecConst.size(); i++)
     {
@@ -348,14 +346,13 @@ bool ILGen::pushConstByVal(Token *tok)
     return true;
 }
 
- bool
- ILGen::pushProcByName(Token *tok)
+ bool ILGen::pushProcByName(Token *tok)
  {
     Symbols::Symbol *symb = m_symbols.searchSymb(tok->getVal());
     if(symb == nullptr) return false;
     if(symb->m_object->getType() != Symbols::Object::Proc) return false;
 
-    vector<short> param;
+    std::vector<short> param;
     param.push_back(symb->m_object->m_index);
     writeCode(Bytecode::Call, param);
     return true;

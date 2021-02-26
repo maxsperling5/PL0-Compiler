@@ -10,9 +10,6 @@ namespace pl0compiler { namespace data { namespace file {
 class DataFile : public IData
 {
 public:
-    DataFile(){}
-    ~DataFile(){}
-
     // --- IData -----------------------------
     virtual bool init(int argc, char *argv[]);
     virtual bool read(std::string &str);
