@@ -24,9 +24,6 @@ public:
 private:
     pl0compiler::view::IViewUPtr m_viewUPtr;
     pl0compiler::data::IDataUPtr m_dataUPtr;
-
-    Tokenizer *m_tokPtr;
-    Generator *m_genPtr;
 };
 
 } } }

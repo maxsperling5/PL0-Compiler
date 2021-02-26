@@ -36,13 +36,11 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
         return false;
     }
 
-    m_tokPtr = new Tokenizer;
-    m_genPtr = new Generator;
-
     deque<Token> token;
     try
     {
-        m_tokPtr->exec(srcCode, token);
+        auto tokPtr = std::unique_ptr<Tokenizer>(new Tokenizer());
+        tokPtr->exec(srcCode, token);
     }
     catch (...)
     {
@@ -53,7 +51,8 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
     deque<char> binary;
     try
     {
-        m_genPtr->exec(token, binary);
+        auto genPtr = std::unique_ptr<Generator>(new Generator());
+        genPtr->exec(token, binary);
     }
     catch (CompEx &cex)
     {
@@ -69,9 +68,6 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
         m_viewUPtr->write("Error while writing File");
         return false;
     }
-
-    delete m_tokPtr;
-    delete m_genPtr;
 
     return true;
 }
