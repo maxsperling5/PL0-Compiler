@@ -3,10 +3,11 @@
 /* Author: Max Sperling */
 /************************/
 
-#include <string>
-#include <array>
-#include <deque>
 #include "Token.hpp"
+
+#include <vector>
+#include <string>
+#include <deque>
 
 namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
@@ -21,17 +22,17 @@ public:
 private:
     typedef void (Tokenizer::*func)();
 
+    static const std::vector<int> s_classVec;
+    static const std::vector<std::vector<int>> s_stateMat;
+    static const std::vector<std::vector<func>> s_functMat;
+    static const std::vector<std::string> s_keywords;
+
     void tokenize();
     void r();
     void wr();
     void gr();
     void wrc();
     void c();
-
-    std::array<int,8*16> m_classVec;
-    std::array<std::array<int,10>,12> m_stateMat;
-    std::array<std::array<func,10>,12> m_functMat;
-    std::array<std::string,14> m_keywords;
 
     std::string m_srcCode;
     std::deque<Token> *m_token;

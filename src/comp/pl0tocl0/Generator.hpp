@@ -3,12 +3,14 @@
 /* Author: Max Sperling */
 /************************/
 
-#include <deque>
-class ILGen;
 #include "Graph.hpp"
 #include "Token.hpp"
 
+#include <deque>
+
 namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+
+class ILGen;
 
 class Generator
 {
