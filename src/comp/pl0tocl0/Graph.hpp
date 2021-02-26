@@ -21,7 +21,6 @@ public:
             Nil, Symbol, Token, GraphStart, GraphEnd
         };
 
-        Trans(){}
         Trans(Type type, const void *value, int idxNext, int idxAlter, func funct);
 
         Type m_type;
@@ -31,15 +30,13 @@ public:
         func m_funct;
     };
 
-    Graph();
-
-    std::array<Trans,4> m_program;
-    std::array<Trans,21> m_block;
-    std::array<Trans,26> m_statement;
-    std::array<Trans,11> m_condition;
-    std::array<Trans,8> m_expression;
-    std::array<Trans,7> m_term;
-    std::array<Trans,6> m_factor;
+    static std::array<Trans,4> m_program;
+    static std::array<Trans,21> m_block;
+    static std::array<Trans,26> m_statement;
+    static std::array<Trans,11> m_condition;
+    static std::array<Trans,8> m_expression;
+    static std::array<Trans,7> m_term;
+    static std::array<Trans,6> m_factor;
 };
 
 } } }

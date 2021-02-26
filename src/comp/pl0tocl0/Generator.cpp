@@ -11,13 +11,11 @@ using namespace std;
 
 pl0compiler::comp::pl0tocl0::Generator::Generator()
 {
-    m_graph = new Graph();
     m_ilgen = new ILGen();
 }
 
 pl0compiler::comp::pl0tocl0::Generator::~Generator()
 {
-    delete m_graph;
     delete m_ilgen;
 }
 
@@ -25,7 +23,7 @@ void
 pl0compiler::comp::pl0tocl0::Generator::exec(deque<Token> &token, deque<char> &binary)
 {
     m_token = &token;
-    generate(&m_graph->m_program.at(0));
+    generate(&Graph::m_program.at(0));
     binary = m_ilgen->getBinary();
 }
 
