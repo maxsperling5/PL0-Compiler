@@ -10,7 +10,7 @@
 namespace pl0compiler { namespace view {
 
 class IView;
-typedef std::shared_ptr<IView> IViewPtr;
+typedef std::unique_ptr<IView> IViewUPtr;
 
 class IView
 {

@@ -10,7 +10,7 @@
 namespace pl0compiler { namespace data {
 
 class IData;
-typedef std::shared_ptr<IData> IDataPtr;
+typedef std::unique_ptr<IData> IDataUPtr;
 
 class IData
 {

@@ -7,15 +7,15 @@
 
 using namespace std;
 
-pl0compiler::comp::ICompPtr
+pl0compiler::comp::ICompUPtr
 pl0compiler::comp::CompFactory::create(CompType type)
 {
-    ICompPtr compPtr;
+    ICompUPtr compUPtr;
     switch(type)
     {
     case CompType::PL0:
-        compPtr = make_shared<pl0tocl0::CompPL0>();
+        compUPtr.reset(new pl0tocl0::CompPL0());
         break;
     }
-    return compPtr;
+    return compUPtr;
 }

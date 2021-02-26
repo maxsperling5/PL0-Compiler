@@ -15,7 +15,7 @@ enum ViewType
 class ViewFactory
 {
 public:
-    static IViewPtr create(ViewType type);
+    static IViewUPtr create(ViewType type);
 };
 
 } }

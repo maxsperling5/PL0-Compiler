@@ -15,7 +15,7 @@ enum CompType
 class CompFactory
 {
 public:
-    static ICompPtr create(CompType type);
+    static ICompUPtr create(CompType type);
 };
 
 } }

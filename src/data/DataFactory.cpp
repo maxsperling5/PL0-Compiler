@@ -7,15 +7,15 @@
 
 using namespace std;
 
-pl0compiler::data::IDataPtr
+pl0compiler::data::IDataUPtr
 pl0compiler::data::DataFactory::create(DataType type)
 {
-    IDataPtr dataPtr;
+    IDataUPtr dataUPtr;
     switch(type)
     {
     case DataType::File:
-        dataPtr = make_shared<file::DataFile>();
+        dataUPtr.reset(new file::DataFile());
         break;
     }
-    return dataPtr;
+    return dataUPtr;
 }

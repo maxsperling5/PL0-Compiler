@@ -9,17 +9,17 @@ using namespace std;
 
 namespace pl0compiler { namespace view {
 
-pl0compiler::view::IViewPtr
+pl0compiler::view::IViewUPtr
 pl0compiler::view::ViewFactory::create(ViewType type)
 {
-    IViewPtr viewPtr;
+    IViewUPtr viewUPtr;
     switch(type)
     {
     case ViewType::CLI:
-        viewPtr = make_shared<cli::ViewCLI>();
+        viewUPtr.reset(new cli::ViewCLI());
         break;
     }
-    return viewPtr;
+    return viewUPtr;
 }
 
 } }

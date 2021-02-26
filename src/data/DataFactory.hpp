@@ -15,7 +15,7 @@ enum DataType
 class DataFactory
 {
 public:
-    static IDataPtr create(DataType type);
+    static IDataUPtr create(DataType type);
 };
 
 } }

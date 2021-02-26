@@ -12,10 +12,10 @@
 using namespace std;
 
 bool
-pl0compiler::comp::pl0tocl0::CompPL0::init(pl0compiler::view::IViewPtr viewPtr, pl0compiler::data::IDataPtr dataPtr)
+pl0compiler::comp::pl0tocl0::CompPL0::init(pl0compiler::view::IViewUPtr viewUPtr, pl0compiler::data::IDataUPtr dataUPtr)
 {
-    m_viewPtr = viewPtr;
-    m_dataPtr = dataPtr;
+    m_viewUPtr = move(viewUPtr);
+    m_dataUPtr = move(dataUPtr);
 
     return true;
 }
@@ -23,16 +23,16 @@ pl0compiler::comp::pl0tocl0::CompPL0::init(pl0compiler::view::IViewPtr viewPtr, 
 bool
 pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
 {
-    if(!m_dataPtr->init(argc, argv))
+    if (!m_dataUPtr->init(argc, argv))
     {
-        m_viewPtr->write("Usage: program <pl0-File> <cl0-File>\n");
+        m_viewUPtr->write("Usage: program <pl0-File> <cl0-File>\n");
         return false;
     }
 
     string srcCode = "";
-    if(!m_dataPtr->read(srcCode))
+    if (!m_dataUPtr->read(srcCode))
     {
-        m_viewPtr->write("Error while reading File");
+        m_viewUPtr->write("Error while reading File");
         return false;
     }
 
@@ -40,28 +40,33 @@ pl0compiler::comp::pl0tocl0::CompPL0::exec(int argc, char *argv[])
     m_genPtr = new Generator;
 
     deque<Token> token;
-    try{
+    try
+    {
         m_tokPtr->exec(srcCode, token);
     }
-    catch(...){
-        m_viewPtr->write("Error while Tokenization");
+    catch (...)
+    {
+        m_viewUPtr->write("Error while Tokenization");
         return false;
     }
 
     deque<char> binary;
-    try{
+    try
+    {
         m_genPtr->exec(token, binary);
-    }catch(CompEx &cex){
-        m_viewPtr->write("Error while Generating");
-        m_viewPtr->write(cex.getError());
+    }
+    catch (CompEx &cex)
+    {
+        m_viewUPtr->write("Error while Generating");
+        m_viewUPtr->write(cex.getError());
         return false;
     }
 
-    m_viewPtr->write(binary);
+    m_viewUPtr->write(binary);
 
-    if(!m_dataPtr->write(binary))
+    if (!m_dataUPtr->write(binary))
     {
-        m_viewPtr->write("Error while writing File");
+        m_viewUPtr->write("Error while writing File");
         return false;
     }
 
