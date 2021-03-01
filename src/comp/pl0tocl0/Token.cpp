@@ -15,7 +15,7 @@ void Token::init(int row, int col)
 void Token::reset()
 {
     m_val = "";
-    m_typ = Undefined;
+    m_typ = Type::Undefined;
     m_row = 1;
     m_col = 1;
 }
@@ -25,7 +25,7 @@ void Token::addChar(char c)
     m_val += c;
 }
 
-void Token::setTyp(TokenTyp typ)
+void Token::setTyp(Token::Type typ)
 {
     m_typ = typ;
 }
@@ -35,7 +35,7 @@ std::string Token::getVal()
     return m_val;
 }
 
-Token::TokenTyp Token::getTyp()
+Token::Type Token::getTyp()
 {
     return m_typ;
 }

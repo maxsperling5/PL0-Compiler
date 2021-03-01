@@ -53,7 +53,7 @@ public:
     void CodeEnd(void *tok);
 
 private:
-    enum Bytecode
+    enum ByteCode
     {
         /*--- Stack instructions ---*/
         PuValVrLocl,    /*00 (short Displ)  [Kellern Wert lokale  Variable]             */
@@ -97,7 +97,7 @@ private:
         Val
     };
 
-    void writeCode(Bytecode code, std::vector<short> param = std::vector<short>());
+    void writeCode(ByteCode code, std::vector<short> param = std::vector<short>());
     void writeString(std::string value);
     void writeInt(int value);
     void writeShortToAddr(int startAddr, short value);

@@ -10,7 +10,7 @@ namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 class Token
 {
 public:
-    enum TokenTyp
+    enum class Type
     {
         Undefined,
         Symbol,
@@ -24,16 +24,16 @@ public:
     void reset();
 
     void addChar(char c);
-    void setTyp(TokenTyp typ);
+    void setTyp(Type typ);
 
     std::string getVal();
-    TokenTyp getTyp();
+    Type getTyp();
     unsigned int getRow();
     unsigned int getCol();
 
 private:
     std::string m_val;
-    TokenTyp m_typ;
+    Type m_typ;
     unsigned int m_row;
     unsigned int m_col;
 };

@@ -4,8 +4,6 @@
 
 #include "Tokenizer.hpp"
 
-using namespace std;
-
 namespace pl0compiler { namespace comp { namespace pl0tocl0 {
 
 using Tnz = pl0compiler::comp::pl0tocl0::Tokenizer;
@@ -20,7 +18,7 @@ void Tokenizer::exec(std::string &srcCode, std::deque<Token> &token)
     tokenize();
 }
 
-const vector<int> Tokenizer::s_classVec =
+const std::vector<int> Tokenizer::s_classVec =
 {
 /*     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F     */
 /*--------------------------------------------------------*/
@@ -34,7 +32,7 @@ const vector<int> Tokenizer::s_classVec =
 /*70*/ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0 /*70*/
 };
 
-const vector<vector<int>> Tokenizer::s_stateMat =
+const std::vector<std::vector<int>> Tokenizer::s_stateMat =
 {{
 /*      So  Zi  Bu  ':' '=' '<' '>' ' ' '"' '\'      */
 /*---------------------------------------------------*/
@@ -52,7 +50,7 @@ const vector<vector<int>> Tokenizer::s_stateMat =
 /*11*/ {{0,  0,  0,  0,  0,  0,  0,  0,  0,  0}} /*11*/
 }};
 
-const vector<vector<Tokenizer::func>> Tokenizer::s_functMat =
+const std::vector<std::vector<Tokenizer::func>> Tokenizer::s_functMat =
 {{
 /*          So         Zi         Bu         ':'       '='        '<'         '>'       ' '         ''         '\'          */
 /*--------------------------------------------------------------------------------------------------------------------------*/
@@ -70,7 +68,7 @@ const vector<vector<Tokenizer::func>> Tokenizer::s_functMat =
 /*11*/ {{&Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc, &Tnz::wrc}} /*11*/
 }};
 
-const vector<std::string> Tokenizer::s_keywords =
+const std::vector<std::string> Tokenizer::s_keywords =
 {
     "CALL","DO","WHILE","IF","THEN","ELSE","BEGIN","END",
     "ODD","PUT","GET","VAR","CONST","PROCEDURE"
@@ -118,27 +116,27 @@ void Tokenizer::c()
     {
         // Number
         case 1:
-            m_curToken.setTyp(Token::Number);
+            m_curToken.setTyp(Token::Type::Number);
             break;
         // Keyword or Identifier
         case 2:
-            m_curToken.setTyp(Token::Identifier);
+            m_curToken.setTyp(Token::Type::Identifier);
             for (auto &keyword : s_keywords)
             {
                 if (m_curToken.getVal() == keyword)
                 {
-                    m_curToken.setTyp(Token::Keyword);
+                    m_curToken.setTyp(Token::Type::Keyword);
                     break;
                 }
             }
             break;
         // std::string
         case 9:
-            m_curToken.setTyp(Token::String);
+            m_curToken.setTyp(Token::Type::String);
             break;
         // Symbol
         default:
-            m_curToken.setTyp(Token::Symbol);
+            m_curToken.setTyp(Token::Type::Symbol);
             break;
     }
 
