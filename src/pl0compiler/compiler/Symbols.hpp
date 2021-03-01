@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 class Symbols
 {
@@ -76,4 +76,4 @@ public:
     std::vector<long> m_vecConst;
 };
 
-} } }
+} }

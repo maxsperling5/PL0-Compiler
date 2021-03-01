@@ -6,7 +6,7 @@
 
 #include "CompEx.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 std::deque<char> ILGen::getBinary()
 {
@@ -364,4 +364,4 @@ bool ILGen::pushConstByVal(Token *tok)
     return true;
  }
 
-} } }
+} }

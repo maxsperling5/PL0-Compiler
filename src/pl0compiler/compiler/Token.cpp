@@ -4,7 +4,7 @@
 
 #include "Token.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 void Token::init(int row, int col)
 {
@@ -50,4 +50,4 @@ unsigned int Token::getCol()
     return m_col;
 }
 
-} } }
+} }

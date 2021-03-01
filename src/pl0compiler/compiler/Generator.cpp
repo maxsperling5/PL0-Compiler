@@ -7,7 +7,7 @@
 #include "ILGen.hpp"
 #include "CompEx.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 void Generator::exec(std::deque<Token> &token, std::deque<char> &binary)
 {
@@ -82,4 +82,4 @@ void Generator::execFunc(const Graph::Trans *curTrans)
     (m_ilgen.*curTrans->m_funct)((void*)&(m_token->front()));
 }
 
-} } }
+} }

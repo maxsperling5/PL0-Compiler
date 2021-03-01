@@ -4,7 +4,7 @@
 
 #include "Symbols.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 Symbols::Symbols() : m_numProc(0), m_curProc(nullptr)
 {
@@ -140,4 +140,4 @@ Symbols::Symbol *Symbols::searchSymb(std::string name)
     return nullptr;
 }
 
-} } }
+} }

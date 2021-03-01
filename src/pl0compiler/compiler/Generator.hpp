@@ -8,7 +8,7 @@
 
 #include <deque>
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 class ILGen;
 
@@ -29,4 +29,4 @@ private:
     std::deque<Token> *m_token;
 };
 
-} } }
+} }

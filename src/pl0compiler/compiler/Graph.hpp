@@ -7,7 +7,7 @@
 
 #include "ILGen.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 class Graph
 {
@@ -42,4 +42,4 @@ private:
     static const std::array<Trans,6> s_factor;
 };
 
-} } }
+} }

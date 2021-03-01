@@ -9,7 +9,7 @@
 #include <string>
 #include <deque>
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 class Tokenizer
 {
@@ -47,4 +47,4 @@ private:
     unsigned int m_fsmState;
 };
 
-} } }
+} }

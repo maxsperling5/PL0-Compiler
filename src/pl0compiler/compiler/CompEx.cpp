@@ -4,7 +4,7 @@
 
 #include "CompEx.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 CompEx::CompEx(Token *token)
 {
@@ -20,4 +20,4 @@ std::string CompEx::getError()
     return strErr;
 }
 
-} } }
+} }

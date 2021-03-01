@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 class CompEx : public std::exception
 {
@@ -19,4 +19,4 @@ private:
     Token *m_token;
 };
 
-} } }
+} }

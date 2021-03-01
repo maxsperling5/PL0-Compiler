@@ -9,7 +9,7 @@
 #include "Symbols.hpp"
 #include "Token.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 class ILGen
 {
@@ -115,4 +115,4 @@ private:
     std::stack<int> m_jumpStartAddr;
 };
 
-} } }
+} }

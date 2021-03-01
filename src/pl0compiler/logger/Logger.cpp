@@ -1,20 +1,20 @@
-﻿/************************/
+/************************/
 /* Author: Max Sperling */
 /************************/
 
-#include "ViewCLI.hpp"
+#include "Logger.hpp"
 
 #include <iostream>
 #include <iomanip>
 
-namespace pl0compiler { namespace view { namespace cli {
+namespace pl0compiler { namespace logger {
 
-void ViewCLI::write(std::string str)
+void Logger::write(std::string str)
 {
     std::cout << str << std::endl;
 }
 
-void ViewCLI::write(std::deque<char> bin)
+void Logger::write(std::deque<char> bin)
 {
     for (auto &b : bin)
     {
@@ -23,4 +23,4 @@ void ViewCLI::write(std::deque<char> bin)
     std::cout << std::endl;
 }
 
-} } }
+} }

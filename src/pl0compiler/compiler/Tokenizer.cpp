@@ -4,9 +4,9 @@
 
 #include "Tokenizer.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
-using Tnz = pl0compiler::comp::pl0tocl0::Tokenizer;
+using Tnz = Tokenizer;
 
 Tokenizer::Tokenizer() : m_srcPos(0), m_srcRow(1), m_srcCol(1), m_fsmState(0) {}
 
@@ -145,4 +145,4 @@ void Tokenizer::c()
     m_curToken.init(m_srcRow, m_srcCol);
 }
 
-} } }
+} }

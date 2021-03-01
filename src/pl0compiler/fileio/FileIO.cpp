@@ -1,14 +1,14 @@
-﻿/************************/
+/************************/
 /* Author: Max Sperling */
 /************************/
 
-#include "DataFile.hpp"
+#include "FileIO.hpp"
 
 #include <fstream>
 
-namespace pl0compiler { namespace data { namespace file {
+namespace pl0compiler { namespace fileio {
 
-bool DataFile::init(int argc, char *argv[])
+bool FileIO::init(int argc, char *argv[])
 {
     if (argc != 3) return false;
     m_pl0File = argv[1];
@@ -16,7 +16,7 @@ bool DataFile::init(int argc, char *argv[])
     return true;
 }
 
-bool DataFile::read(std::string &str)
+bool FileIO::read(std::string &str)
 {
     std::ifstream ifs(m_pl0File);
     if (ifs.fail()) return false;
@@ -25,7 +25,7 @@ bool DataFile::read(std::string &str)
     return true;
 }
 
-bool DataFile::write(std::deque<char> bin)
+bool FileIO::write(std::deque<char> bin)
 {
     std::ofstream ofs(m_cl0File, std::ios_base::binary);
     if (ofs.fail()) return false;
@@ -34,4 +34,4 @@ bool DataFile::write(std::deque<char> bin)
     return true;
 }
 
-} } }
+} }

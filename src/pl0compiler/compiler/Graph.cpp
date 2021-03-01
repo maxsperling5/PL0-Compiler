@@ -6,7 +6,7 @@
 
 #include "ILGen.hpp"
 
-namespace pl0compiler { namespace comp { namespace pl0tocl0 {
+namespace pl0compiler { namespace compiler {
 
 using Trans = Graph::Trans;
 using TType = Token::Type;
@@ -130,4 +130,4 @@ const std::array<Trans,6> Graph::s_factor =
 /* 5*/ Trans(Trans::GraphEnd,   nullptr,                      0, 0, nullptr)              /*(D)-----------(END)*/
 };
 
-} } }
+} }
