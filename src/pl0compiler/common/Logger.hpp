@@ -23,6 +23,7 @@ public:
 	void error(const std::string &str);
     void info(const std::string &str);
     void debug(const std::string &str);
+
     void write(Level level, const std::string &str);
 
 private:

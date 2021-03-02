@@ -11,7 +11,8 @@ namespace pl0compiler { namespace common {
 class FileIO
 {
 public:
-    bool init(int argc, char *argv[]);
+	FileIO(const std::string &pl0File, const std::string &cl0File);
+
     bool read(std::string &str);
     bool write(std::deque<char> bin);
 

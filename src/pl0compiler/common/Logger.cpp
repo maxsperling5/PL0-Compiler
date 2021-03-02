@@ -32,7 +32,7 @@ void Logger::write(Level level, const std::string &str)
 
 bool Logger::allowed(Level level)
 {
-	return m_level >= level;
+	return (m_level >= level);
 }
 
 } }

@@ -17,12 +17,6 @@ Compiler::Compiler(common::Logger &logger, common::FileIO &fileio) : m_logger(lo
 
 bool Compiler::exec(int argc, char *argv[])
 {
-    if (!m_fileio.init(argc, argv))
-    {
-        m_logger.error("Usage: program <pl0-File> <cl0-File>\n");
-        return false;
-    }
-
     std::string srcCode = "";
     if (!m_fileio.read(srcCode))
     {

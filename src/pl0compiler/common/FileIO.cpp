@@ -8,13 +8,7 @@
 
 namespace pl0compiler { namespace common {
 
-bool FileIO::init(int argc, char *argv[])
-{
-    if (argc != 3) return false;
-    m_pl0File = argv[1];
-    m_cl0File = argv[2];
-    return true;
-}
+FileIO::FileIO(const std::string &pl0File, const std::string &cl0File) : m_pl0File(pl0File), m_cl0File(cl0File) {}
 
 bool FileIO::read(std::string &str)
 {
