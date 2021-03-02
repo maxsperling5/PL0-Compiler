@@ -9,22 +9,24 @@
 #include "Token.hpp"
 #include "CompEx.hpp"
 
+#include "../common/Utils.hpp"
+
 namespace pl0compiler { namespace compiler {
 
-Compiler::Compiler(pl0compiler::logger::Logger &logger, pl0compiler::fileio::FileIO &fileio) : m_logger(logger), m_fileio(fileio) {}
+Compiler::Compiler(common::Logger &logger, common::FileIO &fileio) : m_logger(logger), m_fileio(fileio) {}
 
 bool Compiler::exec(int argc, char *argv[])
 {
     if (!m_fileio.init(argc, argv))
     {
-        m_logger.write("Usage: program <pl0-File> <cl0-File>\n");
+        m_logger.error("Usage: program <pl0-File> <cl0-File>\n");
         return false;
     }
 
     std::string srcCode = "";
     if (!m_fileio.read(srcCode))
     {
-        m_logger.write("Error while reading File");
+        m_logger.error("Error while reading File");
         return false;
     }
 
@@ -36,7 +38,7 @@ bool Compiler::exec(int argc, char *argv[])
     }
     catch (...)
     {
-        m_logger.write("Error while Tokenization");
+        m_logger.error("Error while Tokenization");
         return false;
     }
 
@@ -48,16 +50,16 @@ bool Compiler::exec(int argc, char *argv[])
     }
     catch (CompEx &cex)
     {
-        m_logger.write("Error while Generating");
-        m_logger.write(cex.getError());
+        m_logger.error("Error while Generating");
+        m_logger.error(cex.getError());
         return false;
     }
 
-    m_logger.write(binary);
+    m_logger.info(common::toString(binary));
 
     if (!m_fileio.write(binary))
     {
-        m_logger.write("Error while writing File");
+        m_logger.error("Error while writing File");
         return false;
     }
 

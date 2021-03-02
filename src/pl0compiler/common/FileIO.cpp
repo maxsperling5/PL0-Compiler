@@ -6,7 +6,7 @@
 
 #include <fstream>
 
-namespace pl0compiler { namespace fileio {
+namespace pl0compiler { namespace common {
 
 bool FileIO::init(int argc, char *argv[])
 {

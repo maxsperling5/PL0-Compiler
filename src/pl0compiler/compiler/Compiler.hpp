@@ -3,21 +3,21 @@
 /* Author: Max Sperling */
 /************************/
 
-#include "../logger/Logger.hpp"
-#include "../fileio/FileIO.hpp"
+#include "../common/Logger.hpp"
+#include "../common/FileIO.hpp"
 
 namespace pl0compiler { namespace compiler {
 
 class Compiler
 {
 public:
-    Compiler(pl0compiler::logger::Logger &logger, pl0compiler::fileio::FileIO &fileio);
+    Compiler(common::Logger &logger, common::FileIO &fileio);
 
     bool exec(int argc, char *argv[]);
 
 private:
-    pl0compiler::logger::Logger &m_logger;
-    pl0compiler::fileio::FileIO &m_fileio;
+    common::Logger &m_logger;
+    common::FileIO &m_fileio;
 };
 
 } }

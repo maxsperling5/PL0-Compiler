@@ -6,7 +6,7 @@
 #include <string>
 #include <deque>
 
-namespace pl0compiler { namespace fileio {
+namespace pl0compiler { namespace common {
 
 class FileIO
 {
