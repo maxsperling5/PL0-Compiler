@@ -17,8 +17,8 @@ public:
     bool write(std::deque<char> bin);
 
 private:
-    std::string m_pl0File;
-    std::string m_cl0File;
+    const std::string m_pl0File;
+    const std::string m_cl0File;
 };
 
 } }

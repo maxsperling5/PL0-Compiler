@@ -9,21 +9,12 @@
 #include "Token.hpp"
 #include "CompEx.hpp"
 
-#include "../common/Utils.hpp"
-
 namespace pl0compiler { namespace compiler {
 
-Compiler::Compiler(common::Logger &logger, common::FileIO &fileio) : m_logger(logger), m_fileio(fileio) {}
+Compiler::Compiler(common::Logger &logger) : m_logger(logger) {}
 
-bool Compiler::exec(int argc, char *argv[])
+bool Compiler::exec(std::string &srcCode, std::deque<char> &binCode)
 {
-    std::string srcCode = "";
-    if (!m_fileio.read(srcCode))
-    {
-        m_logger.error("Error while reading File");
-        return false;
-    }
-
     std::deque<Token> token;
     try
     {
@@ -36,24 +27,16 @@ bool Compiler::exec(int argc, char *argv[])
         return false;
     }
 
-    std::deque<char> binary;
+    binCode.clear();
     try
     {
         Generator generator;
-        generator.exec(token, binary);
+        generator.exec(token, binCode);
     }
     catch (CompEx &cex)
     {
         m_logger.error("Error while Generating");
         m_logger.error(cex.getError());
-        return false;
-    }
-
-    m_logger.info(common::toString(binary));
-
-    if (!m_fileio.write(binary))
-    {
-        m_logger.error("Error while writing File");
         return false;
     }
 
